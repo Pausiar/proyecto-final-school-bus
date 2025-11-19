@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>School Bus Tracker - Wireframe</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Mobile Frame Container -->
+    <div class="mobile-frame">
+        <div class="mobile-notch"></div>
+        <div class="mobile-screen">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <h1>🚌 School Bus Tracker</h1>
+            <div class="notification-icon" id="notificationIcon">
+                🔔
+                <span class="notification-badge" id="notificationBadge">3</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Notifications Panel -->
+    <div class="notifications-panel hidden" id="notificationsPanel">
+        <div class="notifications-header">
+            <h3>Notificaciones</h3>
+            <button class="clear-all" id="clearAllNotifications">Limpiar todo</button>
+        </div>
+        <div class="notifications-list" id="notificationsList">
+            <div class="notification-item unread">
+                <div class="notification-icon-badge">🚌</div>
+                <div class="notification-content">
+                    <h4>Autobús 101 llegando</h4>
+                    <p>Llegará en 5 minutos a Parada 3</p>
+                    <span class="notification-time">Hace 2 min</span>
+                </div>
+            </div>
+            <div class="notification-item unread">
+                <div class="notification-icon-badge">⏱️</div>
+                <div class="notification-content">
+                    <h4>Retraso detectado</h4>
+                    <p>Autobús 202 tiene un retraso de 3 minutos</p>
+                    <span class="notification-time">Hace 5 min</span>
+                </div>
+            </div>
+            <div class="notification-item unread">
+                <div class="notification-icon-badge">✅</div>
+                <div class="notification-content">
+                    <h4>Autobús 303 en parada</h4>
+                    <p>Actualmente en Parada 2 - Hospital</p>
+                    <span class="notification-time">Hace 8 min</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <div class="notification-icon-badge">🚌</div>
+                <div class="notification-content">
+                    <h4>Autobús 404 activado</h4>
+                    <p>El servicio ha comenzado su ruta</p>
+                    <span class="notification-time">Hace 15 min</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Buscar autobús o ruta..." />
+        </div>
+        <button class="filter-btn" id="filterBtn">⚙️</button>
+    </div>
+
+    <!-- Filter Modal -->
+    <div class="filter-modal hidden" id="filterModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Filtros y Configuración</h3>
+                <button class="close-modal" id="closeModal">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="filter-section">
+                    <h4>Estado del Autobús</h4>
+                    <label class="filter-option">
+                        <input type="checkbox" id="filterActive" checked>
+                        <span>● En ruta</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" id="filterPaused" checked>
+                        <span>● En parada</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" id="filterInactive" checked>
+                        <span>● Inactivos</span>
+                    </label>
+                </div>
+                <div class="filter-section">
+                    <h4>Ordenar por</h4>
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="number" checked>
+                        <span>Número de autobús</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="eta">
+                        <span>Tiempo de llegada</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="radio" name="sort" value="route">
+                        <span>Ruta</span>
+                    </label>
+                </div>
+                <div class="filter-section">
+                    <h4>Notificaciones</h4>
+                    <label class="filter-option">
+                        <input type="checkbox" id="notifArrival" checked>
+                        <span>Llegadas próximas</span>
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" id="notifDelays">
+                        <span>Retrasos</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="resetFilters">Restablecer</button>
+                <button class="btn-primary" id="applyFilters">Aplicar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bus List -->
+    <div class="bus-list" id="busList">
+        <div class="bus-card" data-bus="bus1">
+            <div class="bus-icon">🚌</div>
+            <div class="bus-info">
+                <h3>Autobús 101</h3>
+                <p class="route">Ruta: Centro - Escuela Norte</p>
+                <p class="status active">● En ruta</p>
+                <p class="eta">Llegada estimada: 5 min</p>
+            </div>
+            <div class="bus-arrow">▶</div>
+        </div>
+
+        <div class="bus-card" data-bus="bus2">
+            <div class="bus-icon">🚌</div>
+            <div class="bus-info">
+                <h3>Autobús 202</h3>
+                <p class="route">Ruta: Sur - Escuela Central</p>
+                <p class="status active">● En ruta</p>
+                <p class="eta">Llegada estimada: 12 min</p>
+            </div>
+            <div class="bus-arrow">▶</div>
+        </div>
+
+        <div class="bus-card" data-bus="bus3">
+            <div class="bus-icon">🚌</div>
+            <div class="bus-info">
+                <h3>Autobús 303</h3>
+                <p class="route">Ruta: Este - Escuela Oeste</p>
+                <p class="status paused">● Parada</p>
+                <p class="eta">Próxima salida: 3 min</p>
+            </div>
+            <div class="bus-arrow">▶</div>
+        </div>
+
+        <div class="bus-card" data-bus="bus4">
+            <div class="bus-icon">🚌</div>
+            <div class="bus-info">
+                <h3>Autobús 404</h3>
+                <p class="route">Ruta: Norte - Escuela Sur</p>
+                <p class="status inactive">● Inactivo</p>
+                <p class="eta">Fuera de servicio</p>
+            </div>
+            <div class="bus-arrow">▶</div>
+        </div>
+    </div>
+
+    <!-- Map View (Initially Hidden) -->
+    <div class="map-view hidden" id="mapView">
+        <div class="map-header">
+            <button class="back-btn" id="backBtn">← Volver</button>
+            <h2 id="busTitle">Mapa General</h2>
+            <button class="center-btn" id="centerBtn">⊙</button>
+        </div>
+
+        <div class="map-container">
+            <!-- Map Background -->
+            <div class="map-grid"></div>
+            
+            <!-- Route Path -->
+            <svg class="route-path" id="routePath">
+                <path id="busRoute" d="" stroke="#4A90E2" stroke-width="4" fill="none" stroke-dasharray="10,5"/>
+                <!-- Stops -->
+                <circle class="stop start-stop" cx="100" cy="400" r="12" />
+                <circle class="stop" cx="200" cy="350" r="10" />
+                <circle class="stop" cx="300" cy="250" r="10" />
+                <circle class="stop" cx="400" cy="200" r="10" />
+                <circle class="stop end-stop" cx="500" cy="100" r="12" />
+            </svg>
+
+            <!-- Animated Buses -->
+            <div id="busMarkers"></div>
+
+            <!-- Stop Labels -->
+            <div class="stop-label" style="left: 100px; top: 400px;">
+                <div class="label-content">Parada 1<br><small>Centro</small></div>
+            </div>
+            <div class="stop-label" style="left: 200px; top: 350px;">
+                <div class="label-content">Parada 2<br><small>Plaza</small></div>
+            </div>
+            <div class="stop-label" style="left: 300px; top: 250px;">
+                <div class="label-content">Parada 3<br><small>Parque</small></div>
+            </div>
+            <div class="stop-label" style="left: 400px; top: 200px;">
+                <div class="label-content">Parada 4<br><small>Avenida</small></div>
+            </div>
+            <div class="stop-label" style="left: 500px; top: 100px;">
+                <div class="label-content">Escuela<br><small>Destino</small></div>
+            </div>
+        </div>
+
+        <!-- Map Info Panel -->
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">Velocidad:</span>
+                <span class="info-value" id="speedValue">45 km/h</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Próxima parada:</span>
+                <span class="info-value" id="nextStop">Parada 3 - Parque</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Pasajeros:</span>
+                <span class="info-value" id="passengers">28/40</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">ETA:</span>
+                <span class="info-value" id="etaValue">5 min</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <button class="nav-btn active">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Inicio</span>
+        </button>
+        <button class="nav-btn">
+            <span class="nav-icon">🗺️</span>
+            <span class="nav-label">Mapa</span>
+        </button>
+        <button class="nav-btn">
+            <span class="nav-icon">⭐</span>
+            <span class="nav-label">Favoritos</span>
+        </button>
+    </nav>
+
+        </div><!-- Close mobile-screen -->
+    </div><!-- Close mobile-frame -->
+
+    <script src="script.js"></script>
+</body>
+</html>
