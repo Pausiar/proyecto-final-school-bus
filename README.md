@@ -24,7 +24,7 @@ Conductor
 
 Estudiante 
 
-Padre 
+Padres 
 
   ## Módulos: 
 
