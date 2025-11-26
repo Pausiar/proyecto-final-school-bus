@@ -47,78 +47,61 @@ Desarrollar una plataforma digital que facilite la gestión del transporte escol
 2. **Gestión de rutas**
 3. **Sistema de seguimiento GPS**
 4. **Notificaciones en tiempo real**
-5. **Generación de reportes**
 
 ---
 
 ## 📝 Tareas Básicas para Crear la App
 
 ### Configuración Inicial del Proyecto
-| Tarea | Responsable |
-|-------|-------------|
-| Crear proyecto en Android Studio con Java | Pausiar |
-| Configurar Gradle y dependencias básicas | Pausiar |
-| Integrar Google Maps SDK en el proyecto | Pausiar |
-| Configurar FusedLocationProvider para GPS | Pausiar |
-| Configurar base de datos SQLite | Pausiar |
+- Crear proyecto en Android Studio con Java / Pausiar (en progreso - Issue #3)
+- Configurar Gradle y dependencias básicas / Pausiar
+- Integrar SDK de mapas (OpenStreetMap u otra alternativa) / Mincu
+- Configurar FusedLocationProvider para GPS / Mincu
+- Configurar base de datos SQLite / Khadija
 
 ### Módulo de Inicio de Sesión
-| Tarea | Responsable |
-|-------|-------------|
-| Crear Activity de Login | Pausiar |
-| Diseñar layout XML del login | Pausiar |
-| Implementar validación de campos | Pausiar |
-| Conectar login con base de datos | Pausiar |
-| Crear Activity de registro de usuario | Pausiar |
+- Crear Activity de Login / Pausiar
+- Diseñar layout XML del login / Khadija
+- Implementar validación de campos / Mincu
+- Conectar login con base de datos / Pausiar
+- Crear Activity de registro de usuario / Khadija
 
 ### Módulo de Gestión de Usuarios
-| Tarea | Responsable |
-|-------|-------------|
-| Crear modelo de datos Usuario (Conductor, Estudiante, Padre) | Pausiar |
-| Crear Activity para perfil de usuario | Pausiar |
-| Implementar edición de datos personales | Pausiar |
-| Implementar roles y permisos | Pausiar |
+- Crear modelo de datos Usuario (Conductor, Estudiante, Padre) / Pausiar
+- Crear Activity para perfil de usuario / Mincu
+- Implementar edición de datos personales / Khadija
+- Implementar roles y permisos / Pausiar
 
 ### Módulo de Mapa del Conductor
-| Tarea | Responsable |
-|-------|-------------|
-| Crear Activity del mapa para conductor | Pausiar |
-| Mostrar ruta asignada en Google Maps | Pausiar |
-| Implementar envío de ubicación en tiempo real | Pausiar |
-| Crear botón de inicio/fin de recorrido | Pausiar |
-| Implementar lista de estudiantes por ruta | Pausiar |
+- Crear Activity del mapa para conductor / Mincu
+- Mostrar ruta asignada en el mapa / Mincu
+- Implementar envío de ubicación en tiempo real / Pausiar
+- Crear botón de inicio/fin de recorrido / Khadija
+- Implementar lista de estudiantes por ruta / Khadija
 
 ### Módulo de Mapa del Estudiante/Padre
-| Tarea | Responsable |
-|-------|-------------|
-| Crear Activity del mapa para estudiante/padre | Pausiar |
-| Mostrar ubicación del autobús en tiempo real | Pausiar |
-| Mostrar ruta y paradas del autobús | Pausiar |
-| Implementar tiempo estimado de llegada | Pausiar |
-| Crear sistema de notificaciones de llegada | Pausiar |
+- Crear Activity del mapa para estudiante/padre / Mincu
+- Mostrar ubicación del autobús en tiempo real / Pausiar
+- Mostrar ruta y paradas del autobús / Mincu
+- Implementar tiempo estimado de llegada / Khadija
+- Crear sistema de notificaciones de llegada / Pausiar
 
 ### Módulo de Gestión de Rutas
-| Tarea | Responsable |
-|-------|-------------|
-| Crear Activity para gestión de rutas | Pausiar |
-| Implementar creación de nueva ruta | Pausiar |
-| Implementar edición de rutas existentes | Pausiar |
-| Implementar asignación de estudiantes a rutas | Pausiar |
-| Implementar asignación de conductores a rutas | Pausiar |
+- Crear Activity para gestión de rutas / Khadija
+- Implementar creación de nueva ruta / Pausiar
+- Implementar edición de rutas existentes / Mincu
+- Implementar asignación de estudiantes a rutas / Khadija
+- Implementar asignación de conductores a rutas / Mincu
 
 ### Interfaz de Usuario (UI)
-| Tarea | Responsable |
-|-------|-------------|
-| Diseñar navegación principal (Bottom Navigation) | Pausiar |
-| Crear layouts para cada pantalla | Pausiar |
-| Implementar menú de configuración | Pausiar |
-| Aplicar estilos y colores de la app | Pausiar |
+- Diseñar navegación principal (Bottom Navigation) / Khadija
+- Crear layouts para cada pantalla / Mincu
+- Implementar menú de configuración / Pausiar
+- Aplicar estilos y colores de la app / Khadija
 
 ### Pruebas y Finalización
-| Tarea | Responsable |
-|-------|-------------|
-| Probar autenticación de usuarios | Pausiar |
-| Probar seguimiento GPS | Pausiar |
-| Probar notificaciones | Pausiar |
-| Corregir errores encontrados | Pausiar |
-| Generar APK final | Pausiar |
+- Probar autenticación de usuarios / Pausiar
+- Probar seguimiento GPS / Mincu
+- Probar notificaciones / Khadija
+- Corregir errores encontrados / Todos
+- Generar APK final / Pausiar
