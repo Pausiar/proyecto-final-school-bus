@@ -1,29 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
+    android:padding="16dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:text="School Bus"
-        android:textSize="28sp"
+        android:text="Panel del Conductor"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/btnLogin"
-        android:text="Iniciar sesión"
+        android:id="@+id/btnStartRoute"
+        android:text="Iniciar Ruta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <Button
-        android:id="@+id/btnRegister"
-        android:text="Registrarse"
-        android:layout_marginTop="16dp"
+        android:id="@+id/btnEndRoute"
+        android:text="Finalizar Ruta"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
 </LinearLayout>
