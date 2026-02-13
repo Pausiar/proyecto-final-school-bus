@@ -1,7 +1,5 @@
 # Analisis de Riesgos - School Bus App
 
-## Tabla de Riesgos
-
 | ID | Riesgo | Probabilidad | Impacto | Nivel | Mitigacion |
 |----|--------|-------------|---------|-------|------------|
 | R1 | Retrasos en el desarrollo por falta de experiencia con Google Maps SDK o GPS | Alta | Alto | Critico | Dedicar tiempo previo a tutoriales y documentacion oficial. Tener alternativa sin mapa en caso extremo |
