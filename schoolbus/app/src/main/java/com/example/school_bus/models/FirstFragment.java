@@ -1,4 +1,4 @@
-package com.example.school_bus;
+package com.example.school_bus.models;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.school_bus.R;
 import com.example.school_bus.databinding.FragmentFirstBinding;
 
 public class FirstFragment extends Fragment {
