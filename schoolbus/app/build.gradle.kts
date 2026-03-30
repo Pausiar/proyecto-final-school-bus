@@ -43,12 +43,9 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.room.common.jvm)
-    implementation(libs.play.services.maps)
     implementation(libs.recyclerview)
+    implementation("org.osmdroid:osmdroid-android:6.1.20")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
-
 }
