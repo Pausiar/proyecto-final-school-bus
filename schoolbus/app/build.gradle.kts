@@ -9,7 +9,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.school_bus"
+        applicationId = "com.example.schoolbus"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -44,6 +44,9 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.room.common.jvm)
     implementation(libs.recyclerview)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
     implementation("org.osmdroid:osmdroid-android:6.1.20")
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
