@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="firebase_api_key" translatable="false">AIzaSyDGdtCJxKlkaDMlg9m1RfaGvW5MnGHZ-3k</string>
+    <string name="firebase_application_id" translatable="false">1:74192327066:android:35b316b546137cfa0faa23</string>
+    <string name="firebase_project_id" translatable="false">schoolbus-2d474</string>
+    <string name="firebase_database_url" translatable="false">https://schoolbus-2d474-default-rtdb.europe-west1.firebasedatabase.app</string>
+</resources>

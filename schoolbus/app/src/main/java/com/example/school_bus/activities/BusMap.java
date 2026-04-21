@@ -4,38 +4,46 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.school_bus.R;
-import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
+import org.osmdroid.config.Configuration;
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 
-public class BusMap extends AppCompatActivity implements OnMapReadyCallback {
+public class BusMap extends AppCompatActivity {
 
-    private GoogleMap googleMap;
+    private MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Configuration.getInstance().load(getApplicationContext(), getSharedPreferences("osm", MODE_PRIVATE));
+        Configuration.getInstance().setUserAgentValue(getPackageName());
         setContentView(R.layout.activity_bus_map);
 
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager()
-                        .findFragmentById(R.id.map);
+        mapView = findViewById(R.id.map);
+        mapView.setTileSource(TileSourceFactory.MAPNIK);
+        mapView.setMultiTouchControls(true);
 
-        if (mapFragment != null) {
-            mapFragment.getMapAsync(this);
-        }
+        GeoPoint school = new GeoPoint(40.4168, -3.7038);
+        mapView.getController().setZoom(14.0);
+        mapView.getController().setCenter(school);
+
+        Marker schoolMarker = new Marker(mapView);
+        schoolMarker.setPosition(school);
+        schoolMarker.setTitle("Escuela");
+        mapView.getOverlays().add(schoolMarker);
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {
-        googleMap = map;
+    protected void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
 
-        LatLng school = new LatLng(40.4168, -3.7038);
-        googleMap.addMarker(
-                new MarkerOptions().position(school).title("Escuela")
-        );
-
-        googleMap.moveCamera(
-                CameraUpdateFactory.newLatLngZoom(school, 14)
-        );
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mapView.onPause();
     }
 }
