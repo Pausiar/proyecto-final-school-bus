@@ -1,20 +1,19 @@
 package com.example.school_bus.activities;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.school_bus.R;
-import com.example.school_bus.database.DBHelper;
+import com.example.school_bus.database.FirebaseHelper;
 
 public class Login extends AppCompatActivity {
 
     EditText etEmail, etPassword;
     Button btnLogin;
-    DBHelper dbHelper;
+    FirebaseHelper firebaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +23,7 @@ public class Login extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
-
-        dbHelper = new DBHelper(this);
+        firebaseHelper = new FirebaseHelper();
 
         btnLogin.setOnClickListener(v -> login());
     }
@@ -34,21 +32,25 @@ public class Login extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if(email.isEmpty() || password.isEmpty()){
+        if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Email y contraseña son obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if(dbHelper.checkLogin(email, password)){
-            Toast.makeText(this, "Login correcto", Toast.LENGTH_SHORT).show();
+        firebaseHelper.checkLogin(email, password, new FirebaseHelper.OnCompleteListener() {
+            @Override
+            public void onSuccess(String uid) {
+                Toast.makeText(Login.this, "Login correcto", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Login.this, DashboardActivity.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
+                finish();
+            }
 
-            // Guardamos email en Intent para usarlo en Profile o Dashboard
-            Intent intent = new Intent(this, DashboardActivity.class);
-            intent.putExtra("email", email);
-            startActivity(intent);
-            finish();
-        } else {
-            Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-        }
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(Login.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

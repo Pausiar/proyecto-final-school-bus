@@ -1,4 +1,4 @@
-package com.example.school_bus.models;
+package com.example.school_bus.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

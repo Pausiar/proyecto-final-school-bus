@@ -1,17 +1,17 @@
 package com.example.school_bus.activities;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.school_bus.R;
-import com.example.school_bus.database.DBHelper;
+import com.example.school_bus.database.FirebaseHelper;
+
+import java.util.Map;
 
 public class Profile extends AppCompatActivity {
+
     TextView tvName, tvEmail, tvRole;
-    DBHelper dbHelper;
+    FirebaseHelper firebaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,18 +22,23 @@ public class Profile extends AppCompatActivity {
         tvEmail = findViewById(R.id.tvProfileEmail);
         tvRole = findViewById(R.id.tvProfileRole);
 
-        dbHelper = new DBHelper(this);
+        firebaseHelper = new FirebaseHelper();
 
-        // Simulación de usuario logueado
         String email = getSharedPreferences("session", MODE_PRIVATE)
                 .getString("email", "");
 
-        Cursor c = dbHelper.getUserByEmail(email);
-        if (c.moveToFirst()) {
-            tvName.setText(c.getString(c.getColumnIndexOrThrow("name")));
-            tvEmail.setText(c.getString(c.getColumnIndexOrThrow("email")));
-            tvRole.setText(c.getString(c.getColumnIndexOrThrow("role")));
-        }
-        c.close();
+        firebaseHelper.getUserByEmail(email, new FirebaseHelper.OnDataListener() {
+            @Override
+            public void onSuccess(Map<String, Object> data) {
+                tvName.setText((String) data.get("name"));
+                tvEmail.setText((String) data.get("email"));
+                tvRole.setText((String) data.get("role"));
+            }
+
+            @Override
+            public void onFailure(String error) {
+                tvName.setText("Error al cargar perfil");
+            }
+        });
     }
 }

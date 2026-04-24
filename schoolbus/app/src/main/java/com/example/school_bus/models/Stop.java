@@ -2,26 +2,39 @@ package com.example.school_bus.models;
 
 public class Stop {
 
-    private int id;
-    private String nombre;
+    private String id;
+    private String idRuta;
+    private String nombreParada;
+    private String direccion;
     private double latitud;
     private double longitud;
-    private int busId;
+    private int ordenParada;
+    private String horaEstimada;
+    private String referencia;
 
     public Stop() {}
 
-    public Stop(String nombre, double latitud, double longitud, int busId) {
-        this.nombre = nombre;
+    public Stop(String idRuta, String nombreParada, String direccion,
+                double latitud, double longitud, int ordenParada) {
+        this.idRuta = idRuta;
+        this.nombreParada = nombreParada;
+        this.direccion = direccion;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.busId = busId;
+        this.ordenParada = ordenParada;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getIdRuta() { return idRuta; }
+    public void setIdRuta(String idRuta) { this.idRuta = idRuta; }
+
+    public String getNombreParada() { return nombreParada; }
+    public void setNombreParada(String nombreParada) { this.nombreParada = nombreParada; }
+
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
 
     public double getLatitud() { return latitud; }
     public void setLatitud(double latitud) { this.latitud = latitud; }
@@ -29,6 +42,12 @@ public class Stop {
     public double getLongitud() { return longitud; }
     public void setLongitud(double longitud) { this.longitud = longitud; }
 
-    public int getBusId() { return busId; }
-    public void setBusId(int busId) { this.busId = busId; }
+    public int getOrdenParada() { return ordenParada; }
+    public void setOrdenParada(int ordenParada) { this.ordenParada = ordenParada; }
+
+    public String getHoraEstimada() { return horaEstimada; }
+    public void setHoraEstimada(String horaEstimada) { this.horaEstimada = horaEstimada; }
+
+    public String getReferencia() { return referencia; }
+    public void setReferencia(String referencia) { this.referencia = referencia; }
 }

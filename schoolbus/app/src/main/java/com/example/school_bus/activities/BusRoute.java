@@ -1,4 +1,14 @@
 package com.example.school_bus.activities;
 
-public class BusRoute {
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.school_bus.R;
+
+public class BusRoute extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_driver);
+    }
 }

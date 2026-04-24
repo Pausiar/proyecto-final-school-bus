@@ -6,13 +6,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.school_bus.R;
-import com.example.school_bus.database.DBHelper;
+import com.example.school_bus.database.FirebaseHelper;
 
 public class Register extends AppCompatActivity {
 
     EditText etName, etSurname, etEmail, etPassword;
     Button btnRegister;
-    DBHelper dbHelper;
+    FirebaseHelper firebaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +24,7 @@ public class Register extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnRegister = findViewById(R.id.btnRegister);
-
-        dbHelper = new DBHelper(this);
+        firebaseHelper = new FirebaseHelper();
 
         btnRegister.setOnClickListener(v -> registerUser());
     }
@@ -36,17 +35,23 @@ public class Register extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if(name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty()){
+        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        long id = dbHelper.insertUser(name, surname, email, password, "estudiante");
-        if(id > 0){
-            Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
-            finish(); // vuelve al login
-        } else {
-            Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
-        }
+        firebaseHelper.insertUser(name, surname, email, password, "estudiante",
+                new FirebaseHelper.OnCompleteListener() {
+                    @Override
+                    public void onSuccess(String uid) {
+                        Toast.makeText(Register.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+                        finish();                          // vuelve al login
+                    }
+
+                    @Override
+                    public void onFailure(String error) {
+                        Toast.makeText(Register.this, "Error al registrar: " + error, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
