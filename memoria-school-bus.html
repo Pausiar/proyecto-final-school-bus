@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memoria del Proyecto Final - School Bus App</title>
+  <style>
+    :root {
+      --primary: #1f4e79;
+      --secondary: #2f75b5;
+      --accent: #f4b400;
+      --text: #1f1f1f;
+      --muted: #5b6573;
+      --border: #d7dee7;
+      --bg-soft: #f7f9fc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      color: var(--text);
+      background: #ffffff;
+      line-height: 1.65;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 42px 52px 64px;
+    }
+
+    .cover {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+      border-bottom: 10px solid var(--primary);
+    }
+
+    .cover h1 {
+      font-size: 2.9rem;
+      margin: 0 0 0.5rem;
+      color: var(--primary);
+      line-height: 1.2;
+    }
+
+    .cover h2 {
+      font-size: 2rem;
+      margin: 0 0 1.2rem;
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    .cover .subtitle {
+      font-size: 1.08rem;
+      max-width: 760px;
+      color: var(--muted);
+      margin-bottom: 2.25rem;
+    }
+
+    .cover .meta {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 28px;
+      box-shadow: 0 10px 30px rgba(31, 78, 121, 0.08);
+      width: min(760px, 100%);
+      text-align: left;
+    }
+
+    .cover .meta p {
+      margin: 0.45rem 0;
+      font-size: 1.02rem;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: var(--primary);
+      border-bottom: 3px solid var(--secondary);
+      padding-bottom: 0.45rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .subsection-title {
+      font-size: 1.35rem;
+      color: var(--secondary);
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .toc {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-top: 2rem;
+    }
+
+    .toc h2 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.7rem;
+    }
+
+    .toc ol {
+      margin: 0;
+      padding-left: 1.4rem;
+      columns: 2;
+      column-gap: 44px;
+    }
+
+    .toc li {
+      margin-bottom: 0.55rem;
+      break-inside: avoid;
+    }
+
+    .toc a {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+
+    p {
+      margin: 0 0 1rem;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-top: 0.4rem;
+      margin-bottom: 1rem;
+      padding-left: 1.5rem;
+    }
+
+    li {
+      margin-bottom: 0.45rem;
+    }
+
+    .highlight-box {
+      background: #f8fbff;
+      border-left: 6px solid var(--secondary);
+      border-radius: 8px;
+      padding: 18px 20px;
+      margin: 1.5rem 0;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 18px 14px;
+      background: #fff;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    }
+
+    .card h4 {
+      margin: 0 0 0.6rem;
+      color: var(--primary);
+      font-size: 1.05rem;
+    }
+
+    .figure {
+      margin: 2rem 0;
+      text-align: center;
+      page-break-inside: avoid;
+    }
+
+    .figure img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    .figure figcaption {
+      margin-top: 0.75rem;
+      font-size: 0.96rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .two-images {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px;
+      margin: 1.8rem 0;
+    }
+
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+      margin-top: 3rem;
+    }
+
+    .small-note {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .footer-space {
+      height: 24px;
+    }
+
+    @media screen and (max-width: 860px) {
+      .page {
+        padding: 26px 22px 40px;
+      }
+
+      .toc ol,
+      .two-images,
+      .summary-grid {
+        columns: 1;
+        grid-template-columns: 1fr;
+      }
+
+      .cover h1 {
+        font-size: 2.2rem;
+      }
+
+      .cover h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .cover {
+        min-height: auto;
+        height: 100vh;
+        page-break-after: always;
+      }
+
+      .toc {
+        page-break-after: always;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        max-width: none;
+        margin: 0;
+        padding: 18mm 16mm 18mm;
+      }
+
+      .section-title,
+      .subsection-title,
+      .figure,
+      .card,
+      .highlight-box {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="cover page">
+    <h1>Memoria del Proyecto Final</h1>
+    <h2>School Bus App</h2>
+    <p class="subtitle">
+      Aplicación móvil orientada al seguimiento, organización y gestión del transporte escolar,
+      desarrollada como proyecto final del ciclo formativo de Desarrollo de Aplicaciones Multiplataforma.
+    </p>
+
+    <div class="meta">
+      <p><strong>Autoría:</strong> Pau Silvestre Arnandis, Mario Alexandru Mincu y Khadija</p>
+      <p><strong>Curso:</strong> 2DAM</p>
+      <p><strong>Año académico:</strong> 2025/2026</p>
+      <p><strong>Repositorio:</strong> Pausiar/proyecto-final-school-bus</p>
+      <p><strong>Tipología del proyecto:</strong> Aplicación Android con documentación técnica, prototipado visual e integración preparada para persistencia remota.</p>
+    </div>
+  </section>
+
+  <main class="page">
+    <section class="toc">
+      <h2>Índice</h2>
+      <ol>
+        <li><a href="#resumen">Resumen ejecutivo</a></li>
+        <li><a href="#introduccion">Introducción</a></li>
+        <li><a href="#justificacion">Justificación del proyecto</a></li>
+        <li><a href="#contexto">Contexto y problemática detectada</a></li>
+        <li><a href="#objetivos">Objetivos del proyecto</a></li>
+        <li><a href="#alcance">Alcance del proyecto</a></li>
+        <li><a href="#requisitos">Análisis de requisitos</a></li>
+        <li><a href="#perfiles">Perfiles de usuario y casos de uso</a></li>
+        <li><a href="#diseno">Diseño conceptual y experiencia de usuario</a></li>
+        <li><a href="#mockups">Mockups, wireframes y propuesta visual</a></li>
+        <li><a href="#arquitectura">Arquitectura técnica del sistema</a></li>
+        <li><a href="#tecnologias">Tecnologías empleadas</a></li>
+        <li><a href="#desarrollo">Desarrollo implementado en la aplicación Android</a></li>
+        <li><a href="#autenticacion">Gestión de usuarios y autenticación</a></li>
+        <li><a href="#datos">Persistencia de datos y diseño de base de datos</a></li>
+        <li><a href="#pantallas">Navegación, pantallas y funcionalidades desarrolladas</a></li>
+        <li><a href="#pruebas">Pruebas realizadas y validación</a></li>
+        <li><a href="#instalacion">Instalación, ejecución y puesta en marcha</a></li>
+        <li><a href="#planificacion">Planificación del proyecto</a></li>
+        <li><a href="#riesgos">Análisis de riesgos</a></li>
+        <li><a href="#presupuesto">Presupuesto y recursos</a></li>
+        <li><a href="#estado">Estado actual del proyecto</a></li>
+        <li><a href="#limitaciones">Limitaciones detectadas</a></li>
+        <li><a href="#mejoras">Propuestas de mejora y trabajo futuro</a></li>
+        <li><a href="#conclusiones">Conclusiones</a></li>
+        <li><a href="#anexos">Anexos visuales</a></li>
+      </ol>
+    </section>
+
+    <section id="resumen" class="page-break">
+      <h2 class="section-title">1. Resumen ejecutivo</h2>
+      <p>
+        <strong>School Bus App</strong> es una aplicación móvil orientada al seguimiento, organización y gestión del transporte escolar.
+        Su finalidad es centralizar la información relativa a rutas, usuarios, avisos y localización del autobús, mejorando así la
+        comunicación entre familias, estudiantes, conductores y responsables del servicio.
+      </p>
+      <p>
+        El proyecto ha sido desarrollado como trabajo final del ciclo formativo <strong>2DAM</strong> durante el curso académico
+        <strong>2025/2026</strong>. A lo largo del repositorio se aprecia un trabajo estructurado en distintas capas: análisis previo,
+        propuesta funcional, diseño visual, prototipado, planificación, modelado de datos y una implementación Android inicial pero significativa.
+      </p>
+
+      <div class="summary-grid">
+        <div class="card">
+          <h4>Problema detectado</h4>
+          <p>La gestión del transporte escolar suele apoyarse en canales informales, dispersos y poco trazables.</p>
+        </div>
+        <div class="card">
+          <h4>Solución propuesta</h4>
+          <p>Una aplicación Android con autenticación, información centralizada, perfil de usuario, pantallas específicas y evolución hacia geolocalización real.</p>
+        </div>
+        <div class="card">
+          <h4>Estado del proyecto</h4>
+          <p>Existe una base funcional implementada con SQLite, estructura Android definida y preparación para Firebase.</p>
+        </div>
+        <div class="card">
+          <h4>Valor académico</h4>
+          <p>Combina análisis, arquitectura, desarrollo móvil, modelado de datos, diseño visual y documentación técnica.</p>
+        </div>
+      </div>
+
+      <figure class="figure">
+        <img src="mokup/schoolbus_mokup_1.jpeg" alt="Mockup principal de School Bus App" />
+        <figcaption>Figura 1. Vista conceptual principal de la propuesta visual de School Bus App.</figcaption>
+      </figure>
+    </section>
+
+    <section id="introduccion">
+      <h2 class="section-title">2. Introducción</h2>
+      <p>
+        El presente documento constituye la memoria descriptiva del proyecto <strong>School Bus App</strong>, una aplicación orientada al seguimiento
+        y gestión del transporte escolar mediante dispositivos móviles Android. El objetivo principal de la solución es ofrecer una herramienta que permita
+        mejorar la organización del servicio, la comunicación entre los distintos usuarios implicados y la consulta centralizada de información relacionada
+        con rutas, paradas, usuarios, avisos y seguimiento del autobús.
+      </p>
+      <p>
+        El proyecto se plantea como una propuesta realista, escalable y alineada con necesidades del entorno educativo actual. La aplicación combina una parte funcional
+        ya implementada en Android Studio con documentación técnica, diseño visual previo, prototipos de interfaz y una propuesta sólida de base de datos orientada a una
+        versión futura más completa.
+      </p>
+      <p>
+        A lo largo del repositorio se observa una evolución del proyecto desde la fase de análisis y diseño hasta una fase de implementación práctica. Se incluyen documentos
+        de planificación, análisis de riesgos, presupuesto, diagramas, mockups visuales, wireframes interactivos y una aplicación Android estructurada en Java con persistencia local
+        e integración preparada con Firebase.
+      </p>
+    </section>
+
+    <section id="justificacion">
+      <h2 class="section-title">3. Justificación del proyecto</h2>
+      <p>
+        La gestión del transporte escolar suele depender, en muchos contextos, de canales poco estructurados como llamadas telefónicas, mensajería instantánea o comunicaciones informales
+        entre familias y responsables del servicio. Esta forma de trabajo provoca ineficiencias, falta de trazabilidad, desinformación y dificultades para responder con rapidez ante retrasos,
+        cambios de ruta o incidencias.
+      </p>
+      <p>
+        En este contexto, el proyecto <strong>School Bus App</strong> surge como respuesta a una necesidad real: disponer de una plataforma móvil desde la que estudiantes, familias y conductores
+        puedan consultar información relevante del servicio de transporte escolar de forma rápida, centralizada y accesible.
+      </p>
+      <ul>
+        <li>El teléfono móvil es el dispositivo de consulta más inmediato para familias y alumnado.</li>
+        <li>Android permite trabajar con componentes nativos, notificaciones, almacenamiento local, autenticación y servicios de localización.</li>
+        <li>La app puede evolucionar hacia una solución más robusta conectada a servicios en la nube.</li>
+        <li>El proyecto permite aplicar competencias reales del ciclo 2DAM de forma integrada.</li>
+      </ul>
+    </section>
+
+    <section id="contexto">
+      <h2 class="section-title">4. Contexto y problemática detectada</h2>
+      <p>
+        El transporte escolar implica coordinación de rutas, horarios, paradas, listas de estudiantes, vehículos, conductores, incidencias y comunicaciones con familias.
+        Cuando esta gestión se realiza de forma fragmentada, aparecen problemas de centralización, retraso informativo, dependencia manual y escasa trazabilidad.
+      </p>
+      <div class="highlight-box">
+        <strong>Problemas principales detectados:</strong>
+        <ul>
+          <li>Falta de información centralizada.</li>
+          <li>Dificultad para comunicar incidencias.</li>
+          <li>Escasa trazabilidad de los eventos del sistema.</li>
+          <li>Dependencia de llamadas o mensajes individuales.</li>
+          <li>Inseguridad percibida por las familias ante la falta de visibilidad del trayecto.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="objetivos">
+      <h2 class="section-title">5. Objetivos del proyecto</h2>
+      <h3 class="subsection-title">5.1 Objetivo general</h3>
+      <p>
+        Desarrollar una aplicación móvil Android que permita mejorar la organización y el seguimiento del transporte escolar,
+        centralizando la información relevante del servicio y facilitando la interacción entre usuarios.
+      </p>
+      <h3 class="subsection-title">5.2 Objetivos específicos</h3>
+      <ul>
+        <li>Implementar una app funcional con interfaz móvil adaptada al contexto del transporte escolar.</li>
+        <li>Permitir el registro e inicio de sesión de usuarios.</li>
+        <li>Gestionar perfiles básicos de usuario con almacenamiento de sesión.</li>
+        <li>Preparar la aplicación para una integración real con Firebase Authentication y Firebase Realtime Database.</li>
+        <li>Incorporar persistencia local mediante SQLite como solución funcional base.</li>
+        <li>Diseñar una estructura de pantallas clara, intuitiva y escalable.</li>
+        <li>Definir un modelo de datos robusto y ampliable.</li>
+      </ul>
+    </section>
+
+    <section id="alcance">
+      <h2 class="section-title">6. Alcance del proyecto</h2>
+      <p>
+        El alcance del proyecto se plantea desde una lógica de <strong>MVP</strong> con posibilidad de ampliación progresiva.
+      </p>
+      <div class="summary-grid">
+        <div class="card">
+          <h4>Ya contemplado o implementado</h4>
+          <ul>
+            <li>Registro e inicio de sesión.</li>
+            <li>Sesión activa.</li>
+            <li>Perfil de usuario.</li>
+            <li>Dashboard y mapa.</li>
+            <li>Notificaciones y lista de estudiantes.</li>
+            <li>Persistencia local con SQLite.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Planteado como evolución</h4>
+          <ul>
+            <li>Seguimiento en tiempo real.</li>
+            <li>Gestión avanzada de rutas y paradas.</li>
+            <li>Relación entre padres y estudiantes.</li>
+            <li>Registro de viajes e incidencias.</li>
+            <li>Notificaciones automáticas.</li>
+            <li>Reserva futura de plazas.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="requisitos">
+      <h2 class="section-title">7. Análisis de requisitos</h2>
+      <h3 class="subsection-title">7.1 Requisitos funcionales</h3>
+      <ul>
+        <li>Registrar usuarios.</li>
+        <li>Permitir inicio de sesión mediante email y contraseña.</li>
+        <li>Mantener sesión activa.</li>
+        <li>Mostrar información de perfil.</li>
+        <li>Contemplar distintos roles de usuario.</li>
+        <li>Consultar información del autobús y de la ruta.</li>
+        <li>Gestionar avisos y notificaciones.</li>
+      </ul>
+      <h3 class="subsection-title">7.2 Requisitos no funcionales</h3>
+      <ul>
+        <li>Ejecución sobre Android.</li>
+        <li>Interfaz clara e intuitiva.</li>
+        <li>Navegación sencilla para usuarios no técnicos.</li>
+        <li>Escalabilidad de la arquitectura.</li>
+        <li>Persistencia local y proyección remota.</li>
+      </ul>
+    </section>
+
+    <section id="perfiles">
+      <h2 class="section-title">8. Perfiles de usuario y casos de uso</h2>
+      <p>
+        El diseño del sistema contempla claramente distintos perfiles: conductor, estudiante, padres o tutores, y administrador.
+        Aunque no todos los roles están desarrollados al mismo nivel, su definición ayuda a estructurar el crecimiento del producto.
+      </p>
+      <ul>
+        <li><strong>Conductor:</strong> seguimiento de ruta, comunicación de incidencias, consulta de lista de estudiantes.</li>
+        <li><strong>Estudiante:</strong> rol vinculado al servicio de transporte y a la información de ruta.</li>
+        <li><strong>Padres o tutores:</strong> consulta del estado del autobús, recepción de avisos y seguimiento del estudiante asociado.</li>
+        <li><strong>Administrador:</strong> gestión de usuarios, rutas, vehículos, notificaciones e incidencias.</li>
+      </ul>
+    </section>
+
+    <section id="diseno">
+      <h2 class="section-title">9. Diseño conceptual y experiencia de usuario</h2>
+      <p>
+        Uno de los puntos fuertes del repositorio es la presencia de una línea de diseño bien trabajada. No se trata únicamente de una implementación técnica,
+        sino de una propuesta que busca representar con claridad cómo sería el producto final desde el punto de vista del usuario.
+      </p>
+      <ul>
+        <li>Pantallas limpias y orientadas a tareas concretas.</li>
+        <li>Distribución visual pensada para móvil.</li>
+        <li>Uso de iconografía reconocible.</li>
+        <li>Tarjetas, navegación inferior, filtros, avisos y vista de mapa.</li>
+        <li>Representación gráfica de rutas, estados y tiempos estimados.</li>
+      </ul>
+
+      <div class="two-images">
+        <figure class="figure">
+          <img src="mokup/schoolbus_mokup_2.jpeg" alt="Mockup secundario 1" />
+          <figcaption>Figura 2. Propuesta visual de interfaz móvil del sistema.</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="mokup/schoolbus_mokup_3.jpeg" alt="Mockup secundario 2" />
+          <figcaption>Figura 3. Vista complementaria del estilo visual planteado.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="mockups">
+      <h2 class="section-title">10. Mockups, wireframes y propuesta visual</h2>
+      <p>
+        El repositorio incorpora recursos visuales que enriquecen notablemente la documentación del proyecto. Estos materiales sirven para comunicar la idea de producto,
+        validar pantallas y justificar decisiones de diseño.
+      </p>
+      <p>
+        La carpeta <code>mokup/</code> contiene siete imágenes que ayudan a reforzar la identidad visual, la disposición de elementos en pantalla, la intención de navegación,
+        la presentación del mapa y la visualización de listados. Su valor dentro de la memoria es especialmente importante porque permiten comprender el producto sin necesidad de ejecutar la aplicación.
+      </p>
+
+      <div class="two-images">
+        <figure class="figure">
+          <img src="mokup/schoolbus_mokup_4.jpeg" alt="Mockup 4" />
+          <figcaption>Figura 4. Vista adicional del concepto visual de la aplicación.</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="mokup/schoolbus_mokup_5.jpeg" alt="Mockup 5" />
+          <figcaption>Figura 5. Ejemplo de presentación visual de funcionalidades del sistema.</figcaption>
+        </figure>
+      </div>
+
+      <div class="two-images">
+        <figure class="figure">
+          <img src="mokup/schoolbus_mokup_6.jpeg" alt="Mockup 6" />
+          <figcaption>Figura 6. Continuidad de la propuesta gráfica y de experiencia de usuario.</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="mokup/schoolbus_mokup_7.jpeg" alt="Mockup 7" />
+          <figcaption>Figura 7. Último mockup del conjunto visual incluido en el repositorio.</figcaption>
+        </figure>
+      </div>
+
+      <p>
+        Además, la carpeta <code>wireframe/</code> contiene un prototipo interactivo en HTML, CSS y JavaScript que simula el funcionamiento de la app.
+        Incluye cabecera con notificaciones, panel de avisos, buscador, filtros, lista de autobuses, vista de mapa, panel informativo y navegación inferior.
+      </p>
+    </section>
+
+    <section id="arquitectura">
+      <h2 class="section-title">11. Arquitectura técnica del sistema</h2>
+      <p>
+        La parte implementada del proyecto Android se encuentra dentro del directorio <code>schoolbus/</code>. Se trata de una aplicación estructurada en distintos paquetes Java:
+      </p>
+      <ul>
+        <li><code>activities/</code></li>
+        <li><code>adapters/</code></li>
+        <li><code>database/</code></li>
+        <li><code>firebase/</code></li>
+        <li><code>models/</code></li>
+        <li><code>session/</code></li>
+      </ul>
+      <p>
+        Esta distribución permite separar responsabilidades entre interfaz, adaptadores, acceso a datos, autenticación remota, modelos de dominio y gestión de sesión.
+      </p>
+    </section>
+
+    <section id="tecnologias">
+      <h2 class="section-title">12. Tecnologías empleadas</h2>
+      <ul>
+        <li><strong>Android Studio</strong> como entorno principal.</li>
+        <li><strong>Java</strong> para lógica y control de pantallas.</li>
+        <li><strong>XML</strong> para interfaces Android.</li>
+        <li><strong>SQLite</strong> mediante <code>SQLiteOpenHelper</code> para persistencia local.</li>
+        <li><strong>Firebase Authentication</strong> y <strong>Firebase Realtime Database</strong> para autenticación y persistencia remota.</li>
+        <li><strong>HTML, CSS y JavaScript</strong> para el wireframe interactivo.</li>
+        <li><strong>GitHub</strong> como repositorio y control de versiones.</li>
+      </ul>
+    </section>
+
+    <section id="desarrollo">
+      <h2 class="section-title">13. Desarrollo implementado en la aplicación Android</h2>
+      <p>
+        La aplicación Android contiene una base funcional ya iniciada y suficientemente coherente como para demostrar el avance del proyecto.
+      </p>
+      <h3 class="subsection-title">13.1 Estructura de actividades</h3>
+      <ul>
+        <li>About.java</li>
+        <li>BusMap.java</li>
+        <li>BusRoute.java</li>
+        <li>DashboardActivity.java</li>
+        <li>Login.java</li>
+        <li>MapaConductorActivity.java</li>
+        <li>NotificationActivity.java</li>
+        <li>Profile.java</li>
+        <li>Register.java</li>
+        <li>Settings.java</li>
+        <li>StudentList.java</li>
+      </ul>
+      <h3 class="subsection-title">13.2 Modelos y adaptadores</h3>
+      <p>
+        Se identifican modelos como <code>Bus</code>, <code>Notification</code>, <code>Route</code>, <code>Stop</code>, <code>Student</code> y <code>User</code>,
+        además de adaptadores para notificaciones y estudiantes. Esto refleja una base adecuada para listas dinámicas y representación del dominio funcional.
+      </p>
+    </section>
+
+    <section id="autenticacion">
+      <h2 class="section-title">14. Gestión de usuarios y autenticación</h2>
+      <p>
+        Una de las partes más claras del desarrollo actual es la autenticación de usuarios. El proyecto implementa tanto registro como inicio de sesión,
+        utilizando Firebase cuando está disponible y recurriendo a SQLite como mecanismo alternativo local.
+      </p>
+      <ul>
+        <li><strong>Register.java</strong> registra usuario y guarda perfil.</li>
+        <li><strong>Login.java</strong> valida credenciales y guarda sesión.</li>
+        <li><strong>Profile.java</strong> muestra datos del usuario desde sesión, SQLite o Firebase.</li>
+        <li><strong>SessionManager</strong> conserva datos básicos en <code>SharedPreferences</code>.</li>
+      </ul>
+    </section>
+
+    <section id="datos">
+      <h2 class="section-title">15. Persistencia de datos y diseño de base de datos</h2>
+      <p>
+        La persistencia del proyecto aparece en dos niveles claramente diferenciados: una base funcional SQLite para la app actual y un modelo relacional más completo definido en <code>data.sql</code>.
+      </p>
+      <p>
+        La implementación local incluye tablas para usuarios, estudiantes, autobuses, paradas y notificaciones. Por su parte, el modelo extendido contempla usuarios,
+        estudiantes, padres, conductores, vehículos, rutas, paradas, asignaciones, viajes, asistencia, ubicaciones en tiempo real, incidencias y mantenimientos.
+      </p>
+
+      <figure class="figure">
+        <img src="diagramaER_base_de_datos.png" alt="Diagrama entidad-relación" />
+        <figcaption>Figura 8. Modelo entidad-relación de la base de datos planteada para School Bus App.</figcaption>
+      </figure>
+    </section>
+
+    <section id="pantallas">
+      <h2 class="section-title">16. Navegación, pantallas y funcionalidades desarrolladas</h2>
+      <p>
+        Los recursos de <code>layout/</code> muestran que la app cuenta con múltiples vistas diseñadas: login, registro, dashboard, mapa, conductor,
+        notificaciones, perfil, ajustes y lista de estudiantes, además de elementos reutilizables para listas.
+      </p>
+      <ul>
+        <li>Pantalla de inicio de sesión.</li>
+        <li>Pantalla de registro.</li>
+        <li>Pantalla principal o dashboard.</li>
+        <li>Pantalla de mapa.</li>
+        <li>Pantalla de conductor.</li>
+        <li>Pantalla de notificaciones.</li>
+        <li>Pantalla de perfil.</li>
+        <li>Pantalla de lista de estudiantes.</li>
+      </ul>
+    </section>
+
+    <section id="pruebas">
+      <h2 class="section-title">17. Pruebas realizadas y validación</h2>
+      <p>
+        Aunque el repositorio no incluye un plan de testing automatizado completo, sí permite identificar una validación funcional básica del sistema a través del desarrollo implementado y del wireframe interactivo.
+      </p>
+      <ul>
+        <li>Comprobación de campos obligatorios en login y registro.</li>
+        <li>Validación de longitud mínima de contraseña.</li>
+        <li>Gestión de errores de autenticación en Firebase.</li>
+        <li>Guardado y recuperación de sesión local.</li>
+        <li>Validación visual de la navegación mediante el wireframe.</li>
+      </ul>
+    </section>
+
+    <section id="instalacion">
+      <h2 class="section-title">18. Instalación, ejecución y puesta en marcha</h2>
+      <ol>
+        <li>Clonar o descargar el repositorio.</li>
+        <li>Abrir la carpeta <code>schoolbus/</code> en Android Studio.</li>
+        <li>Sincronizar dependencias Gradle.</li>
+        <li>Ejecutar la aplicación en emulador o dispositivo físico.</li>
+        <li>Configurar Firebase si se desea utilizar autenticación remota.</li>
+      </ol>
+      <p class="small-note">
+        La app dispone de fallback local, lo que facilita las pruebas incluso cuando Firebase no está totalmente configurado.
+      </p>
+    </section>
+
+    <section id="planificacion">
+      <h2 class="section-title">19. Planificación del proyecto</h2>
+      <p>
+        El repositorio incluye una propuesta temporal y un diagrama de Gantt. La planificación se organiza en fases de análisis, diseño, desarrollo,
+        integración, pruebas y documentación final.
+      </p>
+      <figure class="figure">
+        <img src="Diagrama%20de%20Gant.png" alt="Diagrama de Gantt" />
+        <figcaption>Figura 9. Planificación temporal del proyecto mediante diagrama de Gantt.</figcaption>
+      </figure>
+    </section>
+
+    <section id="riesgos">
+      <h2 class="section-title">20. Análisis de riesgos</h2>
+      <p>
+        El análisis de riesgos identifica problemas relevantes como retrasos por falta de experiencia con Google Maps SDK, dificultades de integración con Firebase,
+        compatibilidad entre dispositivos Android, falta de tiempo y dependencia de servicios externos.
+      </p>
+      <p>
+        La estrategia de mitigación se apoya en la priorización del MVP, el uso de alternativas locales y la progresión por fases de complejidad.
+      </p>
+    </section>
+
+    <section id="presupuesto">
+      <h2 class="section-title">21. Presupuesto y recursos</h2>
+      <div class="summary-grid">
+        <div class="card">
+          <h4>Recursos materiales</h4>
+          <p>0 €</p>
+        </div>
+        <div class="card">
+          <h4>Recursos software y tecnológicos</h4>
+          <p>0 €</p>
+        </div>
+        <div class="card">
+          <h4>Recursos humanos</h4>
+          <p>100 €</p>
+        </div>
+        <div class="card">
+          <h4>Total estimado</h4>
+          <p><strong>100 €</strong></p>
+        </div>
+      </div>
+      <p>
+        Aunque se trata de un proyecto académico, esta estimación permite reflejar la viabilidad económica de la propuesta y el valor del tiempo invertido.
+      </p>
+    </section>
+
+    <section id="estado">
+      <h2 class="section-title">22. Estado actual del proyecto</h2>
+      <p>
+        El proyecto presenta un estado de avance significativo: existe una base funcional Android, documentación sólida, diseño visual trabajado,
+        wireframe interactivo, persistencia local, integración preparada con Firebase y un modelo de base de datos con proyección futura.
+      </p>
+      <ul>
+        <li>Idea y alcance definidos.</li>
+        <li>Riesgos, presupuesto y planificación documentados.</li>
+        <li>Mockups, wireframe y diagramas integrados.</li>
+        <li>Registro, login y perfil ya implementados.</li>
+        <li>Base lista para nuevas ampliaciones.</li>
+      </ul>
+    </section>
+
+    <section id="limitaciones">
+      <h2 class="section-title">23. Limitaciones detectadas</h2>
+      <ul>
+        <li>La persistencia local es más reducida que el modelo global propuesto.</li>
+        <li>Algunas actividades parecen estar todavía en fase inicial.</li>
+        <li>No todas las pantallas están completamente integradas en flujo final.</li>
+        <li>La geolocalización real todavía está más representada a nivel conceptual que funcional.</li>
+        <li>La gestión completa de roles sigue siendo parcial.</li>
+      </ul>
+    </section>
+
+    <section id="mejoras">
+      <h2 class="section-title">24. Propuestas de mejora y trabajo futuro</h2>
+      <ol>
+        <li>Integrar Google Maps SDK de forma completa en la app nativa.</li>
+        <li>Sincronizar rutas, paradas y ubicaciones en tiempo real con Firebase.</li>
+        <li>Implementar roles diferenciados con permisos específicos.</li>
+        <li>Añadir panel de administración para responsables del servicio.</li>
+        <li>Incorporar notificaciones push reales.</li>
+        <li>Registrar asistencia de estudiantes al subir o bajar del autobús.</li>
+        <li>Conectar estudiantes con rutas y paradas concretas.</li>
+        <li>Integrar incidencias y mantenimientos según el modelo SQL propuesto.</li>
+      </ol>
+    </section>
+
+    <section id="conclusiones">
+      <h2 class="section-title">25. Conclusiones</h2>
+      <p>
+        El proyecto <strong>School Bus App</strong> constituye una propuesta sólida, realista y bien fundamentada para digitalizar parte de la gestión del transporte escolar.
+        A nivel académico, destaca por combinar análisis, planificación, diseño visual, modelado de datos e implementación práctica en Android.
+      </p>
+      <p>
+        No se trata solo de una idea teórica, sino de un proyecto que ya dispone de una propuesta claramente argumentada, una arquitectura técnica en marcha,
+        un conjunto de pantallas definidas, autenticación funcional, persistencia local, preparación para backend remoto y abundante documentación visual y textual.
+      </p>
+      <p>
+        En conjunto, la memoria refleja tanto el estado actual del proyecto como su potencial de crecimiento, justificando plenamente su valor como proyecto final de 2DAM.
+      </p>
+    </section>
+
+    <section id="anexos">
+      <h2 class="section-title">26. Anexos visuales</h2>
+      <figure class="figure">
+        <img src="diagrama%20components%20tecnologies%20flux%20de%20nav.png" alt="Diagrama de componentes y navegación" />
+        <figcaption>Figura 10. Diagrama de componentes, tecnologías y flujo de navegación del sistema.</figcaption>
+      </figure>
+      <p>
+        Los recursos visuales incluidos en el repositorio permiten reforzar la presentación de la app y consolidan el valor documental del proyecto.
+        En la exportación a PDF, esta memoria HTML está diseñada para conservar una presentación limpia, formal y adecuada para revisión académica.
+      </p>
+    </section>
+
+    <div class="footer-space"></div>
+  </main>
+</body>
+</html>
