@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.school_bus.MainActivity;
 import com.example.school_bus.R;
 import com.example.school_bus.database.DBHelper;
 import com.example.school_bus.firebase.FirebaseUserRepository;
@@ -62,7 +64,7 @@ public class Login extends AppCompatActivity {
             public void onSuccess(User user) {
                 SessionManager.saveUser(Login.this, user);
                 Toast.makeText(Login.this, "Login correcto", Toast.LENGTH_SHORT).show();
-                openDashboard(user.getEmail());
+                openHome();
             }
 
             @Override
@@ -77,7 +79,7 @@ public class Login extends AppCompatActivity {
         if(dbHelper.checkLogin(email, password)){
             SessionManager.saveUser(this, getLocalUser(email));
             Toast.makeText(this, "Login correcto", Toast.LENGTH_SHORT).show();
-            openDashboard(email);
+            openHome();
         } else {
             Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
             setLoading(false);
@@ -99,9 +101,9 @@ public class Login extends AppCompatActivity {
         return user;
     }
 
-    private void openDashboard(String email) {
-        Intent intent = new Intent(this, DashboardActivity.class);
-        intent.putExtra("email", email);
+    private void openHome() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
