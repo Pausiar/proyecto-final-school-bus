@@ -1,4 +1,6 @@
-# Memoria del Proyecto Final: School Bus App
+# Memoria del Proyecto Final
+
+## School Bus App
 
 **Autoría:** Pau Silvestre Arnandis, Mario Alexandru Mincu y Khadija  
 **Curso:** 2DAM  
@@ -8,33 +10,59 @@
 
 ## Índice
 
-1. Introducción  
-2. Justificación del proyecto  
-3. Contexto y problemática detectada  
-4. Objetivos del proyecto  
-5. Alcance funcional de la aplicación  
-6. Análisis de requisitos  
-7. Diseño conceptual y experiencia de usuario  
-8. Wireframes, mockups y propuesta visual  
-9. Arquitectura técnica del sistema  
-10. Tecnologías empleadas  
-11. Desarrollo implementado en la aplicación Android  
-12. Gestión de usuarios y autenticación  
-13. Persistencia de datos y modelo de base de datos  
-14. Navegación, pantallas y funcionalidades desarrolladas  
-15. Prototipo web de apoyo y validación visual  
-16. Planificación del proyecto  
-17. Análisis de riesgos  
-18. Presupuesto y recursos  
-19. Estado actual del proyecto  
-20. Limitaciones detectadas  
-21. Propuestas de mejora y trabajo futuro  
-22. Conclusiones  
-23. Anexos visuales
+1. Resumen ejecutivo  
+2. Introducción  
+3. Justificación del proyecto  
+4. Contexto y problemática detectada  
+5. Objetivos del proyecto  
+6. Alcance del proyecto  
+7. Análisis de requisitos  
+8. Perfiles de usuario y casos de uso  
+9. Diseño conceptual y experiencia de usuario  
+10. Mockups, wireframes y propuesta visual  
+11. Arquitectura técnica del sistema  
+12. Tecnologías empleadas  
+13. Desarrollo implementado en la aplicación Android  
+14. Gestión de usuarios y autenticación  
+15. Persistencia de datos y diseño de base de datos  
+16. Navegación, pantallas y funcionalidades desarrolladas  
+17. Pruebas realizadas y validación  
+18. Instalación, ejecución y puesta en marcha  
+19. Planificación del proyecto  
+20. Análisis de riesgos  
+21. Presupuesto y recursos  
+22. Estado actual del proyecto  
+23. Limitaciones detectadas  
+24. Propuestas de mejora y trabajo futuro  
+25. Conclusiones  
+26. Anexos visuales
 
 ---
 
-## 1. Introducción
+## 1. Resumen ejecutivo
+
+**School Bus App** es una aplicación móvil orientada al seguimiento, organización y gestión del transporte escolar. Su finalidad es centralizar la información relativa a rutas, usuarios, avisos y localización del autobús, mejorando así la comunicación entre familias, estudiantes, conductores y responsables del servicio.
+
+El proyecto ha sido desarrollado como trabajo final del ciclo formativo **2DAM** durante el curso académico **2025/2026**. A lo largo del repositorio se aprecia un trabajo estructurado en distintas capas: análisis previo, propuesta funcional, diseño visual, prototipado, planificación, modelado de datos y una implementación Android inicial pero significativa.
+
+La solución parte de una necesidad real: la falta de herramientas centralizadas para el control del transporte escolar. En muchos entornos, la información sigue distribuyéndose mediante llamadas, mensajes o avisos informales, generando incertidumbre, retrasos en la comunicación y poca trazabilidad de la información. La aplicación propuesta pretende responder a ese problema mediante una interfaz móvil clara, con capacidad de evolucionar hacia un sistema más completo con localización en tiempo real, gestión de incidencias, notificaciones y control de rutas.
+
+Actualmente el proyecto ya dispone de:
+
+- una propuesta funcional documentada,
+- una aplicación Android desarrollada en Java,
+- persistencia local mediante SQLite,
+- integración preparada con Firebase,
+- pantallas para login, registro, perfil, dashboard, mapa, notificaciones y lista de estudiantes,
+- un wireframe interactivo en HTML/CSS/JavaScript,
+- múltiples mockups visuales,
+- y una propuesta avanzada de base de datos relacional.
+
+En consecuencia, puede afirmarse que el proyecto no se encuentra solo en fase de idea, sino en un estado intermedio entre prototipo funcional y producto ampliable, con una base técnica y documental adecuada para ser presentada como memoria final académica.
+
+---
+
+## 2. Introducción
 
 El presente documento constituye la memoria descriptiva del proyecto **School Bus App**, una aplicación orientada al seguimiento y gestión del transporte escolar mediante dispositivos móviles Android. El objetivo principal de la solución es ofrecer una herramienta que permita mejorar la organización del servicio, la comunicación entre los distintos usuarios implicados y la consulta centralizada de información relacionada con rutas, paradas, usuarios, avisos y seguimiento del autobús.
 
@@ -46,7 +74,7 @@ Esta memoria recoge tanto la idea general del producto como el trabajo efectivam
 
 ---
 
-## 2. Justificación del proyecto
+## 3. Justificación del proyecto
 
 La gestión del transporte escolar suele depender, en muchos contextos, de canales poco estructurados como llamadas telefónicas, mensajería instantánea o comunicaciones informales entre familias y responsables del servicio. Esta forma de trabajo provoca ineficiencias, falta de trazabilidad, desinformación y dificultades para responder con rapidez ante retrasos, cambios de ruta o incidencias.
 
@@ -68,9 +96,11 @@ Además de su utilidad práctica, el proyecto resulta especialmente adecuado com
 - Diseño de experiencia de usuario.
 - Documentación técnica y planificación de proyectos.
 
+Desde el punto de vista académico, se trata de un proyecto equilibrado, ya que combina análisis funcional, modelado de datos, desarrollo de interfaz, estructura de software y documentación, permitiendo demostrar competencias transversales del ciclo.
+
 ---
 
-## 3. Contexto y problemática detectada
+## 4. Contexto y problemática detectada
 
 El transporte escolar no consiste únicamente en desplazar alumnado entre su domicilio y el centro educativo. Implica coordinación de rutas, horarios, paradas, listas de estudiantes, vehículos, conductores, incidencias y comunicaciones con familias. Cuando esta gestión se realiza de forma fragmentada, aparecen diversos problemas:
 
@@ -89,17 +119,20 @@ El transporte escolar no consiste únicamente en desplazar alumnado entre su dom
 5. **Inseguridad percibida por las familias.**  
    La falta de visibilidad sobre el trayecto y la ubicación del autobús genera incertidumbre.
 
+6. **Dificultad para escalar la gestión.**  
+   A medida que aumenta el número de usuarios, rutas o incidencias, la coordinación manual resulta más compleja e ineficiente.
+
 El repositorio muestra que el proyecto ha sido concebido precisamente para abordar estas dificultades desde una perspectiva tecnológica. Ya desde la propuesta inicial se identifican claramente los roles de usuario y los módulos principales: inicio de sesión, gestión de usuarios, mapa del conductor, mapa del estudiante/padre y gestión de rutas.
 
 ---
 
-## 4. Objetivos del proyecto
+## 5. Objetivos del proyecto
 
-### 4.1 Objetivo general
+### 5.1 Objetivo general
 
 Desarrollar una aplicación móvil Android que permita mejorar la organización y el seguimiento del transporte escolar, centralizando la información relevante del servicio y facilitando la interacción entre usuarios.
 
-### 4.2 Objetivos específicos
+### 5.2 Objetivos específicos
 
 - Implementar una app funcional con interfaz móvil adaptada al contexto del transporte escolar.
 - Permitir el registro e inicio de sesión de usuarios.
@@ -111,13 +144,23 @@ Desarrollar una aplicación móvil Android que permita mejorar la organización 
 - Desarrollar prototipos visuales y mockups que permitan validar la experiencia de usuario antes y durante la implementación.
 - Documentar el proceso completo mediante propuesta, análisis de riesgos, planificación, presupuesto y memoria final.
 
+### 5.3 Objetivos académicos implícitos
+
+Además de los objetivos funcionales del producto, el proyecto persigue una finalidad académica clara:
+
+- Demostrar capacidad de análisis de una necesidad real.
+- Aplicar conocimientos de programación móvil nativa.
+- Diseñar estructuras de datos y persistencia coherentes.
+- Trabajar con herramientas de documentación y control de versiones.
+- Presentar una memoria completa, ordenada y rigurosa.
+
 ---
 
-## 5. Alcance funcional de la aplicación
+## 6. Alcance del proyecto
 
 El alcance del proyecto se plantea desde una lógica de **MVP** (Producto Mínimo Viable) con posibilidad de ampliación progresiva.
 
-### Funcionalidades ya contempladas o implementadas
+### 6.1 Funcionalidades ya contempladas o implementadas
 
 - Registro de usuario.
 - Inicio de sesión.
@@ -131,7 +174,7 @@ El alcance del proyecto se plantea desde una lógica de **MVP** (Producto Mínim
 - Persistencia local con SQLite.
 - Preparación de integración con Firebase Authentication y Firebase Realtime Database.
 
-### Funcionalidades planteadas a nivel de diseño o ampliación
+### 6.2 Funcionalidades planteadas a nivel de diseño o ampliación
 
 - Seguimiento del autobús en tiempo real.
 - Gestión de rutas y paradas con coordenadas geográficas.
@@ -142,13 +185,17 @@ El alcance del proyecto se plantea desde una lógica de **MVP** (Producto Mínim
 - Gestión de incidencias y mantenimientos.
 - Posible reserva de plazas en el autobús como ampliación futura.
 
+### 6.3 Límites del alcance actual
+
+El proyecto no se presenta todavía como una solución empresarial terminada ni como un producto completamente desplegado en un entorno real. Su estado actual debe entenderse como una base funcional y académica bien desarrollada, sobre la que resulta posible seguir construyendo nuevas capacidades.
+
 ---
 
-## 6. Análisis de requisitos
+## 7. Análisis de requisitos
 
 A partir de la documentación incluida en el repositorio, los requisitos principales del sistema pueden agruparse en funcionales y no funcionales.
 
-### 6.1 Requisitos funcionales
+### 7.1 Requisitos funcionales
 
 - El sistema debe permitir registrar usuarios.
 - El sistema debe permitir iniciar sesión con email y contraseña.
@@ -158,8 +205,10 @@ A partir de la documentación incluida en el repositorio, los requisitos princip
 - El sistema debe permitir consultar información del autobús y de la ruta.
 - El sistema debe contemplar avisos o notificaciones.
 - El sistema debe almacenar información de usuarios y datos básicos aunque no exista conexión con Firebase.
+- El sistema debe poder evolucionar para soportar rutas, paradas, viajes e incidencias.
+- El sistema debe ofrecer una navegación comprensible desde dispositivo móvil.
 
-### 6.2 Requisitos no funcionales
+### 7.2 Requisitos no funcionales
 
 - La aplicación debe ejecutarse en Android.
 - La interfaz debe ser clara e intuitiva.
@@ -167,10 +216,68 @@ A partir de la documentación incluida en el repositorio, los requisitos princip
 - El sistema debe ser escalable.
 - La persistencia debe contemplar una solución local y una futura solución remota.
 - La organización del código debe facilitar el mantenimiento.
+- La estructura de datos debe permitir futuras ampliaciones.
+- El proyecto debe poder ser ejecutado y probado en Android Studio.
+
+### 7.3 Requisitos de diseño
+
+- La interfaz debe adaptarse al uso móvil.
+- Debe existir coherencia visual entre pantallas.
+- El usuario debe identificar fácilmente estados, rutas, notificaciones y acciones principales.
+- La aplicación debe transmitir sensación de control, claridad y seguridad.
 
 ---
 
-## 7. Diseño conceptual y experiencia de usuario
+## 8. Perfiles de usuario y casos de uso
+
+Uno de los elementos conceptuales más importantes del proyecto es la diferenciación de perfiles de usuario. Aunque no todos los roles están todavía desarrollados al mismo nivel dentro de la app, el diseño del sistema los contempla claramente.
+
+### 8.1 Perfiles de usuario
+
+#### Conductor
+Usuario encargado de la ruta del autobús. Sus necesidades principales serían:
+
+- consultar o iniciar ruta,
+- comunicar incidencias,
+- actualizar o compartir posición,
+- consultar lista de estudiantes asociados,
+- recibir instrucciones o cambios.
+
+#### Estudiante
+Usuario final vinculado al servicio de transporte. En la práctica, muchas acciones quedarían gestionadas por los padres o tutores, pero el rol está contemplado como entidad del sistema.
+
+#### Padres o tutores
+Perfil fundamental para la utilidad real de la aplicación. Sus necesidades principales serían:
+
+- consultar ubicación o estado del autobús,
+- conocer horarios y paradas,
+- recibir avisos o retrasos,
+- verificar información del estudiante asociado,
+- mantenerse informados en tiempo real.
+
+#### Administrador o responsable
+Rol previsto para tareas de gestión:
+
+- mantenimiento de usuarios,
+- control de rutas,
+- asignación de vehículos,
+- resolución de incidencias,
+- publicación de notificaciones.
+
+### 8.2 Casos de uso principales
+
+- Registrarse en la aplicación.
+- Iniciar sesión.
+- Consultar el perfil del usuario.
+- Ver notificaciones del sistema.
+- Consultar una lista de estudiantes.
+- Acceder al mapa o seguimiento del autobús.
+- Visualizar información general desde el dashboard.
+- Gestionar datos de usuario de forma local o remota.
+
+---
+
+## 9. Diseño conceptual y experiencia de usuario
 
 Uno de los puntos fuertes del repositorio es la presencia de una línea de diseño bien trabajada a nivel visual. No se trata únicamente de una implementación técnica, sino de una propuesta que busca representar con claridad cómo sería el producto final desde el punto de vista del usuario.
 
@@ -181,16 +288,19 @@ La experiencia de usuario se apoya en varios elementos:
 - Uso de iconografía reconocible.
 - Presencia de componentes habituales en aplicaciones modernas: tarjetas, barra inferior, notificaciones, filtros y vista de mapa.
 - Representación gráfica de rutas, estados y tiempos estimados.
+- Enfoque visual que favorece una interacción rápida y comprensible.
 
 Esta intención de diseño se aprecia especialmente en la carpeta `mokup/`, en la que aparecen distintas pantallas del concepto visual de la aplicación, y en el prototipo `wireframe/`, que añade interactividad y simulación funcional.
 
+La experiencia propuesta transmite una idea importante: la aplicación no pretende ser compleja para el usuario final, sino ofrecer acceso inmediato a información crítica del servicio de transporte.
+
 ---
 
-## 8. Wireframes, mockups y propuesta visual
+## 10. Mockups, wireframes y propuesta visual
 
 El repositorio incorpora una colección de recursos visuales que enriquecen notablemente la documentación del proyecto. Estos materiales no solo aportan valor estético, sino que sirven para comunicar la idea de producto, validar pantallas y justificar decisiones de diseño.
 
-### 8.1 Mockups incluidos
+### 10.1 Mockups incluidos
 
 La carpeta `mokup/` contiene siete imágenes:
 
@@ -211,9 +321,21 @@ Estas imágenes muestran distintas perspectivas de la aplicación y permiten ref
 - la visualización de listados,
 - y el estilo general del producto.
 
-En la versión final para exportación a PDF conviene insertar estas imágenes a lo largo del documento, especialmente en los apartados de diseño visual, navegación y anexos. Cuantas más se integren, más clara resultará la idea de la app y más sólida será la presentación académica del proyecto.
+El uso de mockups en una memoria final académica resulta especialmente valioso porque facilita la comprensión del proyecto incluso a lectores que no van a ejecutar la aplicación. Además, aportan una sensación de producto más maduro, ayudando a comunicar de forma clara la idea global del sistema.
 
-### 8.2 Wireframe interactivo
+### 10.2 Integración recomendada de imágenes en la memoria
+
+Para que la exportación a PDF tenga un resultado visual más profesional, conviene insertar mockups no solo al final, sino también a lo largo de la memoria, especialmente en:
+
+- introducción del producto,
+- apartado de diseño visual,
+- explicación de pantallas,
+- navegación,
+- y anexos.
+
+De este modo, el lector no percibe los recursos gráficos como un añadido, sino como parte integral del trabajo de diseño y validación.
+
+### 10.3 Wireframe interactivo
 
 La carpeta `wireframe/` contiene un prototipo en HTML, CSS y JavaScript. Este prototipo representa una simulación visual muy completa del funcionamiento de la app. Incluye:
 
@@ -232,7 +354,7 @@ Este wireframe tiene un gran valor como apoyo documental porque demuestra una re
 
 ---
 
-## 9. Arquitectura técnica del sistema
+## 11. Arquitectura técnica del sistema
 
 La parte implementada del proyecto Android se encuentra dentro del directorio `schoolbus/`. Se trata de una aplicación estructurada en distintos paquetes Java con una organización relativamente clara:
 
@@ -254,40 +376,44 @@ Esta distribución permite separar responsabilidades:
 
 Además, el `AndroidManifest.xml` declara la aplicación y varias actividades principales, entre ellas el login, el registro, el dashboard y el mapa.
 
+Desde una perspectiva de arquitectura académica, esta organización es correcta para un proyecto de estas características, ya que separa la capa de interfaz, la capa de datos y la representación de entidades.
+
 ---
 
-## 10. Tecnologías empleadas
+## 12. Tecnologías empleadas
 
 El repositorio refleja el uso de varias tecnologías según la fase del proyecto:
 
-### Desarrollo de aplicación móvil
+### 12.1 Desarrollo de aplicación móvil
 - **Android Studio** como entorno principal.
 - **Java** para la lógica de negocio y control de pantallas.
 - **XML** para el diseño de interfaces Android.
 
-### Persistencia y datos
+### 12.2 Persistencia y datos
 - **SQLite** mediante `SQLiteOpenHelper` para la versión funcional local.
 - **Firebase Authentication** para autenticación remota.
 - **Firebase Realtime Database** para almacenamiento remoto de perfiles.
 - **SQL** para el diseño conceptual de una base de datos más completa.
 
-### Prototipado y documentación
+### 12.3 Prototipado y documentación
 - **HTML, CSS y JavaScript** para el wireframe interactivo.
 - **Markdown** para la documentación técnica y funcional.
 - **GitHub** como repositorio y soporte de control de versiones.
 
-### Servicios y capacidades previstas
+### 12.4 Servicios y capacidades previstas
 - Integración prevista con **Google Maps SDK**.
 - Uso conceptual de **FusedLocationProvider** para geolocalización.
 - Posible incorporación de notificaciones push con Firebase.
 
+El uso de estas tecnologías es coherente con el alcance del proyecto y permite una evolución gradual desde una versión académica funcional hacia una solución más completa.
+
 ---
 
-## 11. Desarrollo implementado en la aplicación Android
+## 13. Desarrollo implementado en la aplicación Android
 
 La aplicación Android contiene una base funcional ya iniciada y suficientemente coherente como para demostrar el avance del proyecto.
 
-### 11.1 Estructura de actividades
+### 13.1 Estructura de actividades
 
 Dentro de `activities/` aparecen las siguientes clases:
 
@@ -305,7 +431,7 @@ Dentro de `activities/` aparecen las siguientes clases:
 
 Esto muestra que el proyecto no se ha limitado a una única pantalla, sino que ha comenzado a construir una navegación multicapa con secciones diferenciadas.
 
-### 11.2 Modelos de dominio
+### 13.2 Modelos de dominio
 
 En `models/` se identifican las entidades:
 
@@ -318,7 +444,7 @@ En `models/` se identifican las entidades:
 
 Estas clases permiten representar el núcleo del dominio funcional de la aplicación.
 
-### 11.3 Adaptadores
+### 13.3 Adaptadores
 
 Los adaptadores encontrados son:
 
@@ -327,37 +453,54 @@ Los adaptadores encontrados son:
 
 Esto indica que se han planteado listados dinámicos, algo coherente con pantallas como notificaciones y lista de estudiantes.
 
-### 11.4 Gestión de sesión
+### 13.4 Gestión de sesión
 
 La clase `SessionManager` usa `SharedPreferences` para mantener información del usuario autenticado, como UID, nombre, apellidos, email y rol. Esto permite conservar la sesión y simplificar el acceso al perfil sin requerir continuamente una consulta remota.
 
+### 13.5 Valoración del desarrollo actual
+
+Aunque el proyecto todavía no explota todo el potencial de su diseño conceptual, la implementación ya demuestra:
+
+- organización del código,
+- separación por responsabilidades,
+- conexión entre interfaz y datos,
+- intención de escalar hacia una solución híbrida local/remota,
+- y una base real desde la que continuar el desarrollo.
+
 ---
 
-## 12. Gestión de usuarios y autenticación
+## 14. Gestión de usuarios y autenticación
 
 Una de las partes más claras del desarrollo actual es la autenticación de usuarios.
 
-### 12.1 Registro
+### 14.1 Registro
 
 La actividad `Register.java` recoge nombre, apellidos, correo y contraseña. Si Firebase está disponible, registra al usuario mediante `FirebaseAuth` y guarda su perfil en Realtime Database. Si Firebase no está configurado, realiza un guardado local en SQLite como mecanismo alternativo.
 
 Esto aporta robustez al proyecto porque evita depender totalmente de la nube durante fases tempranas del desarrollo.
 
-### 12.2 Inicio de sesión
+### 14.2 Inicio de sesión
 
 La actividad `Login.java` valida si los campos están completos, intenta autenticación con Firebase si está configurado y, en caso contrario, recurre al método local `checkLogin()` de `DBHelper`. Una vez autenticado, guarda los datos del usuario en `SessionManager` y redirige a la actividad principal.
 
-### 12.3 Perfil
+### 14.3 Perfil
 
 La actividad `Profile.java` muestra los datos del usuario a partir de la sesión, y además intenta cargar el perfil remoto si existe sesión activa en Firebase. En caso de fallo, recurre a la base de datos local. Esto refleja una estrategia híbrida razonable entre persistencia local y remota.
 
+### 14.4 Ventajas de la solución híbrida
+
+- Permite seguir trabajando aunque Firebase no esté completamente operativo.
+- Facilita las pruebas en entorno de desarrollo.
+- Mejora la continuidad del proyecto académico.
+- Demuestra capacidad de adaptación ante dependencias externas.
+
 ---
 
-## 13. Persistencia de datos y modelo de base de datos
+## 15. Persistencia de datos y diseño de base de datos
 
 La persistencia del proyecto aparece en dos niveles claramente diferenciados.
 
-### 13.1 Persistencia local en la app Android
+### 15.1 Persistencia local en la app Android
 
 La clase `DBHelper.java` implementa una base de datos SQLite local con las tablas:
 
@@ -369,7 +512,7 @@ La clase `DBHelper.java` implementa una base de datos SQLite local con las tabla
 
 Esta base es una simplificación funcional del sistema, suficiente para las necesidades actuales de la aplicación en desarrollo.
 
-### 13.2 Modelo de base de datos extendido
+### 15.2 Modelo de base de datos extendido
 
 El archivo `data.sql` presenta una propuesta mucho más completa y profesional, con tablas para:
 
@@ -392,16 +535,20 @@ El archivo `data.sql` presenta una propuesta mucho más completa y profesional, 
 
 Este modelo extiende enormemente el alcance del proyecto y demuestra una visión de sistema integral, no limitada a una simple demo de interfaz. Desde el punto de vista académico, este archivo es especialmente valioso porque evidencia capacidad de análisis, modelado relacional y proyección a escenarios reales de uso.
 
-### 13.3 Coherencia entre la versión actual y la versión futura
+### 15.3 Coherencia entre la versión actual y la versión futura
 
 Es importante destacar que existe una diferencia natural entre la base SQLite implementada y el esquema SQL completo propuesto. Esto no debe verse como una incoherencia, sino como una evolución normal del proyecto:
 
 - la base SQLite actual sirve como solución funcional mínima,
 - mientras que `data.sql` representa la arquitectura de datos de una futura versión más completa y profesional.
 
+### 15.4 Valor documental del modelo relacional
+
+La presencia de un diagrama entidad-relación en el repositorio refuerza la calidad del trabajo de análisis de datos. Este recurso resulta especialmente útil para la memoria final, ya que permite explicar gráficamente la estructura futura del sistema.
+
 ---
 
-## 14. Navegación, pantallas y funcionalidades desarrolladas
+## 16. Navegación, pantallas y funcionalidades desarrolladas
 
 Los recursos `layout/` muestran que la app cuenta con múltiples vistas diseñadas:
 
@@ -418,59 +565,100 @@ Los recursos `layout/` muestran que la app cuenta con múltiples vistas diseñad
 - `activity_student_list.xml`
 - `item_notification.xml`
 - `item_student.xml`
-- adem��s de dos fragments de ejemplo.
+- además de dos fragments de ejemplo.
 
 A partir de estos nombres y de las clases Java asociadas, puede deducirse una estructura funcional que incluye:
 
-### 14.1 Pantalla de inicio de sesión
+### 16.1 Pantalla de inicio de sesión
 Punto de entrada para autenticar usuarios.
 
-### 14.2 Pantalla de registro
+### 16.2 Pantalla de registro
 Permite crear nuevas cuentas.
 
-### 14.3 Pantalla principal o dashboard
+### 16.3 Pantalla principal o dashboard
 Concentra la navegación inicial a funcionalidades clave.
 
-### 14.4 Pantalla de mapa
+### 16.4 Pantalla de mapa
 Pensada para representar el seguimiento del autobús.
 
-### 14.5 Pantalla de conductor
+### 16.5 Pantalla de conductor
 Orientada a un rol operativo del sistema.
 
-### 14.6 Pantalla de notificaciones
+### 16.6 Pantalla de notificaciones
 Muestra avisos relevantes del servicio.
 
-### 14.7 Pantalla de perfil
+### 16.7 Pantalla de perfil
 Permite visualizar los datos del usuario identificado.
 
-### 14.8 Pantalla de lista de estudiantes
+### 16.8 Pantalla de lista de estudiantes
 Organiza la información del alumnado vinculado al servicio.
 
 La aplicación aún no parece integrar todas las funcionalidades avanzadas previstas, pero la estructura ya define una base sólida sobre la que continuar el desarrollo.
 
 ---
 
-## 15. Prototipo web de apoyo y validación visual
+## 17. Pruebas realizadas y validación
 
-El prototipo contenido en `wireframe/` merece una mención específica por su calidad y nivel de detalle. A diferencia de un simple boceto estático, se trata de un entorno navegable con comportamiento dinámico.
+Aunque el repositorio no incluye un plan de testing automatizado completo, sí permite identificar una validación funcional básica del sistema a través del desarrollo implementado y del wireframe interactivo.
 
-### Elementos destacables del prototipo
+### 17.1 Validaciones funcionales observables
 
-- Lista de autobuses con estado: en ruta, parada e inactivo.
-- Tiempos estimados de llegada.
-- Vista detallada de ruta sobre un mapa simulado.
-- Paradas representadas sobre el recorrido.
-- Información contextual como velocidad, próxima parada, pasajeros y ETA.
-- Panel de notificaciones con estados de lectura.
-- Buscador y filtros por estado y criterio de ordenación.
-- Navegación inferior entre inicio, mapa y favoritos.
-- Simulación de notificaciones en tiempo real.
+- Comprobación de campos obligatorios en login y registro.
+- Validación de longitud mínima de contraseña.
+- Gestión de error en autenticación Firebase.
+- Guardado de sesión local.
+- Recuperación de perfil desde sesión, SQLite o Firebase.
+- Navegación entre distintas pantallas del proyecto.
 
-Desde el punto de vista documental, este wireframe justifica muy bien la propuesta de valor del sistema porque permite visualizar con claridad cómo se relacionan las principales funciones de la aplicación.
+### 17.2 Validación visual
+
+El wireframe ha servido como entorno previo de verificación conceptual para comprobar:
+
+- organización visual de la pantalla principal,
+- representación de estados del autobús,
+- visualización del mapa,
+- uso de filtros,
+- notificaciones simuladas,
+- interacción con elementos de navegación.
+
+### 17.3 Pruebas recomendables para una fase posterior
+
+- pruebas de navegación completas entre actividades,
+- pruebas de persistencia de datos tras cierre de la app,
+- pruebas de autenticación real con Firebase configurado,
+- pruebas de compatibilidad entre distintas versiones de Android,
+- pruebas de rendimiento con mapa y geolocalización,
+- pruebas de usabilidad con usuarios reales.
 
 ---
 
-## 16. Planificación del proyecto
+## 18. Instalación, ejecución y puesta en marcha
+
+Desde el punto de vista académico, es recomendable incluir un apartado mínimo de instalación para facilitar la revisión del proyecto.
+
+### 18.1 Requisitos previos
+
+- Android Studio instalado.
+- SDK de Android configurado.
+- Emulador Android o dispositivo físico.
+- Conexión a Internet para descarga de dependencias y uso de Firebase, si se configura.
+
+### 18.2 Pasos generales de ejecución
+
+1. Clonar o descargar el repositorio.
+2. Abrir la carpeta `schoolbus/` en Android Studio.
+3. Sincronizar dependencias Gradle.
+4. Ejecutar la aplicación en emulador o dispositivo.
+5. Si Firebase está configurado correctamente, utilizar autenticación remota.
+6. Si Firebase no está configurado, utilizar la persistencia local prevista en la app.
+
+### 18.3 Observaciones
+
+La estructura del proyecto permite una ejecución inicial sin necesidad de disponer de toda la arquitectura futura completada, lo cual es una ventaja clara en entorno académico.
+
+---
+
+## 19. Planificación del proyecto
 
 El repositorio incluye tanto una propuesta temporal en `porpuesta-proyecto-final.md` como una imagen de diagrama de Gantt (`Diagrama de Gant.png`). La planificación se organiza en fases lógicas:
 
@@ -485,7 +673,7 @@ Esta organización es adecuada para un proyecto académico porque permite separa
 
 ---
 
-## 17. Análisis de riesgos
+## 20. Análisis de riesgos
 
 El archivo `analisis-riesgos.md` identifica riesgos relevantes y plantea medidas de mitigación. Entre los más importantes destacan:
 
@@ -499,28 +687,34 @@ El archivo `analisis-riesgos.md` identifica riesgos relevantes y plantea medidas
 
 El análisis es acertado porque se centra en riesgos reales del proyecto. Especialmente importante es la decisión de priorizar un MVP funcional, dejando funcionalidades avanzadas como opcionales. Esta estrategia reduce el riesgo de dispersión y favorece una entrega sólida.
 
+Además, el documento no se limita a enumerar riesgos, sino que contempla medidas de mitigación y contingencia, algo que mejora notablemente su valor académico.
+
 ---
 
-## 18. Presupuesto y recursos
+## 21. Presupuesto y recursos
 
 El archivo `presupost.md` recoge una estimación presupuestaria basada en recursos materiales, software y recursos humanos.
 
-### Resumen del presupuesto
+### 21.1 Resumen del presupuesto
 
 - Recursos materiales: 0 €
 - Recursos software y tecnológicos: 0 €
 - Recursos humanos: 100 €
 - **Total estimado: 100 €**
 
+### 21.2 Interpretación del presupuesto
+
 Aunque se trata de un proyecto académico y muchos recursos ya estaban disponibles, esta estimación es útil para reflejar que incluso un proyecto desarrollado en entorno educativo implica dedicación, esfuerzo técnico y recursos humanos.
+
+También pone de manifiesto que se trata de una propuesta viable desde el punto de vista económico, especialmente en una fase inicial o de prototipado.
 
 ---
 
-## 19. Estado actual del proyecto
+## 22. Estado actual del proyecto
 
 Tras revisar el repositorio, puede concluirse que el proyecto presenta un estado de avance significativo en varias dimensiones:
 
-### Ya realizado
+### 22.1 Ya realizado
 
 - Definición de la idea del proyecto.
 - Justificación, objetivos y alcance documentados.
@@ -535,7 +729,7 @@ Tras revisar el repositorio, puede concluirse que el proyecto presenta un estado
 - Integración preparada con Firebase.
 - Estructura de entidades y listas adaptadas a futuras ampliaciones.
 
-### Parcialmente realizado o preparado
+### 22.2 Parcialmente realizado o preparado
 
 - Gestión avanzada de rutas.
 - Geolocalización completa en tiempo real.
@@ -548,7 +742,7 @@ En conjunto, el repositorio muestra un proyecto bien encaminado, con una base t�
 
 ---
 
-## 20. Limitaciones detectadas
+## 23. Limitaciones detectadas
 
 A pesar del avance realizado, se observan algunas limitaciones razonables dentro del estado actual del proyecto:
 
@@ -562,7 +756,7 @@ Estas limitaciones no invalidan el proyecto; al contrario, son habituales en des
 
 ---
 
-## 21. Propuestas de mejora y trabajo futuro
+## 24. Propuestas de mejora y trabajo futuro
 
 El proyecto tiene un gran potencial de ampliación. Algunas líneas recomendables serían:
 
@@ -577,9 +771,11 @@ El proyecto tiene un gran potencial de ampliación. Algunas líneas recomendable
 9. Añadir estadísticas de puntualidad o uso.
 10. Explorar la funcionalidad futura de reserva de asiento.
 
+Desde el punto de vista de evolución natural del proyecto, estas mejoras podrían organizarse en nuevas fases de desarrollo, priorizando primero aquellas que aporten valor directo al usuario final, como la geolocalización real o las notificaciones automáticas.
+
 ---
 
-## 22. Conclusiones
+## 25. Conclusiones
 
 El proyecto **School Bus App** constituye una propuesta sólida, realista y bien fundamentada para digitalizar parte de la gestión del transporte escolar. A nivel académico, destaca por combinar análisis, planificación, diseño visual, modelado de datos e implementación práctica en Android.
 
@@ -599,11 +795,11 @@ En conclusión, puede afirmarse que el trabajo realizado hasta el momento sienta
 
 ---
 
-## 23. Anexos visuales
+## 26. Anexos visuales
 
-A continuación se indican los recursos gráficos más relevantes que deben integrarse en la versión exportable a PDF para reforzar la presentación del proyecto:
+A continuación se indican los recursos gráficos más relevantes que deben integrarse en la versión exportable a PDF para reforzar la presentación del proyecto.
 
-### Mockups principales
+### 26.1 Mockups principales
 
 ![Mockup 1](mokup/schoolbus_mokup_1.jpeg)
 
@@ -633,7 +829,7 @@ A continuación se indican los recursos gráficos más relevantes que deben inte
 
 *Figura 7. Último mockup del conjunto visual incluido en el repositorio.*
 
-### Diagramas del proyecto
+### 26.2 Diagramas del proyecto
 
 ![Diagrama de Gantt](Diagrama%20de%20Gant.png)
 
