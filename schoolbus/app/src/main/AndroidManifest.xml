@@ -14,6 +14,7 @@
         android:theme="@style/Theme.Schoolbus">
 
         <activity android:name=".activities.BusMap"/>
+    <activity android:name=".activities.MapaConductorActivity"/>
         <activity android:name=".activities.DashboardActivity"/>
         <activity android:name=".activities.Login"/>
         <activity android:name=".activities.Register"/>
