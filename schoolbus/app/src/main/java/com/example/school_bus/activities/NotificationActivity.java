@@ -1,6 +1,5 @@
 package com.example.school_bus.activities;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,18 +7,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.school_bus.R;
 import com.example.school_bus.adapters.NotificationAdapter;
-import com.example.school_bus.database.DBHelper;
+import com.example.school_bus.database.FirebaseHelper;
 import com.example.school_bus.models.Notification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class NotificationActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     NotificationAdapter adapter;
     List<Notification> notifications;
-    DBHelper dbHelper;
+    FirebaseHelper firebaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,28 +29,36 @@ public class NotificationActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerNotifications);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        dbHelper = new DBHelper(this);
+        firebaseHelper = new FirebaseHelper();
         notifications = new ArrayList<>();
-
-        loadNotifications(); // <-- convertimos Cursor a List
 
         adapter = new NotificationAdapter(notifications);
         recyclerView.setAdapter(adapter);
+
+        loadNotifications();
     }
 
     private void loadNotifications() {
-        Cursor cursor = dbHelper.getAllNotifications();
+        firebaseHelper.getAllNotifications(new FirebaseHelper.OnListListener() {
+            @Override
+            public void onSuccess(List<Map<String, Object>> list) {
+                notifications.clear();
+                for (Map<String, Object> data : list) {
+                    Notification n = new Notification(
+                            (String) data.get("title"),
+                            (String) data.get("message"),
+                            (String) data.get("date")
+                    );
+                    n.setId((String) data.get("id"));
+                    notifications.add(n);
+                }
+                adapter.notifyDataSetChanged();
+            }
 
-        while (cursor.moveToNext()) {
-            // id = columna 0, title = columna 1, message = columna 2
-            notifications.add(new Notification(
-                    cursor.getInt(0),      // id
-                    cursor.getString(1),   // title
-                    cursor.getString(2),   // message
-                    ""                      // date vacío por ahora
-            ));
-        }
-
-        cursor.close();
+            @Override
+            public void onFailure(String error) {
+                // mostrar error si es necesario
+            }
+        });
     }
 }

@@ -6,17 +6,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.school_bus.R;
-import com.example.school_bus.database.DBHelper;
-import com.example.school_bus.firebase.FirebaseUserRepository;
-import com.example.school_bus.models.User;
-import com.example.school_bus.session.SessionManager;
+import com.example.school_bus.database.FirebaseHelper;
 
 public class Register extends AppCompatActivity {
 
     EditText etName, etSurname, etEmail, etPassword;
     Button btnRegister;
-    DBHelper dbHelper;
-    FirebaseUserRepository firebaseUserRepository;
+    FirebaseHelper firebaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +24,7 @@ public class Register extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnRegister = findViewById(R.id.btnRegister);
-
-        dbHelper = new DBHelper(this);
-        if (FirebaseUserRepository.isAvailable(this)) {
-            firebaseUserRepository = new FirebaseUserRepository(this);
-        }
+        firebaseHelper = new FirebaseHelper();
 
         btnRegister.setOnClickListener(v -> registerUser());
     }
@@ -43,54 +35,23 @@ public class Register extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        if(name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty()){
+        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (password.length() < 6) {
-            Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        setLoading(true);
-
-        if (firebaseUserRepository != null) {
-            registerWithFirebase(name, surname, email, password);
-            return;
-        }
-
-        long id = dbHelper.insertUser(name, surname, email, password, "estudiante");
-        setLoading(false);
-        if(id > 0){
-            Toast.makeText(this, "Firebase no configurado; usuario guardado localmente", Toast.LENGTH_SHORT).show();
-            finish(); // vuelve al login
-        } else {
-            Toast.makeText(this, "Error al registrar usuario", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void registerWithFirebase(String name, String surname, String email, String password) {
-        firebaseUserRepository.registerUser(name, surname, email, password, "estudiante",
-                new FirebaseUserRepository.UserCallback() {
+        firebaseHelper.insertUser(name, surname, email, password, "estudiante",
+                new FirebaseHelper.OnCompleteListener() {
                     @Override
-                    public void onSuccess(User user) {
-                        firebaseUserRepository.signOut();
-                        SessionManager.clear(Register.this);
-                        setLoading(false);
-                        Toast.makeText(Register.this, "Usuario registrado en Firebase", Toast.LENGTH_SHORT).show();
-                        finish();
+                    public void onSuccess(String uid) {
+                        Toast.makeText(Register.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+                        finish();                          // vuelve al login
                     }
 
                     @Override
-                    public void onError(String message) {
-                        setLoading(false);
-                        Toast.makeText(Register.this, message, Toast.LENGTH_SHORT).show();
+                    public void onFailure(String error) {
+                        Toast.makeText(Register.this, "Error al registrar: " + error, Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void setLoading(boolean isLoading) {
-        btnRegister.setEnabled(!isLoading);
     }
 }

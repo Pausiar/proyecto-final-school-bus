@@ -2,59 +2,52 @@ package com.example.school_bus.models;
 
 public class User {
 
-    private String uid;
-    private String name;
-    private String surname;
+    private String id;
+    private String nombre;
+    private String apellidos;
     private String email;
-    private String role;
+    private String telefono;
+    private String rol;                      // administrador, conductor, padre, estudiante
+    private String fechaRegistro;
+    private boolean activo;
+    private String fotoPerfil;
 
     public User() {}
 
-    public User(String uid, String name, String surname, String email, String role) {
-        this.uid = uid;
-        this.name = name;
-        this.surname = surname;
+    public User(String nombre, String apellidos, String email,
+                String telefono, String rol) {
+        this.nombre = nombre;
+        this.apellidos = apellidos;
         this.email = email;
-        this.role = role;
+        this.telefono = telefono;
+        this.rol = rol;
+        this.activo = true;
     }
 
-    public String getUid() {
-        return uid;
-    }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public String getName() {
-        return name;
-    }
+    public String getApellidos() { return apellidos; }
+    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getSurname() {
-        return surname;
-    }
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
+    public String getRol() { return rol; }
+    public void setRol(String rol) { this.rol = rol; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getFechaRegistro() { return fechaRegistro; }
+    public void setFechaRegistro(String fechaRegistro) { this.fechaRegistro = fechaRegistro; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public boolean isActivo() { return activo; }
+    public void setActivo(boolean activo) { this.activo = activo; }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
+    public String getFotoPerfil() { return fotoPerfil; }
+    public void setFotoPerfil(String fotoPerfil) { this.fotoPerfil = fotoPerfil; }
 }

@@ -1,6 +1,5 @@
 package com.example.school_bus.activities;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,18 +7,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.school_bus.R;
 import com.example.school_bus.adapters.StudentAdapter;
-import com.example.school_bus.database.DBHelper;
+import com.example.school_bus.database.FirebaseHelper;
 import com.example.school_bus.models.Student;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class StudentList extends AppCompatActivity {
 
     RecyclerView recyclerView;
     StudentAdapter adapter;
     List<Student> students;
-    DBHelper dbHelper;
+    FirebaseHelper firebaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +29,36 @@ public class StudentList extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerStudents);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        dbHelper = new DBHelper(this);
+        firebaseHelper = new FirebaseHelper();
         students = new ArrayList<>();
-
-        loadStudents();
 
         adapter = new StudentAdapter(students);
         recyclerView.setAdapter(adapter);
+
+        loadStudents();
     }
 
     private void loadStudents() {
-        Cursor cursor = dbHelper.getAllStudents();
+        firebaseHelper.getAllStudents(new FirebaseHelper.OnListListener() {
+            @Override
+            public void onSuccess(List<Map<String, Object>> list) {
+                students.clear();
+                for (Map<String, Object> data : list) {
+                    Student s = new Student(
+                            (String) data.get("user_id"),
+                            (String) data.get("name"),
+                            null, null, null, null
+                    );
+                    s.setId((String) data.get("id"));
+                    students.add(s);
+                }
+                adapter.notifyDataSetChanged();
+            }
 
-        while (cursor.moveToNext()) {
-            students.add(new Student(
-                    cursor.getInt(0),      // id
-                    cursor.getString(1),   // name
-                    cursor.getString(2)    // stop
-            ));
-        }
-
-        cursor.close();
+            @Override
+            public void onFailure(String error) {
+                // mostrar error si es necesario
+            }
+        });
     }
 }
