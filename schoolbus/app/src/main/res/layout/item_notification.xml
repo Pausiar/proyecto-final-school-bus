@@ -1,19 +1,64 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="12dp"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="#FDF0E8">
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_dialog_info"
+            android:background="#F5C8A8"
+            android:padding="8dp"
+            android:layout_marginEnd="14dp"/>
 
-</LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvNotifTitle"
+                android:text="Título de notificación"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tvNotifMessage"
+                android:text="Mensaje de la notificación"
+                android:textSize="13sp"
+                android:textColor="#666666"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:layout_marginBottom="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tvNotifDate"
+                android:text="Fecha"
+                android:textSize="11sp"
+                android:textColor="#AAAAAA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
