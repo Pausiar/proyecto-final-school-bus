@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="#FDF0E8"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Fila superior: nombre + estado -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvRouteName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ruta 1 - Centro"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvRouteDescription"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción de la ruta"
+                    android:textColor="#888888"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <!-- Badge estado -->
+            <TextView
+                android:id="@+id/tvRouteActive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#4CAF50"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:text="Activa"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Fila info: paradas y horario -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="4dp"
+                android:src="@android:drawable/ic_menu_mylocation" />
+
+            <TextView
+                android:id="@+id/tvRouteStops"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="7 paradas"
+                android:textColor="#666666"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="4dp"
+                android:src="@android:drawable/ic_menu_recent_history" />
+
+            <TextView
+                android:id="@+id/tvRouteTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="07:30 - 08:30"
+                android:textColor="#666666"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <!-- Fila botones editar/eliminar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnEditRoute"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:background="#F5C842"
+                android:padding="6dp"
+                android:src="@android:drawable/ic_menu_edit" />
+
+            <ImageButton
+                android:id="@+id/btnDeleteRoute"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="#FF6B6B"
+                android:padding="6dp"
+                android:src="@android:drawable/ic_menu_delete" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

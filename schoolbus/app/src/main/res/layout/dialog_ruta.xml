@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:text="Nombre de la ruta"
+        android:textSize="12sp"
+        android:textColor="#888888"
+        android:textAllCaps="true"
+        android:layout_marginBottom="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etRouteName"
+        android:hint="Ej: Ruta 1 - Centro"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Descripción"
+        android:textSize="12sp"
+        android:textColor="#888888"
+        android:textAllCaps="true"
+        android:layout_marginBottom="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etRouteDescription"
+        android:hint="Descripción breve de la ruta"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Hora de inicio"
+        android:textSize="12sp"
+        android:textColor="#888888"
+        android:textAllCaps="true"
+        android:layout_marginBottom="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etRouteTimeStart"
+        android:hint="07:30"
+        android:inputType="time"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:layout_marginBottom="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="Hora de fin"
+        android:textSize="12sp"
+        android:textColor="#888888"
+        android:textAllCaps="true"
+        android:layout_marginBottom="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/etRouteTimeEnd"
+        android:hint="08:30"
+        android:inputType="time"
+        android:padding="14dp"
+        android:textSize="15sp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Botones -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:text="Cancelar"
+            android:textColor="#E8721C"
+            android:backgroundTint="#FFFFFF"
+            android:strokeColor="#E8721C"
+            app:strokeWidth="2dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:text="Guardar"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#E8721C"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            style="@style/Widget.MaterialComponents.Button"/>
+
+    </LinearLayout>
+
+</LinearLayout>

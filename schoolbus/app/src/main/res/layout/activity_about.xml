@@ -13,7 +13,7 @@
         android:background="#E8721C"
         app:title="Acerca de"
         app:titleTextColor="#FFFFFF"
-        app:navigationIcon="@drawable/ic_back_white"/>
+        android:layout_marginTop="?attr/actionBarSize"/>
 
     <ScrollView
         android:layout_width="match_parent"

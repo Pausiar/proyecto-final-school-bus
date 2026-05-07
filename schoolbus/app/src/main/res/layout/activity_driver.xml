@@ -13,8 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="#E8721C"
         app:title="Panel del Conductor"
-        app:titleTextColor="#FFFFFF"
-        app:navigationIcon="@drawable/ic_back_white"/>
+        app:titleTextColor="#FFFFFF"/>
 
     <ScrollView
         android:layout_width="match_parent"
