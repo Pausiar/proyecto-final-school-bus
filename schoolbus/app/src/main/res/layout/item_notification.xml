@@ -30,7 +30,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvNotifTitle"
+                android:id="@+id/tvTitle"
                 android:text="Título de notificación"
                 android:textSize="15sp"
                 android:textStyle="bold"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/tvNotifMessage"
+                android:id="@+id/tvMessage"
                 android:text="Mensaje de la notificación"
                 android:textSize="13sp"
                 android:textColor="#666666"

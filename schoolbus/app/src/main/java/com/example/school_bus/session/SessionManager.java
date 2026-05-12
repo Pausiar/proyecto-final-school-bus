@@ -22,11 +22,11 @@ public final class SessionManager {
     public static void saveUser(@NonNull Context context, @NonNull User user) {
         getPreferences(context)
                 .edit()
-                .putString(KEY_UID, safeValue(user.getUid()))
-                .putString(KEY_NAME, safeValue(user.getName()))
-                .putString(KEY_SURNAME, safeValue(user.getSurname()))
+                .putString(KEY_UID, safeValue(user.getId()))
+                .putString(KEY_NAME, safeValue(user.getNombre()))
+                .putString(KEY_SURNAME, safeValue(user.getApellidos()))
                 .putString(KEY_EMAIL, safeValue(user.getEmail()))
-                .putString(KEY_ROLE, safeValue(user.getRole()))
+                .putString(KEY_ROLE, safeValue(user.getRol()))
                 .apply();
     }
 

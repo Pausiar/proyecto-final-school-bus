@@ -118,7 +118,6 @@
         android:layout_height="wrap_content"
         android:background="#FDF0E8"
         app:itemIconTint="#888888"
-        app:itemActiveIndicatorColor="#E8D5C4"
         app:itemTextColor="#888888"
         app:menu="@menu/bottom_nav_menu"/>
 
