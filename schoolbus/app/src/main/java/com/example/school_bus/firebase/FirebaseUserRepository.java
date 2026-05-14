@@ -99,15 +99,15 @@ public class FirebaseUserRepository {
                     User user = snapshot.getValue(User.class);
                     if (user == null) {
                         User fallbackUser = new User();
-                        fallbackUser.setUid(currentUser.getUid());
+                        fallbackUser.setId(currentUser.getUid());
                         fallbackUser.setEmail(currentUser.getEmail());
-                        fallbackUser.setRole("estudiante");
+                        fallbackUser.setRol("estudiante");
                         callback.onSuccess(fallbackUser);
                         return;
                     }
 
-                    if (user.getUid() == null || user.getUid().trim().isEmpty()) {
-                        user.setUid(currentUser.getUid());
+                    if (user.getId() == null || user.getId().trim().isEmpty()) {
+                        user.setId(currentUser.getUid());
                     }
                     if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
                         user.setEmail(currentUser.getEmail());

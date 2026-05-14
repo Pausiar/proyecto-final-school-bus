@@ -1,31 +1,44 @@
 package com.example.school_bus.models;
 
-//para route paradas
-
 public class Route {
 
-    private int id;
-    private int busId;
-    private int stopId;
-    private int orden;
+    private String id;       // Firebase usa String, no int
+    private String nombre;
+    private String descripcion;
+    private String horaInicio;
+    private String horaFin;
+    private int numParadas;
+    private boolean activa;
 
     public Route() {}
 
-    public Route(int busId, int stopId, int orden) {
-        this.busId = busId;
-        this.stopId = stopId;
-        this.orden = orden;
+    public Route(String nombre, String descripcion, String horaInicio, String horaFin) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.horaInicio = horaInicio;
+        this.horaFin = horaFin;
+        this.numParadas = 0;
+        this.activa = false;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public int getBusId() { return busId; }
-    public void setBusId(int busId) { this.busId = busId; }
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
 
-    public int getStopId() { return stopId; }
-    public void setStopId(int stopId) { this.stopId = stopId; }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public int getOrden() { return orden; }
-    public void setOrden(int orden) { this.orden = orden; }
+    public String getHoraInicio() { return horaInicio; }
+    public void setHoraInicio(String horaInicio) { this.horaInicio = horaInicio; }
+
+    public String getHoraFin() { return horaFin; }
+    public void setHoraFin(String horaFin) { this.horaFin = horaFin; }
+
+    public int getNumParadas() { return numParadas; }
+    public void setNumParadas(int numParadas) { this.numParadas = numParadas; }
+
+    public boolean isActiva() { return activa; }
+    public void setActiva(boolean activa) { this.activa = activa; }
 }

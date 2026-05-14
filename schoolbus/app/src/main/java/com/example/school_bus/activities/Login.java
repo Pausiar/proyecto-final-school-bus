@@ -6,8 +6,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.school_bus.MainActivity;
 import com.example.school_bus.R;
 import com.example.school_bus.database.FirebaseHelper;
 
@@ -55,5 +53,4 @@ public class Login extends AppCompatActivity {
             }
         });
     }
-
 }
