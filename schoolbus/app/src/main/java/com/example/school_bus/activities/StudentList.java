@@ -13,6 +13,7 @@ import com.example.school_bus.models.Student;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import android.widget.Toast;
 
 public class StudentList extends AppCompatActivity {
 
@@ -46,7 +47,7 @@ public class StudentList extends AppCompatActivity {
                 for (Map<String, Object> data : list) {
                     Student s = new Student(
                             (String) data.get("user_id"),
-                            (String) data.get("name"),
+                            (String) data.get("nombre"),
                             null, null, null, null
                     );
                     s.setId((String) data.get("id"));
@@ -57,8 +58,9 @@ public class StudentList extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                // mostrar error si es necesario
+                Toast.makeText(StudentList.this, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 }
