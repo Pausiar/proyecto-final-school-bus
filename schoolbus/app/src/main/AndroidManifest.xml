@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name=".SchoolBusApplication"
@@ -28,6 +29,8 @@
         <activity android:name=".activities.BusMap"/>
         <activity android:name=".activities.MapaConductorActivity"/>
         <activity android:name=".activities.GestionarParadasActivity"/>
+        <activity android:name=".activities.GenerarCodigoActivity"/>
+        <activity android:name=".activities.UsarCodigoActivity"/>
         <activity android:name=".activities.DashboardActivity"/>
         <activity android:name=".activities.Login"/>
         <activity android:name=".activities.Register"/>
@@ -36,6 +39,13 @@
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location" />
+        <service
+            android:name=".services.SchoolBusMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".MainActivity"
