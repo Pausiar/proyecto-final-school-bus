@@ -23,10 +23,10 @@ public final class SessionManager {
         getPreferences(context)
                 .edit()
                 .putString(KEY_UID, safeValue(user.getId()))
-                .putString(KEY_NAME, safeValue(user.getNombre()))
-                .putString(KEY_SURNAME, safeValue(user.getApellidos()))
+                .putString(KEY_NAME, safeValue(user.getName()))
+                .putString(KEY_SURNAME, safeValue(user.getSurname()))
                 .putString(KEY_EMAIL, safeValue(user.getEmail()))
-                .putString(KEY_ROLE, safeValue(user.getRol()))
+                .putString(KEY_ROLE, safeValue(user.getRole()))
                 .apply();
     }
 

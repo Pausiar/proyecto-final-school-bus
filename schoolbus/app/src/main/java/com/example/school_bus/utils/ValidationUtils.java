@@ -8,50 +8,50 @@ public class ValidationUtils {
 
     private ValidationUtils() {}
 
-    /** Comprueba si un campo de texto está vacío */
-    public static boolean esCampoVacio(String texto) {
-        return texto == null || texto.trim().isEmpty();
+    /** Comprueba si un campo de texto está vacío. */
+    public static boolean isFieldEmpty(String text) {
+        return text == null || text.trim().isEmpty();
     }
 
-    /** Comprueba si el email tiene formato válido */
-    public static boolean esEmailValido(String email) {
-        if (esCampoVacio(email)) return false;
+    /** Comprueba si el email tiene formato válido. */
+    public static boolean isValidEmail(String email) {
+        if (isFieldEmpty(email)) return false;
         return Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches();
     }
 
-    /** Comprueba si la contraseña tiene al menos 6 caracteres */
-    public static boolean esPasswordValida(String password) {
-        if (esCampoVacio(password)) return false;
+    /** Comprueba si la contraseña tiene al menos 6 caracteres. */
+    public static boolean isValidPassword(String password) {
+        if (isFieldEmpty(password)) return false;
         return password.length() >= PASSWORD_MIN_LENGTH;
     }
 
-    /** Comprueba si el nombre tiene al menos 2 caracteres */
-    public static boolean esNombreValido(String nombre) {
-        if (esCampoVacio(nombre)) return false;
-        return nombre.trim().length() >= 2;
+    /** Comprueba si el nombre tiene al menos 2 caracteres. */
+    public static boolean isValidName(String name) {
+        if (isFieldEmpty(name)) return false;
+        return name.trim().length() >= 2;
     }
 
-    /** Comprueba si el teléfono tiene formato válido (9 dígitos) */
-    public static boolean esTelefonoValido(String telefono) {
-        if (esCampoVacio(telefono)) return false;
-        return telefono.trim().matches("^[0-9]{9}$");
+    /** Comprueba si el teléfono tiene formato válido (9 dígitos). */
+    public static boolean isValidPhone(String phone) {
+        if (isFieldEmpty(phone)) return false;
+        return phone.trim().matches("^[0-9]{9}$");
     }
 
-    /** Valida todos los campos del formulario de registro */
-    public static String validarRegistro(String nombre, String apellidos,
-                                         String email, String password) {
-        if (esCampoVacio(nombre))         return "El nombre es obligatorio";
-        if (!esNombreValido(nombre))      return "El nombre debe tener al menos 2 caracteres";
-        if (esCampoVacio(apellidos))      return "Los apellidos son obligatorios";
-        if (!esEmailValido(email))        return "El email no es válido";
-        if (!esPasswordValida(password))  return "La contraseña debe tener al menos 6 caracteres";
-        return null; // null significa que todo está correcto
+    /** Valida todos los campos del formulario de registro. */
+    public static String validateRegistration(String name, String surname,
+                                              String email, String password) {
+        if (isFieldEmpty(name))         return "Name is required";
+        if (!isValidName(name))         return "Name must be at least 2 characters";
+        if (isFieldEmpty(surname))      return "Surname is required";
+        if (!isValidEmail(email))       return "Invalid email address";
+        if (!isValidPassword(password)) return "Password must be at least 6 characters";
+        return null;
     }
 
-    /** Valida los campos del formulario de login */
-    public static String validarLogin(String email, String password) {
-        if (!esEmailValido(email))       return "El email no es válido";
-        if (esCampoVacio(password))      return "La contraseña es obligatoria";
+    /** Valida los campos del formulario de login. */
+    public static String validateLogin(String email, String password) {
+        if (!isValidEmail(email))   return "Invalid email address";
+        if (isFieldEmpty(password)) return "Password is required";
         return null;
     }
 }

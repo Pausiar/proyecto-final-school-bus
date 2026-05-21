@@ -9,8 +9,8 @@ public class NetworkUtils {
 
     private NetworkUtils() {}
 
-    /** Devuelve true si hay conexión a internet activa */
-    public static boolean hayConexion(Context context) {
+    /** Devuelve true si hay conexión a internet activa. */
+    public static boolean hasConnection(Context context) {
         ConnectivityManager cm = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -31,8 +31,8 @@ public class NetworkUtils {
         }
     }
 
-    /** Devuelve true si la conexión es WiFi */
-    public static boolean esWifi(Context context) {
+    /** Devuelve true si la conexión es WiFi. */
+    public static boolean isWifi(Context context) {
         ConnectivityManager cm = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
 

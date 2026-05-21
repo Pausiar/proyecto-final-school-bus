@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
-        Button btnLogin = findViewById(R.id.btnLogin);
+        Button btnLogin    = findViewById(R.id.btnLogin);
         Button btnRegister = findViewById(R.id.btnRegister);
 
         btnLogin.setOnClickListener(v ->
@@ -51,11 +51,10 @@ public class MainActivity extends AppCompatActivity {
     private Class<?> resolveHomeClass(String role) {
         String safeRole = role == null ? "" : role.trim().toLowerCase();
         switch (safeRole) {
-            case "conductor":
+            case "driver":
                 return MapaConductorActivity.class;
-            case "estudiante":
-            case "padre":
-            case "tutor":
+            case "student":
+            case "parent":
             default:
                 return DashboardActivity.class;
         }

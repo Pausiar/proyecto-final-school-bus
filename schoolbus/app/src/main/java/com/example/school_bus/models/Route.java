@@ -2,43 +2,43 @@ package com.example.school_bus.models;
 
 public class Route {
 
-    private String id;       // Firebase usa String, no int
-    private String nombre;
-    private String descripcion;
-    private String horaInicio;
-    private String horaFin;
-    private int numParadas;
-    private boolean activa;
+    private String id;
+    private String name;
+    private String description;
+    private String startTime;
+    private String endTime;
+    private int stopCount;
+    private boolean active;
 
     public Route() {}
 
-    public Route(String nombre, String descripcion, String horaInicio, String horaFin) {
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.horaInicio = horaInicio;
-        this.horaFin = horaFin;
-        this.numParadas = 0;
-        this.activa = false;
+    public Route(String name, String description, String startTime, String endTime) {
+        this.name = name;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.stopCount = 0;
+        this.active = false;
     }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getHoraInicio() { return horaInicio; }
-    public void setHoraInicio(String horaInicio) { this.horaInicio = horaInicio; }
+    public String getStartTime() { return startTime; }
+    public void setStartTime(String startTime) { this.startTime = startTime; }
 
-    public String getHoraFin() { return horaFin; }
-    public void setHoraFin(String horaFin) { this.horaFin = horaFin; }
+    public String getEndTime() { return endTime; }
+    public void setEndTime(String endTime) { this.endTime = endTime; }
 
-    public int getNumParadas() { return numParadas; }
-    public void setNumParadas(int numParadas) { this.numParadas = numParadas; }
+    public int getStopCount() { return stopCount; }
+    public void setStopCount(int stopCount) { this.stopCount = stopCount; }
 
-    public boolean isActiva() { return activa; }
-    public void setActiva(boolean activa) { this.activa = activa; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

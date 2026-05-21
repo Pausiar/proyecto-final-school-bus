@@ -3,51 +3,51 @@ package com.example.school_bus.models;
 public class Student {
 
     private String id;
-    private String idUsuario;
-    private String nombre;
-    private String grado;
-    private String seccion;
-    private String direccionRecogida;
-    private String direccionEntrega;
-    private String horarioRecogida;
-    private String notasEspeciales;
+    private String userId;
+    private String name;
+    private String grade;
+    private String section;
+    private String pickupAddress;
+    private String dropoffAddress;
+    private String pickupSchedule;
+    private String specialNotes;
 
     public Student() {}
 
-    public Student(String idUsuario, String nombre, String grado,
-                   String seccion, String direccionRecogida, String direccionEntrega) {
-        this.idUsuario = idUsuario;
-        this.nombre = nombre;
-        this.grado = grado;
-        this.seccion = seccion;
-        this.direccionRecogida = direccionRecogida;
-        this.direccionEntrega = direccionEntrega;
+    public Student(String userId, String name, String grade,
+                   String section, String pickupAddress, String dropoffAddress) {
+        this.userId = userId;
+        this.name = name;
+        this.grade = grade;
+        this.section = section;
+        this.pickupAddress = pickupAddress;
+        this.dropoffAddress = dropoffAddress;
     }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(String idUsuario) { this.idUsuario = idUsuario; }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getGrado() { return grado; }
-    public void setGrado(String grado) { this.grado = grado; }
+    public String getGrade() { return grade; }
+    public void setGrade(String grade) { this.grade = grade; }
 
-    public String getSeccion() { return seccion; }
-    public void setSeccion(String seccion) { this.seccion = seccion; }
+    public String getSection() { return section; }
+    public void setSection(String section) { this.section = section; }
 
-    public String getDireccionRecogida() { return direccionRecogida; }
-    public void setDireccionRecogida(String direccionRecogida) { this.direccionRecogida = direccionRecogida; }
+    public String getPickupAddress() { return pickupAddress; }
+    public void setPickupAddress(String pickupAddress) { this.pickupAddress = pickupAddress; }
 
-    public String getDireccionEntrega() { return direccionEntrega; }
-    public void setDireccionEntrega(String direccionEntrega) { this.direccionEntrega = direccionEntrega; }
+    public String getDropoffAddress() { return dropoffAddress; }
+    public void setDropoffAddress(String dropoffAddress) { this.dropoffAddress = dropoffAddress; }
 
-    public String getHorarioRecogida() { return horarioRecogida; }
-    public void setHorarioRecogida(String horarioRecogida) { this.horarioRecogida = horarioRecogida; }
+    public String getPickupSchedule() { return pickupSchedule; }
+    public void setPickupSchedule(String pickupSchedule) { this.pickupSchedule = pickupSchedule; }
 
-    public String getNotasEspeciales() { return notasEspeciales; }
-    public void setNotasEspeciales(String notasEspeciales) { this.notasEspeciales = notasEspeciales; }
+    public String getSpecialNotes() { return specialNotes; }
+    public void setSpecialNotes(String specialNotes) { this.specialNotes = specialNotes; }
 }

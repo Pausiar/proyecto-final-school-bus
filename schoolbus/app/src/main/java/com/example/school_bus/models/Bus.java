@@ -3,64 +3,64 @@ package com.example.school_bus.models;
 public class Bus {
 
     private String id;
-    private String numeroBus;
-    private String placa;
-    private String marca;
-    private String modelo;
-    private int anio;
-    private int capacidadPasajeros;
+    private String busNumber;
+    private String licensePlate;
+    private String brand;
+    private String model;
+    private int year;
+    private int passengerCapacity;
     private String color;
-    private String estado; // activo, mantenimiento, fuera_servicio
-    private String ultimaRevision;
-    private String proximaRevision;
-    private String notas;
+    private String status; // active, maintenance, out_of_service
+    private String lastInspection;
+    private String nextInspection;
+    private String notes;
 
     public Bus() {}
 
-    public Bus(String numeroBus, String placa, String marca,
-               String modelo, int anio, int capacidadPasajeros) {
-        this.numeroBus = numeroBus;
-        this.placa = placa;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.anio = anio;
-        this.capacidadPasajeros = capacidadPasajeros;
-        this.estado = "activo";
+    public Bus(String busNumber, String licensePlate, String brand,
+               String model, int year, int passengerCapacity) {
+        this.busNumber = busNumber;
+        this.licensePlate = licensePlate;
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.passengerCapacity = passengerCapacity;
+        this.status = "active";
     }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getNumeroBus() { return numeroBus; }
-    public void setNumeroBus(String numeroBus) { this.numeroBus = numeroBus; }
+    public String getBusNumber() { return busNumber; }
+    public void setBusNumber(String busNumber) { this.busNumber = busNumber; }
 
-    public String getPlaca() { return placa; }
-    public void setPlaca(String placa) { this.placa = placa; }
+    public String getLicensePlate() { return licensePlate; }
+    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
 
-    public String getMarca() { return marca; }
-    public void setMarca(String marca) { this.marca = marca; }
+    public String getBrand() { return brand; }
+    public void setBrand(String brand) { this.brand = brand; }
 
-    public String getModelo() { return modelo; }
-    public void setModelo(String modelo) { this.modelo = modelo; }
+    public String getModel() { return model; }
+    public void setModel(String model) { this.model = model; }
 
-    public int getAnio() { return anio; }
-    public void setAnio(int anio) { this.anio = anio; }
+    public int getYear() { return year; }
+    public void setYear(int year) { this.year = year; }
 
-    public int getCapacidadPasajeros() { return capacidadPasajeros; }
-    public void setCapacidadPasajeros(int capacidadPasajeros) { this.capacidadPasajeros = capacidadPasajeros; }
+    public int getPassengerCapacity() { return passengerCapacity; }
+    public void setPassengerCapacity(int passengerCapacity) { this.passengerCapacity = passengerCapacity; }
 
     public String getColor() { return color; }
     public void setColor(String color) { this.color = color; }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getUltimaRevision() { return ultimaRevision; }
-    public void setUltimaRevision(String ultimaRevision) { this.ultimaRevision = ultimaRevision; }
+    public String getLastInspection() { return lastInspection; }
+    public void setLastInspection(String lastInspection) { this.lastInspection = lastInspection; }
 
-    public String getProximaRevision() { return proximaRevision; }
-    public void setProximaRevision(String proximaRevision) { this.proximaRevision = proximaRevision; }
+    public String getNextInspection() { return nextInspection; }
+    public void setNextInspection(String nextInspection) { this.nextInspection = nextInspection; }
 
-    public String getNotas() { return notas; }
-    public void setNotas(String notas) { this.notas = notas; }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 }

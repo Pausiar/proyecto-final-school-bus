@@ -3,50 +3,50 @@ package com.example.school_bus.models;
 public class Trip {
 
     private String id;
-    private String idRuta;
-    private String idConductor;
-    private String idVehiculo;
-    private String fechaViaje;
-    private String horaInicioReal;
-    private String horaFinReal;
-    private String estado; // programado, en_curso, completado, cancelado
-    private String observaciones;
+    private String routeId;
+    private String driverId;
+    private String vehicleId;
+    private String tripDate;
+    private String actualStartTime;
+    private String actualEndTime;
+    private String status; // scheduled, in_progress, completed, cancelled
+    private String notes;
 
     public Trip() {}
 
-    public Trip(String idRuta, String idConductor, String idVehiculo,
-                String fechaViaje, String estado) {
-        this.idRuta = idRuta;
-        this.idConductor = idConductor;
-        this.idVehiculo = idVehiculo;
-        this.fechaViaje = fechaViaje;
-        this.estado = estado;
+    public Trip(String routeId, String driverId, String vehicleId,
+                String tripDate, String status) {
+        this.routeId = routeId;
+        this.driverId = driverId;
+        this.vehicleId = vehicleId;
+        this.tripDate = tripDate;
+        this.status = status;
     }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getIdRuta() { return idRuta; }
-    public void setIdRuta(String idRuta) { this.idRuta = idRuta; }
+    public String getRouteId() { return routeId; }
+    public void setRouteId(String routeId) { this.routeId = routeId; }
 
-    public String getIdConductor() { return idConductor; }
-    public void setIdConductor(String idConductor) { this.idConductor = idConductor; }
+    public String getDriverId() { return driverId; }
+    public void setDriverId(String driverId) { this.driverId = driverId; }
 
-    public String getIdVehiculo() { return idVehiculo; }
-    public void setIdVehiculo(String idVehiculo) { this.idVehiculo = idVehiculo; }
+    public String getVehicleId() { return vehicleId; }
+    public void setVehicleId(String vehicleId) { this.vehicleId = vehicleId; }
 
-    public String getFechaViaje() { return fechaViaje; }
-    public void setFechaViaje(String fechaViaje) { this.fechaViaje = fechaViaje; }
+    public String getTripDate() { return tripDate; }
+    public void setTripDate(String tripDate) { this.tripDate = tripDate; }
 
-    public String getHoraInicioReal() { return horaInicioReal; }
-    public void setHoraInicioReal(String horaInicioReal) { this.horaInicioReal = horaInicioReal; }
+    public String getActualStartTime() { return actualStartTime; }
+    public void setActualStartTime(String actualStartTime) { this.actualStartTime = actualStartTime; }
 
-    public String getHoraFinReal() { return horaFinReal; }
-    public void setHoraFinReal(String horaFinReal) { this.horaFinReal = horaFinReal; }
+    public String getActualEndTime() { return actualEndTime; }
+    public void setActualEndTime(String actualEndTime) { this.actualEndTime = actualEndTime; }
 
-    public String getEstado() { return estado; }
-    public void setEstado(String estado) { this.estado = estado; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
-    public String getObservaciones() { return observaciones; }
-    public void setObservaciones(String observaciones) { this.observaciones = observaciones; }
+    public String getNotes() { return notes; }
+    public void setNotes(String notes) { this.notes = notes; }
 }

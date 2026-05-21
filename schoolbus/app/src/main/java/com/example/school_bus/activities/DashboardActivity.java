@@ -27,23 +27,23 @@ public class DashboardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Views
-        tvHello    = findViewById(R.id.tvHello);
-        tvRole     = findViewById(R.id.tvRole);
-        btnMap     = findViewById(R.id.btnMap);
+        tvHello     = findViewById(R.id.tvHello);
+        tvRole      = findViewById(R.id.tvRole);
+        btnMap      = findViewById(R.id.btnMap);
         btnStudents = findViewById(R.id.btnStudents);
 
         // Cargar datos del usuario desde SessionManager
-        cargarDatosUsuario();
+        loadUserData();
 
         // Botón Iniciar ruta → MapaConductorActivity
-        btnMap.setOnClickListener(v -> {
-            startActivity(new Intent(this, MapaConductorActivity.class));
-        });
+        btnMap.setOnClickListener(v ->
+                startActivity(new Intent(this, MapaConductorActivity.class))
+        );
 
         // Botón Ver estudiantes → StudentList
-        btnStudents.setOnClickListener(v -> {
-            startActivity(new Intent(this, StudentList.class));
-        });
+        btnStudents.setOnClickListener(v ->
+                startActivity(new Intent(this, StudentList.class))
+        );
 
         // Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
@@ -66,11 +66,11 @@ public class DashboardActivity extends AppCompatActivity {
         });
     }
 
-    private void cargarDatosUsuario() {
-        String nombre = SessionManager.getDisplayName(this);
-        String rol    = SessionManager.getRole(this);
+    private void loadUserData() {
+        String name = SessionManager.getDisplayName(this);
+        String role = SessionManager.getRole(this);
 
-        tvHello.setText("Hola, " + (nombre.isEmpty() ? "Usuario" : nombre));
-        tvRole.setText(rol.isEmpty() ? "USUARIO" : rol.toUpperCase());
+        tvHello.setText("Hola, " + (name.isEmpty() ? "Usuario" : name));
+        tvRole.setText(role.isEmpty() ? "USUARIO" : role.toUpperCase());
     }
 }

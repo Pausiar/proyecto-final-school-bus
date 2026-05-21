@@ -12,10 +12,10 @@ import com.example.school_bus.R;
 
 public class Settings extends AppCompatActivity {
 
-    private static final String PREFS_NAME = "settings";
+    private static final String PREFS_NAME       = "settings";
     private static final String KEY_NOTIFICATIONS = "notifications_enabled";
-    private static final String KEY_INTERVAL = "location_interval";
-    private static final String KEY_RADIUS = "notification_radius";
+    private static final String KEY_INTERVAL      = "location_interval";
+    private static final String KEY_RADIUS        = "notification_radius";
 
     private Switch switchNotifications;
     private SeekBar seekInterval, seekRadius;
@@ -36,34 +36,30 @@ public class Settings extends AppCompatActivity {
 
         // Views
         switchNotifications = findViewById(R.id.switchNotifications);
-        seekInterval = findViewById(R.id.seekInterval);
-        seekRadius = findViewById(R.id.seekRadius);
-        tvIntervalValue = findViewById(R.id.tvIntervalValue);
-        tvRadiusValue = findViewById(R.id.tvRadiusValue);
+        seekInterval        = findViewById(R.id.seekInterval);
+        seekRadius          = findViewById(R.id.seekRadius);
+        tvIntervalValue     = findViewById(R.id.tvIntervalValue);
+        tvRadiusValue       = findViewById(R.id.tvRadiusValue);
 
         // Cargar preferencias guardadas
-        cargarPreferencias();
+        loadPreferences();
 
         // Switch notificaciones
-        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            guardarBoolean(KEY_NOTIFICATIONS, isChecked);
-        });
+        switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) ->
+                saveBoolean(KEY_NOTIFICATIONS, isChecked)
+        );
 
         // SeekBar intervalo de ubicación
         seekInterval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int valor = Math.max(10, progress); // mínimo 10 segundos
-                tvIntervalValue.setText(valor + " segundos");
+                int value = Math.max(10, progress); // mínimo 10 segundos
+                tvIntervalValue.setText(value + " segundos");
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                guardarInt(KEY_INTERVAL, seekBar.getProgress());
+                saveInt(KEY_INTERVAL, seekBar.getProgress());
             }
         });
 
@@ -71,40 +67,36 @@ public class Settings extends AppCompatActivity {
         seekRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int valor = Math.max(100, progress); // mínimo 100 metros
-                tvRadiusValue.setText(valor + " metros");
+                int value = Math.max(100, progress); // mínimo 100 metros
+                tvRadiusValue.setText(value + " metros");
             }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                guardarInt(KEY_RADIUS, seekBar.getProgress());
+                saveInt(KEY_RADIUS, seekBar.getProgress());
             }
         });
     }
 
-    private void cargarPreferencias() {
-        boolean notif = getPrefs().getBoolean(KEY_NOTIFICATIONS, true);
-        int intervalo = getPrefs().getInt(KEY_INTERVAL, 40);
-        int radio = getPrefs().getInt(KEY_RADIUS, 650);
+    private void loadPreferences() {
+        boolean notifications = getPrefs().getBoolean(KEY_NOTIFICATIONS, true);
+        int interval          = getPrefs().getInt(KEY_INTERVAL, 40);
+        int radius            = getPrefs().getInt(KEY_RADIUS, 650);
 
-        switchNotifications.setChecked(notif);
+        switchNotifications.setChecked(notifications);
 
-        seekInterval.setProgress(intervalo);
-        tvIntervalValue.setText(intervalo + " segundos");
+        seekInterval.setProgress(interval);
+        tvIntervalValue.setText(interval + " segundos");
 
-        seekRadius.setProgress(radio);
-        tvRadiusValue.setText(radio + " metros");
+        seekRadius.setProgress(radius);
+        tvRadiusValue.setText(radius + " metros");
     }
 
-    private void guardarBoolean(String key, boolean value) {
+    private void saveBoolean(String key, boolean value) {
         getPrefs().edit().putBoolean(key, value).apply();
     }
 
-    private void guardarInt(String key, int value) {
+    private void saveInt(String key, int value) {
         getPrefs().edit().putInt(key, value).apply();
     }
 

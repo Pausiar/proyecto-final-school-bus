@@ -3,42 +3,42 @@ package com.example.school_bus.models;
 public class TripEvent {
 
     private String id;
-    private String idViaje;
-    private String tipoEvento; // inicio, parada, incidente, fin
-    private String fechaHora;
-    private double latitud;
-    private double longitud;
-    private String descripcion;
+    private String tripId;
+    private String eventType; // start, stop, incident, end
+    private String dateTime;
+    private double latitude;
+    private double longitude;
+    private String description;
 
     public TripEvent() {}
 
-    public TripEvent(String idViaje, String tipoEvento,
-                     String fechaHora, double latitud, double longitud) {
-        this.idViaje = idViaje;
-        this.tipoEvento = tipoEvento;
-        this.fechaHora = fechaHora;
-        this.latitud = latitud;
-        this.longitud = longitud;
+    public TripEvent(String tripId, String eventType,
+                     String dateTime, double latitude, double longitude) {
+        this.tripId = tripId;
+        this.eventType = eventType;
+        this.dateTime = dateTime;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getIdViaje() { return idViaje; }
-    public void setIdViaje(String idViaje) { this.idViaje = idViaje; }
+    public String getTripId() { return tripId; }
+    public void setTripId(String tripId) { this.tripId = tripId; }
 
-    public String getTipoEvento() { return tipoEvento; }
-    public void setTipoEvento(String tipoEvento) { this.tipoEvento = tipoEvento; }
+    public String getEventType() { return eventType; }
+    public void setEventType(String eventType) { this.eventType = eventType; }
 
-    public String getFechaHora() { return fechaHora; }
-    public void setFechaHora(String fechaHora) { this.fechaHora = fechaHora; }
+    public String getDateTime() { return dateTime; }
+    public void setDateTime(String dateTime) { this.dateTime = dateTime; }
 
-    public double getLatitud() { return latitud; }
-    public void setLatitud(double latitud) { this.latitud = latitud; }
+    public double getLatitude() { return latitude; }
+    public void setLatitude(double latitude) { this.latitude = latitude; }
 
-    public double getLongitud() { return longitud; }
-    public void setLongitud(double longitud) { this.longitud = longitud; }
+    public double getLongitude() { return longitude; }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
 
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 }

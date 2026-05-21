@@ -101,7 +101,7 @@ public class FirebaseUserRepository {
                         User fallbackUser = new User();
                         fallbackUser.setId(currentUser.getUid());
                         fallbackUser.setEmail(currentUser.getEmail());
-                        fallbackUser.setRol("estudiante");
+                        fallbackUser.setRole("estudiante");
                         callback.onSuccess(fallbackUser);
                         return;
                     }
