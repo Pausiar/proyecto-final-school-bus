@@ -30,19 +30,19 @@ public class MapaConductorActivity extends AppCompatActivity {
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setMultiTouchControls(true);
 
-        GeoPoint salida = new GeoPoint(40.4168, -3.7038);
-        GeoPoint parada = new GeoPoint(40.4194, -3.7001);
-        GeoPoint escuela = new GeoPoint(40.4217, -3.6970);
+        GeoPoint start  = new GeoPoint(40.4168, -3.7038);
+        GeoPoint stop   = new GeoPoint(40.4194, -3.7001);
+        GeoPoint school = new GeoPoint(40.4217, -3.6970);
 
         mapView.getController().setZoom(14.5);
-        mapView.getController().setCenter(parada);
+        mapView.getController().setCenter(stop);
 
-        addMarker(salida, "inicio ruta");
-        addMarker(parada, "parada activa");
-        addMarker(escuela, "escuela");
+        addMarker(start,  "inicio ruta");
+        addMarker(stop,   "parada activa");
+        addMarker(school, "escuela");
 
         Polyline route = new Polyline();
-        route.setPoints(Arrays.asList(salida, parada, escuela));
+        route.setPoints(Arrays.asList(start, stop, school));
         mapView.getOverlays().add(route);
     }
 

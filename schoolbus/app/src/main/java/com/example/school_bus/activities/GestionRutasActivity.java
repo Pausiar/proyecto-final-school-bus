@@ -40,7 +40,6 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gestion_rutas);
 
-        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -48,29 +47,23 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        // Firebase
         db = FirebaseFirestore.getInstance();
 
-        // Views
         recyclerRoutes = findViewById(R.id.recyclerRoutes);
         layoutEmpty    = findViewById(R.id.layoutEmpty);
         FloatingActionButton fabAdd = findViewById(R.id.fabAddRoute);
 
-        // RecyclerView
         routes = new ArrayList<>();
         adapter = new RouteAdapter(routes, this);
         recyclerRoutes.setLayoutManager(new LinearLayoutManager(this));
         recyclerRoutes.setAdapter(adapter);
 
-        // FAB añadir
-        fabAdd.setOnClickListener(v -> mostrarDialogo(null));
+        fabAdd.setOnClickListener(v -> showDialog(null));
 
-        // Cargar rutas
-        cargarRutas();
+        loadRoutes();
     }
 
-    // ─── CARGAR rutas desde Firestore ────────────────────────────────────────
-    private void cargarRutas() {
+    private void loadRoutes() {
         db.collection(COL_ROUTES)
                 .get()
                 .addOnSuccessListener(query -> {
@@ -78,67 +71,64 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
                     for (QueryDocumentSnapshot doc : query) {
                         Route r = new Route();
                         r.setId(doc.getId());
-                        r.setNombre(doc.getString("nombre"));
-                        r.setDescripcion(doc.getString("descripcion"));
-                        r.setHoraInicio(doc.getString("horaInicio"));
-                        r.setHoraFin(doc.getString("horaFin"));
-                        Long paradas = doc.getLong("numParadas");
-                        r.setNumParadas(paradas != null ? paradas.intValue() : 0);
-                        Boolean activa = doc.getBoolean("activa");
-                        r.setActiva(activa != null && activa);
+                        r.setName(doc.getString("name"));
+                        r.setDescription(doc.getString("description"));
+                        r.setStartTime(doc.getString("startTime"));
+                        r.setEndTime(doc.getString("endTime"));
+                        Long stops = doc.getLong("stopCount");
+                        r.setStopCount(stops != null ? stops.intValue() : 0);
+                        Boolean active = doc.getBoolean("active");
+                        r.setActive(active != null && active);
                         routes.add(r);
                     }
                     adapter.updateList(routes);
-                    mostrarEstado();
+                    showEmptyState();
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error al cargar rutas: " + e.getMessage(),
+                        Toast.makeText(this, "Error loading routes: " + e.getMessage(),
                                 Toast.LENGTH_SHORT).show()
                 );
     }
 
-    // ─── DIÁLOGO crear / editar ───────────────────────────────────────────────
-    private void mostrarDialogo(Route routeEditar) {
+    private void showDialog(Route routeToEdit) {
         View dialogView = LayoutInflater.from(this)
                 .inflate(R.layout.dialog_ruta, null);
 
-        EditText etNombre      = dialogView.findViewById(R.id.etRouteName);
-        EditText etDescripcion = dialogView.findViewById(R.id.etRouteDescription);
-        EditText etHoraInicio  = dialogView.findViewById(R.id.etRouteTimeStart);
-        EditText etHoraFin     = dialogView.findViewById(R.id.etRouteTimeEnd);
+        EditText etName        = dialogView.findViewById(R.id.etRouteName);
+        EditText etDescription = dialogView.findViewById(R.id.etRouteDescription);
+        EditText etStartTime   = dialogView.findViewById(R.id.etRouteTimeStart);
+        EditText etEndTime     = dialogView.findViewById(R.id.etRouteTimeEnd);
 
-        boolean esEdicion = routeEditar != null;
+        boolean isEditing = routeToEdit != null;
 
-        // Si es edición, rellenamos los campos
-        if (esEdicion) {
-            etNombre.setText(routeEditar.getNombre());
-            etDescripcion.setText(routeEditar.getDescripcion());
-            etHoraInicio.setText(routeEditar.getHoraInicio());
-            etHoraFin.setText(routeEditar.getHoraFin());
+        if (isEditing) {
+            etName.setText(routeToEdit.getName());
+            etDescription.setText(routeToEdit.getDescription());
+            etStartTime.setText(routeToEdit.getStartTime());
+            etEndTime.setText(routeToEdit.getEndTime());
         }
 
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(esEdicion ? "Editar ruta" : "Nueva ruta")
+                .setTitle(isEditing ? "Edit route" : "New route")
                 .setView(dialogView)
                 .create();
 
-        // Botones del layout del diálogo
         dialogView.findViewById(R.id.btnCancel).setOnClickListener(v -> dialog.dismiss());
         dialogView.findViewById(R.id.btnSave).setOnClickListener(v -> {
-            String nombre      = etNombre.getText().toString().trim();
-            String descripcion = etDescripcion.getText().toString().trim();
-            String horaInicio  = etHoraInicio.getText().toString().trim();
-            String horaFin     = etHoraFin.getText().toString().trim();
+            String name        = etName.getText().toString().trim();
+            String description = etDescription.getText().toString().trim();
+            String startTime   = etStartTime.getText().toString().trim();
+            String endTime     = etEndTime.getText().toString().trim();
 
-            if (nombre.isEmpty()) {
-                etNombre.setError("El nombre es obligatorio");
+            if (name.isEmpty()) {
+                etName.setError("Name is required");
                 return;
             }
 
-            if (esEdicion) {
-                actualizarRuta(routeEditar.getId(), nombre, descripcion, horaInicio, horaFin);
+            if (isEditing) {
+                updateRoute(routeToEdit.getId(), name, description, startTime, endTime);
             } else {
-                crearRuta(nombre, descripcion, horaInicio, horaFin);
+                createRoute(name, description, startTime, endTime);
             }
             dialog.dismiss();
         });
@@ -146,67 +136,63 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         dialog.show();
     }
 
-    // ─── CREAR ruta en Firestore ──────────────────────────────────────────────
-    private void crearRuta(String nombre, String descripcion,
-                           String horaInicio, String horaFin) {
+    private void createRoute(String name, String description,
+                             String startTime, String endTime) {
         Map<String, Object> data = new HashMap<>();
-        data.put("nombre", nombre);
-        data.put("descripcion", descripcion);
-        data.put("horaInicio", horaInicio);
-        data.put("horaFin", horaFin);
-        data.put("numParadas", 0);
-        data.put("activa", false);
+        data.put("name", name);
+        data.put("description", description);
+        data.put("startTime", startTime);
+        data.put("endTime", endTime);
+        data.put("stopCount", 0);
+        data.put("active", false);
 
         db.collection(COL_ROUTES).add(data)
                 .addOnSuccessListener(ref -> {
-                    Toast.makeText(this, "Ruta creada correctamente", Toast.LENGTH_SHORT).show();
-                    cargarRutas();
+                    Toast.makeText(this, "Route created successfully", Toast.LENGTH_SHORT).show();
+                    loadRoutes();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
     }
 
-    // ─── ACTUALIZAR ruta en Firestore ─────────────────────────────────────────
-    private void actualizarRuta(String id, String nombre, String descripcion,
-                                String horaInicio, String horaFin) {
+    private void updateRoute(String id, String name, String description,
+                             String startTime, String endTime) {
         Map<String, Object> data = new HashMap<>();
-        data.put("nombre", nombre);
-        data.put("descripcion", descripcion);
-        data.put("horaInicio", horaInicio);
-        data.put("horaFin", horaFin);
+        data.put("name", name);
+        data.put("description", description);
+        data.put("startTime", startTime);
+        data.put("endTime", endTime);
 
         db.collection(COL_ROUTES).document(id).update(data)
                 .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Ruta actualizada", Toast.LENGTH_SHORT).show();
-                    cargarRutas();
+                    Toast.makeText(this, "Route updated", Toast.LENGTH_SHORT).show();
+                    loadRoutes();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                 );
     }
 
-    // ─── ELIMINAR ruta de Firestore ───────────────────────────────────────────
-    private void eliminarRuta(Route route) {
+    private void deleteRoute(Route route) {
         new AlertDialog.Builder(this)
-                .setTitle("Eliminar ruta")
-                .setMessage("¿Seguro que quieres eliminar \"" + route.getNombre() + "\"?")
-                .setPositiveButton("Eliminar", (dialog, which) ->
+                .setTitle("Delete route")
+                .setMessage("Are you sure you want to delete \"" + route.getName() + "\"?")
+                .setPositiveButton("Delete", (dialog, which) ->
                         db.collection(COL_ROUTES).document(route.getId()).delete()
                                 .addOnSuccessListener(unused -> {
-                                    Toast.makeText(this, "Ruta eliminada", Toast.LENGTH_SHORT).show();
-                                    cargarRutas();
+                                    Toast.makeText(this, "Route deleted", Toast.LENGTH_SHORT).show();
+                                    loadRoutes();
                                 })
                                 .addOnFailureListener(e ->
                                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                                 )
                 )
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
-    // ─── Estado vacío ─────────────────────────────────────────────────────────
-    private void mostrarEstado() {
+    private void showEmptyState() {
         if (routes.isEmpty()) {
             layoutEmpty.setVisibility(View.VISIBLE);
             recyclerRoutes.setVisibility(View.GONE);
@@ -216,14 +202,13 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         }
     }
 
-    // ─── Callbacks del adapter ────────────────────────────────────────────────
     @Override
     public void onEdit(Route route) {
-        mostrarDialogo(route);
+        showDialog(route);
     }
 
     @Override
     public void onDelete(Route route) {
-        eliminarRuta(route);
+        deleteRoute(route);
     }
 }

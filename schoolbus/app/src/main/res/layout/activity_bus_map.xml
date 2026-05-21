@@ -10,49 +10,48 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#E8721C"
+        app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="Mapa del Conductor"
-        app:titleTextColor="#FFFFFF"
-        app:navigationIcon="?attr/homeAsUpIndicator"/>
+        app:titleTextColor="#FFFFFF" />
     <!-- Mapa de fondo -->
-    <androidx.fragment.app.FragmentContainerView
+    <org.osmdroid.views.MapView
         android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize"/>
+        android:layout_marginTop="?attr/actionBarSize" />
 
     <!-- Card de estado (arriba del mapa) -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="72dp"
+        app:cardBackgroundColor="#FDF0E8"
         app:cardCornerRadius="12dp"
-        app:cardElevation="6dp"
-        app:cardBackgroundColor="#FDF0E8">
+        app:cardElevation="6dp">
 
         <LinearLayout
-            android:orientation="vertical"
-            android:padding="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/tvServiceStatus"
-                android:text="Servicio inactivo"
-                android:textSize="13sp"
-                android:textColor="#888888"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="Servicio inactivo"
+                android:textColor="#888888"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/tvRouteInfo"
-                android:text="Sin ruta asignada"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="#333333"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:text="Sin ruta asignada"
+                android:textColor="#333333"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -64,10 +63,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="80dp"
+        android:contentDescription="Mi ubicación"
         android:src="@android:drawable/ic_menu_mylocation"
         app:backgroundTint="#FFFFFF"
-        app:tint="#333333"
-        app:elevation="4dp"/>
+        app:elevation="4dp"
+        app:tint="#333333" />
+
 
     <!-- FAB iniciar/parar ruta -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -76,9 +77,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
+        android:contentDescription="Iniciar ruta"
         android:src="@android:drawable/ic_media_play"
         app:backgroundTint="#E8721C"
-        app:tint="#FFFFFF"
-        app:fabSize="normal"/>
+        app:fabSize="normal"
+        app:tint="#FFFFFF" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

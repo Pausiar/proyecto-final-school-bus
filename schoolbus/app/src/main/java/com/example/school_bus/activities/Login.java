@@ -43,42 +43,42 @@ public class Login extends AppCompatActivity {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        String error = ValidationUtils.validarLogin(email, password);
+        String error = ValidationUtils.validateLogin(email, password);
         if (error != null) {
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (!NetworkUtils.hayConexion(this)) {
+        if (!NetworkUtils.hasConnection(this)) {
             Toast.makeText(this, "Sin conexión a internet", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Obtener datos del usuario desde Firestore y guardar en SessionManager
         firebaseHelper.checkLogin(email, password, new FirebaseHelper.OnCompleteListener() {
             @Override
             public void onSuccess(String uid) {
-                // Obtener datos del usuario desde Firestore y guardar en SessionManager
                 FirebaseFirestore.getInstance()
                         .collection("users")
                         .document(uid)
                         .get()
                         .addOnSuccessListener(doc -> {
                             if (doc.exists()) {
-                                String nombre = doc.getString("nombre") != null ? doc.getString("nombre") : "";
-                                String apellido = doc.getString("apellidos") != null ? doc.getString("apellidos") : "";
-                                String rol = doc.getString("rol") != null ? doc.getString("rol") : "estudiante";
+                                String name    = doc.getString("name") != null ? doc.getString("name") : "";
+                                String surname = doc.getString("surname") != null ? doc.getString("surname") : "";
+                                String role    = doc.getString("role") != null ? doc.getString("role") : "student";
 
                                 getSharedPreferences("session", MODE_PRIVATE).edit()
                                         .putString("uid", uid)
-                                        .putString("name", nombre)
-                                        .putString("surname", apellido)
+                                        .putString("name", name)
+                                        .putString("surname", surname)
                                         .putString("email", email)
-                                        .putString("role", rol)
+                                        .putString("role", role)
                                         .apply();
                             }
-                            irAlDashboard();
+                            goToDashboard();
                         })
-                        .addOnFailureListener(e -> irAlDashboard());
+                        .addOnFailureListener(e -> goToDashboard());
             }
 
             @Override
@@ -88,7 +88,7 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void irAlDashboard() {
+    private void goToDashboard() {
         Toast.makeText(this, "Login correcto", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, DashboardActivity.class));
         finish();

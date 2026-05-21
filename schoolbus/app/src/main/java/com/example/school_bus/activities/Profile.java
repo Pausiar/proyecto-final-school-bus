@@ -18,9 +18,9 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        tvName = findViewById(R.id.tvProfileName);
+        tvName  = findViewById(R.id.tvProfileName);
         tvEmail = findViewById(R.id.tvProfileEmail);
-        tvRole = findViewById(R.id.tvProfileRole);
+        tvRole  = findViewById(R.id.tvProfileRole);
 
         firebaseHelper = new FirebaseHelper();
 

@@ -52,30 +52,30 @@ public class Register extends AppCompatActivity {
         String password = etPassword.getText().toString().trim();
 
         // Validación
-        String error = ValidationUtils.validarRegistro(name, surname, email, password);
+        String error = ValidationUtils.validateRegistration(name, surname, email, password);
         if (error != null) {
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Conexión
-        if (!NetworkUtils.hayConexion(this)) {
+        if (!NetworkUtils.hasConnection(this)) {
             Toast.makeText(this, "Sin conexión a internet", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Obtener rol seleccionado
-        String rol;
+        String role;
         int selectedId = rgRol.getCheckedRadioButtonId();
         if (selectedId == R.id.rbConductor) {
-            rol = "conductor";
+            role = "driver";
         } else if (selectedId == R.id.rbPadre) {
-            rol = "padre";
+            role = "parent";
         } else {
-            rol = "estudiante";
+            role = "student";
         }
 
-        firebaseHelper.insertUser(name, surname, email, password, rol,
+        firebaseHelper.insertUser(name, surname, email, password, role,
                 new FirebaseHelper.OnCompleteListener() {
                     @Override
                     public void onSuccess(String uid) {

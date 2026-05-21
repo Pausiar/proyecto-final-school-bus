@@ -20,9 +20,9 @@ import java.util.List;
 public class GestionarParadasActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;
-    private EditText inputNombreParada;
+    private EditText inputStopName;
     private ArrayAdapter<String> adapter;
-    private final List<String> paradas = new ArrayList<>();
+    private final List<String> stops = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,44 +30,44 @@ public class GestionarParadasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_gestionar_paradas);
 
         dbHelper = new DBHelper(this);
-        inputNombreParada = findViewById(R.id.inputNombreParada);
-        Button btnAgregarParada = findViewById(R.id.btnAgregarParada);
-        ListView listParadas = findViewById(R.id.listParadas);
+        inputStopName = findViewById(R.id.inputNombreParada);
+        Button btnAddStop = findViewById(R.id.btnAgregarParada);
+        ListView listStops = findViewById(R.id.listParadas);
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, paradas);
-        listParadas.setAdapter(adapter);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, stops);
+        listStops.setAdapter(adapter);
 
-        btnAgregarParada.setOnClickListener(v -> agregarParada());
+        btnAddStop.setOnClickListener(v -> addStop());
 
-        cargarParadas();
+        loadStops();
     }
 
-    private void agregarParada() {
-        String nombreParada = inputNombreParada.getText().toString().trim();
-        if (TextUtils.isEmpty(nombreParada)) {
+    private void addStop() {
+        String stopName = inputStopName.getText().toString().trim();
+        if (TextUtils.isEmpty(stopName)) {
             Toast.makeText(this, "introduce un nombre de parada", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        long result = dbHelper.insertStop(nombreParada);
+        long result = dbHelper.insertStop(stopName);
         if (result > 0) {
-            inputNombreParada.setText("");
-            cargarParadas();
+            inputStopName.setText("");
+            loadStops();
             Toast.makeText(this, "parada guardada", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "no se pudo guardar", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void cargarParadas() {
-        paradas.clear();
+    private void loadStops() {
+        stops.clear();
 
         Cursor cursor = dbHelper.getAllStops();
         if (cursor != null) {
             int nameIndex = cursor.getColumnIndex("name");
             while (cursor.moveToNext()) {
                 if (nameIndex >= 0) {
-                    paradas.add(cursor.getString(nameIndex));
+                    stops.add(cursor.getString(nameIndex));
                 }
             }
             cursor.close();

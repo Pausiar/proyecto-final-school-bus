@@ -3,51 +3,51 @@ package com.example.school_bus.models;
 public class Stop {
 
     private String id;
-    private String idRuta;
-    private String nombreParada;
-    private String direccion;
-    private double latitud;
-    private double longitud;
-    private int ordenParada;
-    private String horaEstimada;
-    private String referencia;
+    private String routeId;
+    private String stopName;
+    private String address;
+    private double latitude;
+    private double longitude;
+    private int stopOrder;
+    private String estimatedTime;
+    private String reference;
 
     public Stop() {}
 
-    public Stop(String idRuta, String nombreParada, String direccion,
-                double latitud, double longitud, int ordenParada) {
-        this.idRuta = idRuta;
-        this.nombreParada = nombreParada;
-        this.direccion = direccion;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.ordenParada = ordenParada;
+    public Stop(String routeId, String stopName, String address,
+                double latitude, double longitude, int stopOrder) {
+        this.routeId = routeId;
+        this.stopName = stopName;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.stopOrder = stopOrder;
     }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getIdRuta() { return idRuta; }
-    public void setIdRuta(String idRuta) { this.idRuta = idRuta; }
+    public String getRouteId() { return routeId; }
+    public void setRouteId(String routeId) { this.routeId = routeId; }
 
-    public String getNombreParada() { return nombreParada; }
-    public void setNombreParada(String nombreParada) { this.nombreParada = nombreParada; }
+    public String getStopName() { return stopName; }
+    public void setStopName(String stopName) { this.stopName = stopName; }
 
-    public String getDireccion() { return direccion; }
-    public void setDireccion(String direccion) { this.direccion = direccion; }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public double getLatitud() { return latitud; }
-    public void setLatitud(double latitud) { this.latitud = latitud; }
+    public double getLatitude() { return latitude; }
+    public void setLatitude(double latitude) { this.latitude = latitude; }
 
-    public double getLongitud() { return longitud; }
-    public void setLongitud(double longitud) { this.longitud = longitud; }
+    public double getLongitude() { return longitude; }
+    public void setLongitude(double longitude) { this.longitude = longitude; }
 
-    public int getOrdenParada() { return ordenParada; }
-    public void setOrdenParada(int ordenParada) { this.ordenParada = ordenParada; }
+    public int getStopOrder() { return stopOrder; }
+    public void setStopOrder(int stopOrder) { this.stopOrder = stopOrder; }
 
-    public String getHoraEstimada() { return horaEstimada; }
-    public void setHoraEstimada(String horaEstimada) { this.horaEstimada = horaEstimada; }
+    public String getEstimatedTime() { return estimatedTime; }
+    public void setEstimatedTime(String estimatedTime) { this.estimatedTime = estimatedTime; }
 
-    public String getReferencia() { return referencia; }
-    public void setReferencia(String referencia) { this.referencia = referencia; }
+    public String getReference() { return reference; }
+    public void setReference(String reference) { this.reference = reference; }
 }

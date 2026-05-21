@@ -1,46 +1,46 @@
 package com.example.school_bus.models;
 
-    public class StudentRoute {
+public class StudentRoute {
 
-        private String id;
-        private String idEstudiante;
-        private String idRuta;
-        private String idParadaSubida;
-        private String idParadaBajada;
-        private String fechaAsignacion;
-        private boolean activa;
+    private String id;
+    private String studentId;
+    private String routeId;
+    private String boardingStopId;
+    private String dropoffStopId;
+    private String assignmentDate;
+    private boolean active;
 
-        public StudentRoute() {}
+    public StudentRoute() {}
 
-        public StudentRoute(String idEstudiante, String idRuta,
-                            String idParadaSubida, String idParadaBajada,
-                            String fechaAsignacion) {
-            this.idEstudiante = idEstudiante;
-            this.idRuta = idRuta;
-            this.idParadaSubida = idParadaSubida;
-            this.idParadaBajada = idParadaBajada;
-            this.fechaAsignacion = fechaAsignacion;
-            this.activa = true;
-        }
-
-        public String getId() { return id; }
-        public void setId(String id) { this.id = id; }
-
-        public String getIdEstudiante() { return idEstudiante; }
-        public void setIdEstudiante(String idEstudiante) { this.idEstudiante = idEstudiante; }
-
-        public String getIdRuta() { return idRuta; }
-        public void setIdRuta(String idRuta) { this.idRuta = idRuta; }
-
-        public String getIdParadaSubida() { return idParadaSubida; }
-        public void setIdParadaSubida(String idParadaSubida) { this.idParadaSubida = idParadaSubida; }
-
-        public String getIdParadaBajada() { return idParadaBajada; }
-        public void setIdParadaBajada(String idParadaBajada) { this.idParadaBajada = idParadaBajada; }
-
-        public String getFechaAsignacion() { return fechaAsignacion; }
-        public void setFechaAsignacion(String fechaAsignacion) { this.fechaAsignacion = fechaAsignacion; }
-
-        public boolean isActiva() { return activa; }
-        public void setActiva(boolean activa) { this.activa = activa; }
+    public StudentRoute(String studentId, String routeId,
+                        String boardingStopId, String dropoffStopId,
+                        String assignmentDate) {
+        this.studentId = studentId;
+        this.routeId = routeId;
+        this.boardingStopId = boardingStopId;
+        this.dropoffStopId = dropoffStopId;
+        this.assignmentDate = assignmentDate;
+        this.active = true;
     }
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getStudentId() { return studentId; }
+    public void setStudentId(String studentId) { this.studentId = studentId; }
+
+    public String getRouteId() { return routeId; }
+    public void setRouteId(String routeId) { this.routeId = routeId; }
+
+    public String getBoardingStopId() { return boardingStopId; }
+    public void setBoardingStopId(String boardingStopId) { this.boardingStopId = boardingStopId; }
+
+    public String getDropoffStopId() { return dropoffStopId; }
+    public void setDropoffStopId(String dropoffStopId) { this.dropoffStopId = dropoffStopId; }
+
+    public String getAssignmentDate() { return assignmentDate; }
+    public void setAssignmentDate(String assignmentDate) { this.assignmentDate = assignmentDate; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
+}

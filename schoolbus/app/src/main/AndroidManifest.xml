@@ -4,12 +4,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
 
     <application
         android:name=".SchoolBusApplication"
@@ -19,32 +17,33 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.Schoolbus">
 
-        <activity android:name=".activities.BusMap" />
-        <activity android:name=".activities.MapaConductorActivity" />
-        <activity android:name=".activities.DashboardActivity" />
-        <activity android:name=".activities.Login" />
-        <activity android:name=".activities.Register" />
-        <activity android:name=".activities.GestionRutasActivity"/>
-        <activity android:name=".activities.BusMap"/>
-        <activity android:name=".activities.MapaConductorActivity"/>
-        <activity android:name=".activities.GestionarParadasActivity"/>
-        <activity android:name=".activities.DashboardActivity"/>
-        <activity android:name=".activities.Login"/>
-        <activity android:name=".activities.Register"/>
-        <service
-            android:name=".services.UbicacionService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="location" />
-
-        <activity
-            android:name=".MainActivity"
+        <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".activities.Login" />
+        <activity android:name=".activities.Register" />
+        <activity android:name=".activities.DashboardActivity" />
+        <activity android:name=".activities.StudentList" />
+        <activity android:name=".activities.NotificationActivity" />
+        <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.Settings" />
+        <activity android:name=".activities.About" />
+        <activity android:name=".activities.BusMap" />
+        <activity android:name=".activities.BusRoute" />
+        <activity android:name=".activities.MapaConductorActivity" />
+        <activity android:name=".activities.GestionRutasActivity" />
+        <activity android:name=".activities.GestionarParadasActivity" />
+
+        <service
+            android:name=".services.UbicacionService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="location" />
 
     </application>
 </manifest>

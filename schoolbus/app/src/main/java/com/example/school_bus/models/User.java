@@ -3,51 +3,51 @@ package com.example.school_bus.models;
 public class User {
 
     private String id;
-    private String nombre;
-    private String apellidos;
+    private String name;
+    private String surname;
     private String email;
-    private String telefono;
-    private String rol;                      // administrador, conductor, padre, estudiante
-    private String fechaRegistro;
-    private boolean activo;
-    private String fotoPerfil;
+    private String phone;
+    private String role;                     // admin, driver, parent, student
+    private String registrationDate;
+    private boolean active;
+    private String profilePhoto;
 
     public User() {}
 
-    public User(String nombre, String apellidos, String email,
-                String telefono, String rol) {
-        this.nombre = nombre;
-        this.apellidos = apellidos;
+    public User(String name, String surname, String email,
+                String phone, String role) {
+        this.name = name;
+        this.surname = surname;
         this.email = email;
-        this.telefono = telefono;
-        this.rol = rol;
-        this.activo = true;
+        this.phone = phone;
+        this.role = role;
+        this.active = true;
     }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public String getApellidos() { return apellidos; }
-    public void setApellidos(String apellidos) { this.apellidos = apellidos; }
+    public String getSurname() { return surname; }
+    public void setSurname(String surname) { this.surname = surname; }
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getTelefono() { return telefono; }
-    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public String getRol() { return rol; }
-    public void setRol(String rol) { this.rol = rol; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 
-    public String getFechaRegistro() { return fechaRegistro; }
-    public void setFechaRegistro(String fechaRegistro) { this.fechaRegistro = fechaRegistro; }
+    public String getRegistrationDate() { return registrationDate; }
+    public void setRegistrationDate(String registrationDate) { this.registrationDate = registrationDate; }
 
-    public boolean isActivo() { return activo; }
-    public void setActivo(boolean activo) { this.activo = activo; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 
-    public String getFotoPerfil() { return fotoPerfil; }
-    public void setFotoPerfil(String fotoPerfil) { this.fotoPerfil = fotoPerfil; }
+    public String getProfilePhoto() { return profilePhoto; }
+    public void setProfilePhoto(String profilePhoto) { this.profilePhoto = profilePhoto; }
 }

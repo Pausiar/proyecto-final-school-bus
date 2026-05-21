@@ -23,9 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    // =====================================================
     // ================= CREACIÓN BD =======================
-    // =====================================================
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -78,9 +76,9 @@ public class DBHelper extends SQLiteOpenHelper {
         );
     }
 
-    // =====================================================
+
     // ================= ACTUALIZACIÓN =====================
-    // =====================================================
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATIONS);
@@ -91,9 +89,8 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // =====================================================
     // ================= USUARIOS ==========================
-    // =====================================================
+
     public long insertUser(String name, String surname, String email, String password, String role) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -116,9 +113,16 @@ public class DBHelper extends SQLiteOpenHelper {
         return ok;
     }
 
-    // =====================================================
+    public Cursor getUserByEmail(String email) {
+        // Obtener usuario por email
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery(
+                "SELECT * FROM users WHERE email = ?",
+                new String[]{email}
+        );
+    }
+
     // ================= AUTOBUSES =========================
-    // =====================================================
     public long insertBus(String plate, String driverName) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -134,9 +138,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
     }
 
-    // =====================================================
     // ================= PARADAS ===========================
-    // =====================================================
     public long insertStop(String name) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -151,9 +153,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
     }
 
-    // =====================================================
     // ================= ESTUDIANTES =======================
-    // =====================================================
     public long insertStudent(String name, int userId, int busId, int stopId) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -174,9 +174,7 @@ public class DBHelper extends SQLiteOpenHelper {
         );
     }
 
-    // =====================================================
     // ================= NOTIFICACIONES ====================
-    // =====================================================
     public long insertNotification(String title, String message, String date) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -191,14 +189,5 @@ public class DBHelper extends SQLiteOpenHelper {
                 "SELECT * FROM notifications ORDER BY id DESC",
                 null
         );
-    }
-
-    public Cursor getUserByEmail(String email) {
-        // Obtener usuario por email
-            SQLiteDatabase db = this.getReadableDatabase();
-            return db.rawQuery(
-                    "SELECT * FROM users WHERE email = ?",
-                    new String[]{email}
-            );
     }
 }

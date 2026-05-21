@@ -3,41 +3,41 @@ package com.example.school_bus.models;
 public class Driver {
 
     private String id;
-    private String idUsuario;
-    private String licenciaNumero;
-    private String licenciaVencimiento;
-    private String fechaContratacion;
-    private int experienciaAnios;
-    private String certificaciones;
+    private String userId;
+    private String licenseNumber;
+    private String licenseExpiry;
+    private String hireDate;
+    private int yearsOfExperience;
+    private String certifications;
 
     public Driver() {}
 
-    public Driver(String idUsuario, String licenciaNumero,
-                  String licenciaVencimiento, String fechaContratacion) {
-        this.idUsuario = idUsuario;
-        this.licenciaNumero = licenciaNumero;
-        this.licenciaVencimiento = licenciaVencimiento;
-        this.fechaContratacion = fechaContratacion;
+    public Driver(String userId, String licenseNumber,
+                  String licenseExpiry, String hireDate) {
+        this.userId = userId;
+        this.licenseNumber = licenseNumber;
+        this.licenseExpiry = licenseExpiry;
+        this.hireDate = hireDate;
     }
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public String getIdUsuario() { return idUsuario; }
-    public void setIdUsuario(String idUsuario) { this.idUsuario = idUsuario; }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 
-    public String getLicenciaNumero() { return licenciaNumero; }
-    public void setLicenciaNumero(String licenciaNumero) { this.licenciaNumero = licenciaNumero; }
+    public String getLicenseNumber() { return licenseNumber; }
+    public void setLicenseNumber(String licenseNumber) { this.licenseNumber = licenseNumber; }
 
-    public String getLicenciaVencimiento() { return licenciaVencimiento; }
-    public void setLicenciaVencimiento(String licenciaVencimiento) { this.licenciaVencimiento = licenciaVencimiento; }
+    public String getLicenseExpiry() { return licenseExpiry; }
+    public void setLicenseExpiry(String licenseExpiry) { this.licenseExpiry = licenseExpiry; }
 
-    public String getFechaContratacion() { return fechaContratacion; }
-    public void setFechaContratacion(String fechaContratacion) { this.fechaContratacion = fechaContratacion; }
+    public String getHireDate() { return hireDate; }
+    public void setHireDate(String hireDate) { this.hireDate = hireDate; }
 
-    public int getExperienciaAnios() { return experienciaAnios; }
-    public void setExperienciaAnios(int experienciaAnios) { this.experienciaAnios = experienciaAnios; }
+    public int getYearsOfExperience() { return yearsOfExperience; }
+    public void setYearsOfExperience(int yearsOfExperience) { this.yearsOfExperience = yearsOfExperience; }
 
-    public String getCertificaciones() { return certificaciones; }
-    public void setCertificaciones(String certificaciones) { this.certificaciones = certificaciones; }
+    public String getCertifications() { return certifications; }
+    public void setCertifications(String certifications) { this.certifications = certifications; }
 }

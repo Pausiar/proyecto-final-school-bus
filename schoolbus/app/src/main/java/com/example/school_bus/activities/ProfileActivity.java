@@ -22,7 +22,6 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -30,32 +29,25 @@ public class ProfileActivity extends AppCompatActivity {
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        // Views
         tvProfileName  = findViewById(R.id.tvProfileName);
         tvProfileEmail = findViewById(R.id.tvProfileEmail);
         tvProfileRole  = findViewById(R.id.tvProfileRole);
 
-        // Cargar datos desde SessionManager
-        cargarDatosPerfil();
+        loadProfileData();
 
-        // Navegar a editar perfil
         LinearLayout rowEditProfile = findViewById(R.id.rowEditProfile);
         rowEditProfile.setOnClickListener(v -> {
-            // TODO: abrir EditarPerfilActivity cuando esté creada
+            // TODO: open EditProfileActivity when created
         });
 
-        // Navegar a configuración
         LinearLayout rowSettings = findViewById(R.id.rowSettings);
-        rowSettings.setOnClickListener(v -> {
-            Intent intent = new Intent(this, Settings.class);
-            startActivity(intent);
-        });
+        rowSettings.setOnClickListener(v ->
+                startActivity(new Intent(this, Settings.class))
+        );
 
-        // Cerrar sesión
         LinearLayout rowLogout = findViewById(R.id.rowLogout);
-        rowLogout.setOnClickListener(v -> confirmarCerrarSesion());
+        rowLogout.setOnClickListener(v -> confirmLogout());
 
-        // Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setSelectedItemId(R.id.nav_profile);
         bottomNav.setOnItemSelectedListener(item -> {
@@ -79,32 +71,32 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
-    private void cargarDatosPerfil() {
-        String nombre   = SessionManager.getDisplayName(this);
-        String email    = SessionManager.getEmail(this);
-        String rol      = SessionManager.getRole(this);
+    private void loadProfileData() {
+        String name  = SessionManager.getDisplayName(this);
+        String email = SessionManager.getEmail(this);
+        String role  = SessionManager.getRole(this);
 
-        tvProfileName.setText(nombre.isEmpty() ? "Usuario" : nombre);
+        tvProfileName.setText(name.isEmpty() ? "User" : name);
         tvProfileEmail.setText(email.isEmpty() ? "—" : email);
-        tvProfileRole.setText(rol.isEmpty() ? "—" : capitalizar(rol));
+        tvProfileRole.setText(role.isEmpty() ? "—" : capitalize(role));
     }
 
-    private void confirmarCerrarSesion() {
+    private void confirmLogout() {
         new AlertDialog.Builder(this)
-                .setTitle("Cerrar sesión")
-                .setMessage("¿Seguro que quieres cerrar sesión?")
-                .setPositiveButton("Cerrar sesión", (dialog, which) -> {
+                .setTitle("Log out")
+                .setMessage("Are you sure you want to log out?")
+                .setPositiveButton("Log out", (dialog, which) -> {
                     SessionManager.clear(this);
                     Intent intent = new Intent(this, Login.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 
-    private String capitalizar(String texto) {
-        if (texto == null || texto.isEmpty()) return texto;
-        return texto.substring(0, 1).toUpperCase() + texto.substring(1).toLowerCase();
+    private String capitalize(String text) {
+        if (text == null || text.isEmpty()) return text;
+        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
     }
 }

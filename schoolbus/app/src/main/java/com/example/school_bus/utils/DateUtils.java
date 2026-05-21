@@ -6,39 +6,39 @@ import java.util.Locale;
 
 public class DateUtils {
 
-    private static final String FORMATO_FECHA = "dd/MM/yyyy";
-    private static final String FORMATO_HORA  = "HH:mm";
-    private static final String FORMATO_COMPLETO = "dd/MM/yyyy HH:mm";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
+    private static final String TIME_FORMAT = "HH:mm";
+    private static final String FULL_FORMAT = "dd/MM/yyyy HH:mm";
 
     private DateUtils() {}
 
-    /** Devuelve la fecha actual como String.*/
-    public static String getFechaActual() {
-        return new SimpleDateFormat(FORMATO_FECHA, Locale.getDefault())
+    /** Devuelve la fecha actual como String. */
+    public static String getCurrentDate() {
+        return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
                 .format(new Date());
     }
 
     /** Devuelve la hora actual como String. */
-    public static String getHoraActual() {
-        return new SimpleDateFormat(FORMATO_HORA, Locale.getDefault())
+    public static String getCurrentTime() {
+        return new SimpleDateFormat(TIME_FORMAT, Locale.getDefault())
                 .format(new Date());
     }
 
-    /** Devuelve fecha y hora actual.*/
-    public static String getFechaHoraActual() {
-        return new SimpleDateFormat(FORMATO_COMPLETO, Locale.getDefault())
+    /** Devuelve fecha y hora actual. */
+    public static String getCurrentDateTime() {
+        return new SimpleDateFormat(FULL_FORMAT, Locale.getDefault())
                 .format(new Date());
     }
 
-    /** Convierte un timestamp en milisegundos a fecha legible */
-    public static String timestampAFecha(long millis) {
-        return new SimpleDateFormat(FORMATO_COMPLETO, Locale.getDefault())
+    /** Convierte un timestamp en milisegundos a fecha legible. */
+    public static String timestampToDate(long millis) {
+        return new SimpleDateFormat(FULL_FORMAT, Locale.getDefault())
                 .format(new Date(millis));
     }
 
-    /** Comprueba si una hora tiene formato válido */
-    public static boolean esHoraValida(String hora) {
-        if (hora == null || hora.isEmpty()) return false;
-        return hora.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]$");
+    /** Comprueba si una hora tiene formato válido. */
+    public static boolean isValidTime(String time) {
+        if (time == null || time.isEmpty()) return false;
+        return time.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]$");
     }
 }

@@ -30,18 +30,18 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvDescripcion, tvParadas, tvHorario, tvActiva;
-        ImageButton btnEditar, btnEliminar;
+        TextView tvName, tvDescription, tvStops, tvTime, tvActive;
+        ImageButton btnEdit, btnDelete;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvNombre = itemView.findViewById(R.id.tvRouteName);
-            tvDescripcion = itemView.findViewById(R.id.tvRouteDescription);
-            tvParadas = itemView.findViewById(R.id.tvRouteStops);
-            tvHorario = itemView.findViewById(R.id.tvRouteTime);
-            tvActiva = itemView.findViewById(R.id.tvRouteActive);
-            btnEditar = itemView.findViewById(R.id.btnEditRoute);
-            btnEliminar = itemView.findViewById(R.id.btnDeleteRoute);
+            tvName = itemView.findViewById(R.id.tvRouteName);
+            tvDescription = itemView.findViewById(R.id.tvRouteDescription);
+            tvStops = itemView.findViewById(R.id.tvRouteStops);
+            tvTime = itemView.findViewById(R.id.tvRouteTime);
+            tvActive = itemView.findViewById(R.id.tvRouteActive);
+            btnEdit = itemView.findViewById(R.id.btnEditRoute);
+            btnDelete = itemView.findViewById(R.id.btnDeleteRoute);
         }
     }
 
@@ -56,19 +56,20 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         Route route = routes.get(position);
 
-        holder.tvNombre.setText(route.getNombre());
-        holder.tvDescripcion.setText(route.getDescripcion());
-        holder.tvParadas.setText(route.getNumParadas() + " paradas");
-        holder.tvHorario.setText(route.getHoraInicio() + " - " + route.getHoraFin());
-        holder.tvActiva.setText(route.isActiva() ? "Activa" : "Inactiva");
-        holder.tvActiva.setBackgroundColor(
-                route.isActiva() ? 0xFF4CAF50 : 0xFFAAAAAA
+        holder.tvName.setText(route.getName());
+        holder.tvDescription.setText(route.getDescription());
+        holder.tvStops.setText(route.getStopCount() + " stops");
+        holder.tvTime.setText(route.getStartTime() + " - " + route.getEndTime());
+        holder.tvActive.setText(route.isActive() ? "Active" : "Inactive");
+        holder.tvActive.setBackgroundColor(
+                route.isActive() ? 0xFF4CAF50 : 0xFFAAAAAA
         );
 
-        holder.btnEditar.setOnClickListener(v -> listener.onEdit(route));
-        holder.btnEliminar.setOnClickListener(v -> listener.onDelete(route));
+        holder.btnEdit.setOnClickListener(v -> listener.onEdit(route));
+        holder.btnDelete.setOnClickListener(v -> listener.onDelete(route));
     }
 
+    @Override
     public int getItemCount() {
         return routes.size();
     }
