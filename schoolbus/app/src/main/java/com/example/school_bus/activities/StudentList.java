@@ -1,6 +1,7 @@
 package com.example.school_bus.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ import java.util.Map;
 
 public class StudentList extends AppCompatActivity {
 
+    private static final String TAG = "DEBUG_STUDENTS";
+
     RecyclerView recyclerView;
     StudentAdapter adapter;
     List<Student> students;
@@ -29,7 +32,6 @@ public class StudentList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_list);
 
-        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -50,11 +52,14 @@ public class StudentList extends AppCompatActivity {
     }
 
     private void loadStudents() {
+        Log.d(TAG, "Starting to load students...");
         firebaseHelper.getAllStudents(new FirebaseHelper.OnListListener() {
             @Override
             public void onSuccess(List<Map<String, Object>> list) {
+                Log.d(TAG, "Documents received: " + list.size());
                 students.clear();
                 for (Map<String, Object> data : list) {
+                    Log.d(TAG, "Student data: " + data.toString());
                     Student s = new Student(
                             (String) data.get("user_id"),
                             (String) data.get("name"),
@@ -69,13 +74,15 @@ public class StudentList extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
 
                 if (students.isEmpty()) {
-                    Toast.makeText(StudentList.this, "No hay estudiantes registrados",
+                    Log.d(TAG, "List is empty after processing");
+                    Toast.makeText(StudentList.this, "No students registered",
                             Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(String error) {
+                Log.e(TAG, "Error loading students: " + error);
                 Toast.makeText(StudentList.this, "Error: " + error, Toast.LENGTH_SHORT).show();
             }
         });

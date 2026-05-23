@@ -2,6 +2,7 @@ package com.example.school_bus.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -72,5 +73,10 @@ public class DashboardActivity extends AppCompatActivity {
 
         tvHello.setText("Hola, " + (name.isEmpty() ? "Usuario" : name));
         tvRole.setText(role.isEmpty() ? "USUARIO" : role.toUpperCase());
+
+        // Solo el conductor ve estos botones
+        boolean isDriver = "driver".equalsIgnoreCase(role);
+        btnMap.setVisibility(isDriver ? View.VISIBLE : View.GONE);
+        btnStudents.setVisibility(isDriver ? View.VISIBLE : View.GONE);
     }
 }
