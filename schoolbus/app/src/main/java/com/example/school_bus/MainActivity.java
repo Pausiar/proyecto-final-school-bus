@@ -11,12 +11,18 @@ import com.example.school_bus.activities.Login;
 import com.example.school_bus.activities.MapaConductorActivity;
 import com.example.school_bus.activities.Register;
 import com.example.school_bus.session.SessionManager;
+import com.example.school_bus.utils.PermisosUtils;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // solicitar notificaciones push si es necesario
+        if (!PermisosUtils.tienePermisosFMC(this)) {
+            PermisosUtils.solicitarPermisosFMC(this, 200);
+        }
 
         if (openRoleHome()) {
             return;

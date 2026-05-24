@@ -77,14 +77,11 @@ public class MapaConductorActivity extends AppCompatActivity {
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(15.0);
 
-        // Pedir permiso si no está concedido
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSION_REQUEST_CODE);
+        // gestionar permisos e iniciar ubicacion
+        if (com.example.school_bus.utils.PermisosUtils.tienePermisosUbicacion(this)) {
+            iniciarServicioUbicacion();
         } else {
-            iniciarFuncionalidad();
+            com.example.school_bus.utils.PermisosUtils.solicitarPermisosUbicacion(this, 100);
         }
     }
 
@@ -125,6 +122,26 @@ public class MapaConductorActivity extends AppCompatActivity {
 
     private void escucharUbicacion(String uid) {
         firestoreListener = db.collection("buses").document(uid)
+    private void iniciarServicioUbicacion() {
+        String role = SessionManager.getRole(this);
+        if ("driver".equalsIgnoreCase(role)) {
+            startService(new Intent(this, UbicacionService.class));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (com.example.school_bus.utils.PermisosUtils.tienePermisosUbicacion(this)) {
+                iniciarServicioUbicacion();
+            }
+        }
+    }
+
+    private void listenBusLocation(String uid) {
+        // Escucha cambios en tiempo real en el documento del conductor
+        locationListener = db.collection("buses").document(uid)
                 .addSnapshotListener((snapshot, error) -> {
                     if (error != null || snapshot == null || !snapshot.exists()) return;
                     Double lat = snapshot.getDouble("lat");
