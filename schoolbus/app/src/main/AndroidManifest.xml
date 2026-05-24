@@ -51,5 +51,14 @@
             </intent-filter>
         </service>
 
+        <receiver
+            android:name=".receivers.ProximidadReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.school_bus.PROXIMIDAD" />
+            </intent-filter>
+        </receiver>
+
     </application>
 </manifest>
