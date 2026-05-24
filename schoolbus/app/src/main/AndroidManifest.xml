@@ -34,6 +34,7 @@
         <activity android:name=".activities.Settings" />
         <activity android:name=".activities.About" />
         <activity android:name=".activities.MapaConductorActivity" />
+        <activity android:name=".activities.MapaEstudianteActivity" />
         <activity android:name=".activities.GestionRutasActivity" />
         <activity android:name=".activities.GestionarParadasActivity" />
 
