@@ -54,7 +54,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Obtener datos del usuario desde Firestore y guardar en SessionManager
         firebaseHelper.checkLogin(email, password, new FirebaseHelper.OnCompleteListener() {
             @Override
             public void onSuccess(String uid) {
@@ -75,10 +74,21 @@ public class Login extends AppCompatActivity {
                                         .putString("email", email)
                                         .putString("role", role)
                                         .apply();
+
+                                // ✅ Solo navegamos cuando el rol ya está guardado
+                                goToDashboard();
+
+                            } else {
+                                Toast.makeText(Login.this,
+                                        "Usuario no encontrado en base de datos",
+                                        Toast.LENGTH_SHORT).show();
                             }
-                            goToDashboard();
                         })
-                        .addOnFailureListener(e -> goToDashboard());
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(Login.this,
+                                    "Error al obtener datos del usuario",
+                                    Toast.LENGTH_SHORT).show();
+                        });
             }
 
             @Override
