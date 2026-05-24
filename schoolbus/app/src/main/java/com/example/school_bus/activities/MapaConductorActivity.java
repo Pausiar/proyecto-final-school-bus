@@ -44,15 +44,33 @@ public class MapaConductorActivity extends AppCompatActivity {
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(15.0);
 
-        // Iniciar el servicio GPS si el usuario es conductor
-        String role = SessionManager.getRole(this);
-        if ("driver".equalsIgnoreCase(role)) {
-            startService(new Intent(this, UbicacionService.class));
+        // gestionar permisos e iniciar ubicacion
+        if (com.example.school_bus.utils.PermisosUtils.tienePermisosUbicacion(this)) {
+            iniciarServicioUbicacion();
+        } else {
+            com.example.school_bus.utils.PermisosUtils.solicitarPermisosUbicacion(this, 100);
         }
 
         // Escuchar la posición en tiempo real desde Firestore
         if (driverUid != null) {
             listenBusLocation(driverUid);
+        }
+    }
+
+    private void iniciarServicioUbicacion() {
+        String role = SessionManager.getRole(this);
+        if ("driver".equalsIgnoreCase(role)) {
+            startService(new Intent(this, UbicacionService.class));
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 100) {
+            if (com.example.school_bus.utils.PermisosUtils.tienePermisosUbicacion(this)) {
+                iniciarServicioUbicacion();
+            }
         }
     }
 
