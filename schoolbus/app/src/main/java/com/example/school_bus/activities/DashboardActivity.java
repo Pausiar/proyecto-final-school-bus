@@ -36,8 +36,10 @@ public class DashboardActivity extends AppCompatActivity {
         // Cargar datos del usuario desde SessionManager
         loadUserData();
 
-        // Botón Iniciar ruta → MapaConductorActivity o MapaEstudianteActivity según rol
-        btnMap.setOnClickListener(v -> abrirMapa());
+        // Botón Iniciar ruta → MapaConductorActivity
+        btnMap.setOnClickListener(v ->
+                startActivity(new Intent(this, MapaConductorActivity.class))
+        );
 
         // Botón Ver estudiantes → StudentList
         btnStudents.setOnClickListener(v ->
@@ -52,7 +54,7 @@ public class DashboardActivity extends AppCompatActivity {
             if (id == R.id.nav_home) {
                 return true;
             } else if (id == R.id.nav_map) {
-                abrirMapa();
+                startActivity(new Intent(this, MapaConductorActivity.class));
                 return true;
             } else if (id == R.id.nav_routes) {
                 startActivity(new Intent(this, GestionRutasActivity.class));
@@ -76,24 +78,5 @@ public class DashboardActivity extends AppCompatActivity {
         boolean isDriver = "driver".equalsIgnoreCase(role);
         btnMap.setVisibility(isDriver ? View.VISIBLE : View.GONE);
         btnStudents.setVisibility(isDriver ? View.VISIBLE : View.GONE);
-    }
-
-    /**
-     * Abre el mapa correspondiente según el rol del usuario.
-     * - Conductor: MapaConductorActivity (visualizar y controlar ruta)
-     * - Estudiante/Padre: MapaEstudianteActivity (ver ubicación del bus)
-     */
-    private void abrirMapa() {
-        String role = SessionManager.getRole(this);
-        Class<?> targetActivity;
-
-        if ("driver".equalsIgnoreCase(role)) {
-            targetActivity = MapaConductorActivity.class;
-        } else {
-            // Estudiante o padre
-            targetActivity = MapaEstudianteActivity.class;
-        }
-
-        startActivity(new Intent(this, targetActivity));
     }
 }

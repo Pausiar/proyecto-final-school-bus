@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <!-- Toolbar naranja -->
     <androidx.appcompat.widget.Toolbar
@@ -13,74 +14,81 @@
         app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="Mapa del Conductor"
         app:titleTextColor="#FFFFFF" />
-    <!-- Mapa de fondo -->
-    <org.osmdroid.views.MapView
-        android:id="@+id/map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
 
-    <!-- Card de estado (arriba del mapa) -->
-    <androidx.cardview.widget.CardView
+    <!-- Contenedor del mapa con la card flotando encima -->
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="72dp"
-        app:cardBackgroundColor="#FDF0E8"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="6dp">
+        android:layout_height="match_parent">
 
-        <LinearLayout
+        <!-- Mapa ocupa todo el FrameLayout -->
+        <org.osmdroid.views.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- Card de estado flotando sobre el mapa, arriba -->
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_gravity="top"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#FDF0E8"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="6dp">
 
-            <TextView
-                android:id="@+id/tvServiceStatus"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Servicio inactivo"
-                android:textColor="#888888"
-                android:textSize="13sp" />
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvRouteInfo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Sin ruta asignada"
-                android:textColor="#333333"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvServiceStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Servicio inactivo"
+                    android:textColor="#888888"
+                    android:textSize="13sp" />
 
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                <TextView
+                    android:id="@+id/tvRouteInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sin ruta asignada"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
-    <!-- FAB ubicación -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="80dp"
-        android:contentDescription="Mi ubicación"
-        android:src="@android:drawable/ic_menu_mylocation"
-        app:backgroundTint="#FFFFFF"
-        app:elevation="4dp"
-        app:tint="#333333" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
+        <!-- FAB centrar en mi ubicación -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="80dp"
+            android:contentDescription="Mi ubicación"
+            android:src="@android:drawable/ic_menu_mylocation"
+            app:backgroundTint="#FFFFFF"
+            app:elevation="4dp"
+            app:tint="#333333" />
 
-    <!-- FAB iniciar/parar ruta -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabStartRoute"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Iniciar ruta"
-        android:src="@android:drawable/ic_media_play"
-        app:backgroundTint="#E8721C"
-        app:fabSize="normal"
-        app:tint="#FFFFFF" />
+        <!-- FAB iniciar/parar ruta -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabStartRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:contentDescription="Iniciar ruta"
+            android:src="@android:drawable/ic_media_play"
+            app:backgroundTint="#E8721C"
+            app:fabSize="normal"
+            app:tint="#FFFFFF" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-            <!-- Botón Iniciar ruta -->
+            <!-- Botones del CONDUCTOR (ocultos para otros roles) -->
             <Button
                 android:id="@+id/btnMap"
                 android:text="▶  Iniciar ruta"
@@ -59,21 +59,36 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="12dp"
+                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.Button"/>
 
-            <!-- Botón Ver estudiantes -->
             <Button
                 android:id="@+id/btnStudents"
                 android:text="Ver estudiantes"
                 android:textColor="#E8721C"
                 android:backgroundTint="#FFFFFF"
-                android:strokeColor="#E8721C"
+                app:strokeColor="#E8721C"
                 app:strokeWidth="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:textSize="16sp"
                 android:layout_marginBottom="24dp"
+                android:visibility="gone"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+            <!-- Botón del PADRE / ESTUDIANTE (oculto para conductor) -->
+            <Button
+                android:id="@+id/btnVerBus"
+                android:text="Ver bus en mapa"
+                android:textColor="#FFFFFF"
+                android:backgroundTint="#E8721C"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp"
+                android:visibility="gone"
+                style="@style/Widget.MaterialComponents.Button"/>
 
             <!-- Card estado de ruta -->
             <androidx.cardview.widget.CardView
@@ -111,14 +126,14 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation -->
+    <!-- Bottom Navigation con color activo corregido -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FDF0E8"
-        app:itemIconTint="#888888"
-        app:itemTextColor="#888888"
+        app:itemIconTint="@color/bottom_nav_tint"
+        app:itemTextColor="@color/bottom_nav_tint"
         app:menu="@menu/bottom_nav_menu"/>
 
 </LinearLayout>
