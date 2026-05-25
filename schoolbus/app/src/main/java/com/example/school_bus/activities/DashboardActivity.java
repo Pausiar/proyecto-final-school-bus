@@ -78,10 +78,22 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void loadUserData() {
-        String name = SessionManager.getDisplayName(this);
-        String role = SessionManager.getRole(this);
+        String name  = SessionManager.getDisplayName(this);
+        String email = SessionManager.getEmail(this);
+        String role  = SessionManager.getRole(this);
 
-        tvHello.setText("Hola, " + (name.isEmpty() ? "Usuario" : name));
+        // Si el nombre está vacío (perfil incompleto en Firebase), mostramos
+        // la parte del email antes del @ como fallback
+        String displayName;
+        if (!name.isEmpty()) {
+            displayName = name;
+        } else if (!email.isEmpty()) {
+            displayName = email.contains("@") ? email.substring(0, email.indexOf("@")) : email;
+        } else {
+            displayName = "Usuario";
+        }
+
+        tvHello.setText("Hola, " + displayName);
         tvRole.setText(role.isEmpty() ? "USUARIO" : role.toUpperCase());
 
         boolean isDriver = "driver".equalsIgnoreCase(role);
