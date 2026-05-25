@@ -16,45 +16,55 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class DashboardActivity extends AppCompatActivity {
 
     private TextView tvHello, tvRole;
-    private Button btnMap, btnStudents;
+    private Button btnMap, btnStudents, btnVerBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Views
-        tvHello     = findViewById(R.id.tvHello);
-        tvRole      = findViewById(R.id.tvRole);
-        btnMap      = findViewById(R.id.btnMap);
-        btnStudents = findViewById(R.id.btnStudents);
+        tvHello      = findViewById(R.id.tvHello);
+        tvRole       = findViewById(R.id.tvRole);
+        btnMap       = findViewById(R.id.btnMap);
+        btnStudents  = findViewById(R.id.btnStudents);
+        btnVerBus    = findViewById(R.id.btnVerBus);
 
-        // Cargar datos del usuario desde SessionManager
         loadUserData();
 
-        // Botón Iniciar ruta → MapaConductorActivity
+        // Conductor
         btnMap.setOnClickListener(v ->
                 startActivity(new Intent(this, MapaConductorActivity.class))
         );
-
-        // Botón Ver estudiantes → StudentList
         btnStudents.setOnClickListener(v ->
                 startActivity(new Intent(this, StudentList.class))
+        );
+
+        // Padre / Estudiante
+        btnVerBus.setOnClickListener(v ->
+                startActivity(new Intent(this, MapaEstudianteActivity.class))
         );
 
         // Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setSelectedItemId(R.id.nav_home);
+
+        String role = SessionManager.getRole(this);
+        boolean isDriver = "driver".equalsIgnoreCase(role);
+
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
                 return true;
             } else if (id == R.id.nav_map) {
-                startActivity(new Intent(this, MapaConductorActivity.class));
+                // Mapa según el rol
+                if (isDriver) {
+                    startActivity(new Intent(this, MapaConductorActivity.class));
+                } else {
+                    startActivity(new Intent(this, MapaEstudianteActivity.class));
+                }
                 return true;
             } else if (id == R.id.nav_routes) {
                 startActivity(new Intent(this, GestionRutasActivity.class));
@@ -74,9 +84,13 @@ public class DashboardActivity extends AppCompatActivity {
         tvHello.setText("Hola, " + (name.isEmpty() ? "Usuario" : name));
         tvRole.setText(role.isEmpty() ? "USUARIO" : role.toUpperCase());
 
-        // Solo el conductor ve estos botones
         boolean isDriver = "driver".equalsIgnoreCase(role);
+
+        // Botones del conductor
         btnMap.setVisibility(isDriver ? View.VISIBLE : View.GONE);
         btnStudents.setVisibility(isDriver ? View.VISIBLE : View.GONE);
+
+        // Botón del padre / estudiante
+        btnVerBus.setVisibility(isDriver ? View.GONE : View.VISIBLE);
     }
 }

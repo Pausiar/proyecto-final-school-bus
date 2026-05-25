@@ -40,18 +40,18 @@ public class ValidationUtils {
     /** Valida todos los campos del formulario de registro. */
     public static String validateRegistration(String name, String surname,
                                               String email, String password) {
-        if (isFieldEmpty(name))         return "Name is required";
-        if (!isValidName(name))         return "Name must be at least 2 characters";
-        if (isFieldEmpty(surname))      return "Surname is required";
-        if (!isValidEmail(email))       return "Invalid email address";
-        if (!isValidPassword(password)) return "Password must be at least 6 characters";
+        if (isFieldEmpty(name))         return "El nombre es obligatorio";
+        if (!isValidName(name))         return "El nombre debe tener al menos 2 caracteres";
+        if (isFieldEmpty(surname))      return "Los apellidos son obligatorios";
+        if (!isValidEmail(email))       return "El correo electrónico no es válido";
+        if (!isValidPassword(password)) return "La contraseña debe tener al menos 6 caracteres";
         return null;
     }
 
     /** Valida los campos del formulario de login. */
     public static String validateLogin(String email, String password) {
-        if (!isValidEmail(email))   return "Invalid email address";
-        if (isFieldEmpty(password)) return "Password is required";
+        if (!isValidEmail(email))   return "El correo electrónico no es válido";
+        if (isFieldEmpty(password)) return "La contraseña es obligatoria";
         return null;
     }
 }

@@ -38,6 +38,8 @@
         <activity android:name=".activities.MapaEstudianteActivity" />
         <activity android:name=".activities.GestionRutasActivity" />
         <activity android:name=".activities.GestionarParadasActivity" />
+        <activity android:name=".activities.GenerarCodigoActivity" />
+        <activity android:name=".activities.UsarCodigoActivity" />
 
         <service
             android:name=".services.UbicacionService"
