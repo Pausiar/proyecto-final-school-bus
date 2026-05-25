@@ -40,4 +40,16 @@ public class Driver {
 
     public String getCertifications() { return certifications; }
     public void setCertifications(String certifications) { this.certifications = certifications; }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", licenseNumber='" + licenseNumber + '\'' +
+                ", licenseExpiry='" + licenseExpiry + '\'' +
+                ", hireDate='" + hireDate + '\'' +
+                ", yearsOfExperience=" + yearsOfExperience +
+                '}';
+    }
 }

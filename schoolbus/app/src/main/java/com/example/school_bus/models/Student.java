@@ -50,4 +50,17 @@ public class Student {
 
     public String getSpecialNotes() { return specialNotes; }
     public void setSpecialNotes(String specialNotes) { this.specialNotes = specialNotes; }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", name='" + name + '\'' +
+                ", grade='" + grade + '\'' +
+                ", section='" + section + '\'' +
+                ", pickupAddress='" + pickupAddress + '\'' +
+                ", dropoffAddress='" + dropoffAddress + '\'' +
+                '}';
+    }
 }

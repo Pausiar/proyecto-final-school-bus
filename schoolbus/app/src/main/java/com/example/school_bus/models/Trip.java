@@ -49,4 +49,18 @@ public class Trip {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "id='" + id + '\'' +
+                ", routeId='" + routeId + '\'' +
+                ", driverId='" + driverId + '\'' +
+                ", vehicleId='" + vehicleId + '\'' +
+                ", tripDate='" + tripDate + '\'' +
+                ", actualStartTime='" + actualStartTime + '\'' +
+                ", actualEndTime='" + actualEndTime + '\'' +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

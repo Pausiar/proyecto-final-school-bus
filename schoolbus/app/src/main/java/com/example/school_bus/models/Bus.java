@@ -63,4 +63,18 @@ public class Bus {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+
+    @Override
+    public String toString() {
+        return "Bus{" +
+                "id='" + id + '\'' +
+                ", busNumber='" + busNumber + '\'' +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", passengerCapacity=" + passengerCapacity +
+                ", status='" + status + '\'' +
+                '}';
+    }
 }

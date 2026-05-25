@@ -26,4 +26,14 @@ public class Notification {
 
     public String getDate() { return date; }
     public void setDate(String date) { this.date = date; }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", message='" + message + '\'' +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }
