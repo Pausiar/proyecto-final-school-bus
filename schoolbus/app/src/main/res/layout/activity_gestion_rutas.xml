@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <!-- Toolbar naranja -->
+    <!-- Toolbar naranja — sin marginTop, ocupa su sitio natural -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -14,9 +14,9 @@
         android:background="#E8721C"
         app:title="Rutas"
         app:titleTextColor="#FFFFFF"
-        android:layout_marginTop="?attr/actionBarSize"/>
+        app:layout_scrollFlags="scroll|enterAlways"/>
 
-    <!-- Contenido principal -->
+    <!-- Contenido principal — marginTop solo para no quedar debajo del toolbar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,7 +73,7 @@
 
     </LinearLayout>
 
-    <!-- FAB añadir ruta (solo conductor) -->
+    <!-- FAB añadir ruta — gravity lo posiciona abajo a la derecha en CoordinatorLayout -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddRoute"
         android:layout_width="wrap_content"

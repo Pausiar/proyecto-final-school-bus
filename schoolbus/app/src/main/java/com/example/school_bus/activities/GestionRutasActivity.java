@@ -85,7 +85,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
                     showEmptyState();
                 })
                 .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error loading routes: " + e.getMessage(),
+                        Toast.makeText(this, "Error al cargar rutas: " + e.getMessage(),
                                 Toast.LENGTH_SHORT).show()
                 );
     }
@@ -109,7 +109,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         }
 
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(isEditing ? "Edit route" : "New route")
+                .setTitle(isEditing ? "Editar ruta" : "Nueva ruta")
                 .setView(dialogView)
                 .create();
 
@@ -121,7 +121,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
             String endTime     = etEndTime.getText().toString().trim();
 
             if (name.isEmpty()) {
-                etName.setError("Name is required");
+                etName.setError("El nombre es obligatorio");
                 return;
             }
 
@@ -148,7 +148,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
 
         db.collection(COL_ROUTES).add(data)
                 .addOnSuccessListener(ref -> {
-                    Toast.makeText(this, "Route created successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Ruta creada correctamente", Toast.LENGTH_SHORT).show();
                     loadRoutes();
                 })
                 .addOnFailureListener(e ->
@@ -166,7 +166,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
 
         db.collection(COL_ROUTES).document(id).update(data)
                 .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Route updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Ruta actualizada", Toast.LENGTH_SHORT).show();
                     loadRoutes();
                 })
                 .addOnFailureListener(e ->
@@ -176,19 +176,19 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
 
     private void deleteRoute(Route route) {
         new AlertDialog.Builder(this)
-                .setTitle("Delete route")
-                .setMessage("Are you sure you want to delete \"" + route.getName() + "\"?")
-                .setPositiveButton("Delete", (dialog, which) ->
+                .setTitle("Eliminar ruta")
+                .setMessage("¿Seguro que quieres eliminar \"" + route.getName() + "\"?")
+                .setPositiveButton("Eliminar", (dialog, which) ->
                         db.collection(COL_ROUTES).document(route.getId()).delete()
                                 .addOnSuccessListener(unused -> {
-                                    Toast.makeText(this, "Route deleted", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, "Ruta eliminada", Toast.LENGTH_SHORT).show();
                                     loadRoutes();
                                 })
                                 .addOnFailureListener(e ->
                                         Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                                 )
                 )
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancelar", null)
                 .show();
     }
 
