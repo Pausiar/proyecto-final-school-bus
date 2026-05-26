@@ -15,6 +15,7 @@ public final class SessionManager {
     private static final String KEY_SURNAME = "surname";
     private static final String KEY_EMAIL = "email";
     private static final String KEY_ROLE = "role";
+    private static final String KEY_PHONE = "phone";
 
     private SessionManager() {
     }
@@ -27,6 +28,7 @@ public final class SessionManager {
                 .putString(KEY_SURNAME, safeValue(user.getSurname()))
                 .putString(KEY_EMAIL, safeValue(user.getEmail()))
                 .putString(KEY_ROLE, safeValue(user.getRole()))
+                .putString(KEY_PHONE, safeValue(user.getPhone()))
                 .apply();
     }
 
@@ -42,6 +44,26 @@ public final class SessionManager {
         String name = getPreferences(context).getString(KEY_NAME, "");
         String surname = getPreferences(context).getString(KEY_SURNAME, "");
         return (name + " " + surname).trim();
+    }
+
+    public static String getSurname(@NonNull Context context) {
+        return getPreferences(context).getString(KEY_SURNAME, "");
+    }
+
+    public static String getPhone(@NonNull Context context) {
+        return getPreferences(context).getString(KEY_PHONE, "");
+    }
+
+    public static void setDisplayName(@NonNull Context context, String name) {
+        getPreferences(context).edit().putString(KEY_NAME, safeValue(name)).apply();
+    }
+
+    public static void setSurname(@NonNull Context context, String surname) {
+        getPreferences(context).edit().putString(KEY_SURNAME, safeValue(surname)).apply();
+    }
+
+    public static void setPhone(@NonNull Context context, String phone) {
+        getPreferences(context).edit().putString(KEY_PHONE, safeValue(phone)).apply();
     }
 
     public static void clear(@NonNull Context context) {

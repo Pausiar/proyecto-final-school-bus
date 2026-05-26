@@ -32,6 +32,7 @@
         <activity android:name=".activities.StudentList" />
         <activity android:name=".activities.NotificationActivity" />
         <activity android:name=".activities.ProfileActivity" />
+        <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".activities.Settings" />
         <activity android:name=".activities.About" />
         <activity android:name=".activities.MapaConductorActivity" />

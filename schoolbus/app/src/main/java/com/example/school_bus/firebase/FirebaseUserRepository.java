@@ -117,6 +117,31 @@ public class FirebaseUserRepository {
                 .addOnFailureListener(error -> callback.onError("No se pudo cargar el perfil desde Firebase"));
     }
 
+    public void updateUserProfile(String name, String surname, String phone, UserCallback callback) {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if (currentUser == null) {
+            callback.onError("No hay una sesión activa en Firebase");
+            return;
+        }
+
+        User updateUser = new User();
+        updateUser.setName(name);
+        updateUser.setSurname(surname);
+        updateUser.setPhone(phone);
+
+        usersReference.child(currentUser.getUid())
+                .updateChildren(new java.util.HashMap<String, Object>() {{
+                    put("name", name);
+                    put("surname", surname);
+                    put("phone", phone);
+                }})
+                .addOnSuccessListener(unused -> {
+                    updateUser.setId(currentUser.getUid());
+                    callback.onSuccess(updateUser);
+                })
+                .addOnFailureListener(error -> callback.onError("No se pudo actualizar el perfil"));
+    }
+
     private String mapAuthError(Exception exception) {
         if (exception instanceof FirebaseAuthWeakPasswordException) {
             return "La contraseña debe tener al menos 6 caracteres";

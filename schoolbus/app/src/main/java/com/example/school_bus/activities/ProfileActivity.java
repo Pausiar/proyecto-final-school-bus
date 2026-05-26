@@ -36,9 +36,9 @@ public class ProfileActivity extends AppCompatActivity {
         loadProfileData();
 
         LinearLayout rowEditProfile = findViewById(R.id.rowEditProfile);
-        rowEditProfile.setOnClickListener(v -> {
-            // TODO: open EditProfileActivity when created
-        });
+        rowEditProfile.setOnClickListener(v ->
+                startActivity(new Intent(this, EditProfileActivity.class))
+        );
 
         LinearLayout rowSettings = findViewById(R.id.rowSettings);
         rowSettings.setOnClickListener(v ->
