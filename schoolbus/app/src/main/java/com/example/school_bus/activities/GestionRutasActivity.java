@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.school_bus.R;
 import com.example.school_bus.adapters.RouteAdapter;
 import com.example.school_bus.models.Route;
+import com.example.school_bus.utils.ValidationUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -199,6 +200,53 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         } else {
             layoutEmpty.setVisibility(View.GONE);
             recyclerRoutes.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private String validateRoute(String name, String description, String startTime, String endTime) {
+        if (ValidationUtils.isFieldEmpty(name)) {
+            return "El nombre de la ruta es obligatorio";
+        }
+        if (ValidationUtils.isFieldEmpty(description)) {
+            return "La descripción es obligatoria";
+        }
+        if (ValidationUtils.isFieldEmpty(startTime)) {
+            return "La hora de inicio es obligatoria";
+        }
+        if (ValidationUtils.isFieldEmpty(endTime)) {
+            return "La hora de fin es obligatoria";
+        }
+        if (!isValidTime(startTime)) {
+            return "La hora de inicio no es válida (formato HH:mm)";
+        }
+        if (!isValidTime(endTime)) {
+            return "La hora de fin no es válida (formato HH:mm)";
+        }
+        if (compareTime(startTime, endTime) >= 0) {
+            return "La hora de inicio debe ser anterior a la hora de fin";
+        }
+        return null;
+    }
+
+    private boolean isValidTime(String time) {
+        return time != null && time.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]$");
+    }
+
+    private int compareTime(String time1, String time2) {
+        try {
+            String[] parts1 = time1.split(":");
+            String[] parts2 = time2.split(":");
+            int hour1 = Integer.parseInt(parts1[0]);
+            int minute1 = Integer.parseInt(parts1[1]);
+            int hour2 = Integer.parseInt(parts2[0]);
+            int minute2 = Integer.parseInt(parts2[1]);
+
+            int totalMinutes1 = hour1 * 60 + minute1;
+            int totalMinutes2 = hour2 * 60 + minute2;
+
+            return Integer.compare(totalMinutes1, totalMinutes2);
+        } catch (Exception e) {
+            return 0;
         }
     }
 
