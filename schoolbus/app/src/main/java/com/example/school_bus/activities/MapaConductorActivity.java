@@ -16,8 +16,11 @@ import com.example.school_bus.session.SessionManager;
 import com.example.school_bus.utils.PermisosUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -34,9 +37,10 @@ public class MapaConductorActivity extends AppCompatActivity {
 
     private MapView mapView;
     private Marker busMarker;
-    private FirebaseFirestore db;
+    private DatabaseReference busesRef;
     private LocationManager locationManager;
-    private ListenerRegistration firestoreListener;
+    private ValueEventListener busListener;
+    private String listeningUid;
     private String driverUid;
     private String userRole;
 
@@ -68,7 +72,7 @@ public class MapaConductorActivity extends AppCompatActivity {
             toolbar.setNavigationOnClickListener(v -> finish());
         }
 
-        db = FirebaseFirestore.getInstance();
+        busesRef = FirebaseDatabase.getInstance().getReference("buses");
 
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
@@ -85,6 +89,7 @@ public class MapaConductorActivity extends AppCompatActivity {
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(15.0);
+        mapView.getController().setCenter(new GeoPoint(40.4168, -3.7038));
 
         if (PermisosUtils.tienePermisosUbicacion(this)) {
             iniciarFuncionalidad();
@@ -104,12 +109,21 @@ public class MapaConductorActivity extends AppCompatActivity {
 
     private void activarGPS() {
         try {
-            locationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    5000,
-                    5f,
-                    gpsListener
-            );
+            Location last = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (last == null) {
+                last = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
+            if (last != null) {
+                actualizarMarcador(last.getLatitude(), last.getLongitude());
+            }
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER, 5000, 5f, gpsListener);
+            }
+            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                locationManager.requestLocationUpdates(
+                        LocationManager.NETWORK_PROVIDER, 5000, 5f, gpsListener);
+            }
         } catch (SecurityException e) {
             Toast.makeText(this, "Error al activar GPS", Toast.LENGTH_SHORT).show();
         }
@@ -122,18 +136,23 @@ public class MapaConductorActivity extends AppCompatActivity {
         data.put("lng", lng);
         data.put("timestamp", System.currentTimeMillis());
         data.put("driverUid", driverUid);
-        db.collection("buses").document(driverUid).set(data);
+        busesRef.child(driverUid).setValue(data);
     }
 
     private void escucharUbicacion(String uid) {
-        firestoreListener = db.collection("buses").document(uid)
-                .addSnapshotListener((snapshot, error) -> {
-                    if (error != null || snapshot == null || !snapshot.exists()) return;
-                    Double lat = snapshot.getDouble("lat");
-                    Double lng = snapshot.getDouble("lng");
-                    if (lat == null || lng == null) return;
-                    actualizarMarcador(lat, lng);
-                });
+        listeningUid = uid;
+        busListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.exists()) return;
+                Double lat = snapshot.child("lat").getValue(Double.class);
+                Double lng = snapshot.child("lng").getValue(Double.class);
+                if (lat == null || lng == null) return;
+                actualizarMarcador(lat, lng);
+            }
+            @Override public void onCancelled(DatabaseError error) {}
+        };
+        busesRef.child(uid).addValueEventListener(busListener);
     }
 
     private void actualizarMarcador(double lat, double lng) {
@@ -180,6 +199,8 @@ public class MapaConductorActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (firestoreListener != null) firestoreListener.remove();
+        if (busListener != null && listeningUid != null) {
+            busesRef.child(listeningUid).removeEventListener(busListener);
+        }
     }
 }

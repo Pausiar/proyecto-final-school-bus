@@ -18,8 +18,11 @@ import com.example.school_bus.adapters.RouteAdapter;
 import com.example.school_bus.models.Route;
 import com.example.school_bus.utils.ValidationUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +35,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
     private LinearLayout layoutEmpty;
     private RouteAdapter adapter;
     private List<Route> routes;
-    private FirebaseFirestore db;
+    private DatabaseReference routesRef;
 
     private static final String COL_ROUTES = "routes";
 
@@ -48,7 +51,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        db = FirebaseFirestore.getInstance();
+        routesRef = FirebaseDatabase.getInstance().getReference(COL_ROUTES);
 
         recyclerRoutes = findViewById(R.id.recyclerRoutes);
         layoutEmpty    = findViewById(R.id.layoutEmpty);
@@ -65,30 +68,34 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
     }
 
     private void loadRoutes() {
-        db.collection(COL_ROUTES)
-                .get()
-                .addOnSuccessListener(query -> {
-                    routes.clear();
-                    for (QueryDocumentSnapshot doc : query) {
-                        Route r = new Route();
-                        r.setId(doc.getId());
-                        r.setName(doc.getString("name"));
-                        r.setDescription(doc.getString("description"));
-                        r.setStartTime(doc.getString("startTime"));
-                        r.setEndTime(doc.getString("endTime"));
-                        Long stops = doc.getLong("stopCount");
-                        r.setStopCount(stops != null ? stops.intValue() : 0);
-                        Boolean active = doc.getBoolean("active");
-                        r.setActive(active != null && active);
-                        routes.add(r);
-                    }
-                    adapter.updateList(routes);
-                    showEmptyState();
-                })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error al cargar rutas: " + e.getMessage(),
-                                Toast.LENGTH_SHORT).show()
-                );
+        routesRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                routes.clear();
+                for (DataSnapshot doc : snapshot.getChildren()) {
+                    Route r = new Route();
+                    r.setId(doc.getKey());
+                    r.setName(doc.child("name").getValue(String.class));
+                    r.setDescription(doc.child("description").getValue(String.class));
+                    r.setStartTime(doc.child("startTime").getValue(String.class));
+                    r.setEndTime(doc.child("endTime").getValue(String.class));
+                    Long stops = doc.child("stopCount").getValue(Long.class);
+                    r.setStopCount(stops != null ? stops.intValue() : 0);
+                    Boolean active = doc.child("active").getValue(Boolean.class);
+                    r.setActive(active != null && active);
+                    routes.add(r);
+                }
+                adapter.updateList(routes);
+                showEmptyState();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(GestionRutasActivity.this,
+                        "Error al cargar rutas: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void showDialog(Route routeToEdit) {
@@ -147,7 +154,9 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         data.put("stopCount", 0);
         data.put("active", false);
 
-        db.collection(COL_ROUTES).add(data)
+        String id = routesRef.push().getKey();
+        if (id == null) return;
+        routesRef.child(id).setValue(data)
                 .addOnSuccessListener(ref -> {
                     Toast.makeText(this, "Ruta creada correctamente", Toast.LENGTH_SHORT).show();
                     loadRoutes();
@@ -165,7 +174,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
         data.put("startTime", startTime);
         data.put("endTime", endTime);
 
-        db.collection(COL_ROUTES).document(id).update(data)
+        routesRef.child(id).updateChildren(data)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Ruta actualizada", Toast.LENGTH_SHORT).show();
                     loadRoutes();
@@ -180,7 +189,7 @@ public class GestionRutasActivity extends AppCompatActivity implements RouteAdap
                 .setTitle("Eliminar ruta")
                 .setMessage("¿Seguro que quieres eliminar \"" + route.getName() + "\"?")
                 .setPositiveButton("Eliminar", (dialog, which) ->
-                        db.collection(COL_ROUTES).document(route.getId()).delete()
+                        routesRef.child(route.getId()).removeValue()
                                 .addOnSuccessListener(unused -> {
                                     Toast.makeText(this, "Ruta eliminada", Toast.LENGTH_SHORT).show();
                                     loadRoutes();

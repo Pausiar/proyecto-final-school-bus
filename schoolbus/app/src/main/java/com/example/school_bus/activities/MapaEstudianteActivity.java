@@ -7,8 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.school_bus.R;
 import com.example.school_bus.session.SessionManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -20,8 +23,10 @@ public class MapaEstudianteActivity extends AppCompatActivity {
 
     private MapView mapView;
     private Marker busMarker;
-    private FirebaseFirestore db;
-    private ListenerRegistration locationListener;
+    private DatabaseReference studentsRef;
+    private DatabaseReference busesRef;
+    private ValueEventListener studentListener;
+    private ValueEventListener busLocationListener;
     private String studentUid;
     private String assignedBusUid;
 
@@ -33,7 +38,9 @@ public class MapaEstudianteActivity extends AppCompatActivity {
         Configuration.getInstance().setUserAgentValue(getPackageName());
         setContentView(R.layout.activity_bus_map);
 
-        db = FirebaseFirestore.getInstance();
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        studentsRef = db.getReference("students");
+        busesRef = db.getReference("buses");
         studentUid = FirebaseAuth.getInstance().getCurrentUser() != null
                 ? FirebaseAuth.getInstance().getCurrentUser().getUid()
                 : null;
@@ -42,6 +49,7 @@ public class MapaEstudianteActivity extends AppCompatActivity {
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(15.0);
+        mapView.getController().setCenter(new GeoPoint(40.4168, -3.7038));
 
         if (studentUid != null) {
             getAssignedBus();
@@ -49,28 +57,33 @@ public class MapaEstudianteActivity extends AppCompatActivity {
     }
 
     private void getAssignedBus() {
-        db.collection("students").document(studentUid)
-                .addSnapshotListener((snapshot, error) -> {
-                    if (error != null || snapshot == null || !snapshot.exists()) return;
-
-                    assignedBusUid = snapshot.getString("busId");
-                    if (assignedBusUid != null && !assignedBusUid.isEmpty()) {
-                        listenBusLocation(assignedBusUid);
-                    }
-                });
+        studentListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.exists()) return;
+                assignedBusUid = snapshot.child("busId").getValue(String.class);
+                if (assignedBusUid != null && !assignedBusUid.isEmpty()) {
+                    listenBusLocation(assignedBusUid);
+                }
+            }
+            @Override public void onCancelled(DatabaseError error) {}
+        };
+        studentsRef.child(studentUid).addValueEventListener(studentListener);
     }
 
     private void listenBusLocation(String busUid) {
-        locationListener = db.collection("buses").document(busUid)
-                .addSnapshotListener((snapshot, error) -> {
-                    if (error != null || snapshot == null || !snapshot.exists()) return;
-
-                    Double lat = snapshot.getDouble("lat");
-                    Double lng = snapshot.getDouble("lng");
-                    if (lat == null || lng == null) return;
-
-                    updateMapMarker(lat, lng);
-                });
+        busLocationListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.exists()) return;
+                Double lat = snapshot.child("lat").getValue(Double.class);
+                Double lng = snapshot.child("lng").getValue(Double.class);
+                if (lat == null || lng == null) return;
+                updateMapMarker(lat, lng);
+            }
+            @Override public void onCancelled(DatabaseError error) {}
+        };
+        busesRef.child(busUid).addValueEventListener(busLocationListener);
     }
 
     private void updateMapMarker(double lat, double lng) {
@@ -102,8 +115,11 @@ public class MapaEstudianteActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (locationListener != null) {
-            locationListener.remove();
+        if (studentListener != null && studentUid != null) {
+            studentsRef.child(studentUid).removeEventListener(studentListener);
+        }
+        if (busLocationListener != null && assignedBusUid != null) {
+            busesRef.child(assignedBusUid).removeEventListener(busLocationListener);
         }
     }
 }
