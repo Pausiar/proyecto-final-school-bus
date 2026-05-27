@@ -33,7 +33,7 @@ public class Login extends AppCompatActivity {
         etEmail     = findViewById(R.id.etEmail);
         etPassword  = findViewById(R.id.etPassword);
         btnLogin    = findViewById(R.id.btnLogin);
-        progressBar = findViewById(R.id.progressBar); // añadir en activity_login.xml
+        progressBar = findViewById(R.id.progressBar);
 
         userRepository = new FirebaseUserRepository(this);
 
@@ -49,7 +49,6 @@ public class Login extends AppCompatActivity {
         String email    = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        // Validación con mensajes en español
         String error = ValidationUtils.validateLogin(email, password);
         if (error != null) {
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
@@ -61,7 +60,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Mostrar carga y bloquear el botón para evitar doble pulsación
         setLoading(true);
 
         userRepository.loginUser(email, password, new FirebaseUserRepository.UserCallback() {
@@ -80,7 +78,6 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    /** Activa o desactiva el estado de carga: oculta el botón y muestra el spinner. */
     private void setLoading(boolean loading) {
         btnLogin.setEnabled(!loading);
         btnLogin.setText(loading ? "Entrando..." : "Iniciar sesión");

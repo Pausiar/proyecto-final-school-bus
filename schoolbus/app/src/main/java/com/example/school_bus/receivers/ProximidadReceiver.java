@@ -13,10 +13,6 @@ import androidx.core.app.NotificationCompat;
 import com.example.school_bus.MainActivity;
 import com.example.school_bus.R;
 
-/**
- * BroadcastReceiver que se activa cuando se alcanza la proximidad de una parada de autobús.
- * Envía una notificación a estudiantes y padres cuando el bus se aproxima.
- */
 public class ProximidadReceiver extends BroadcastReceiver {
 
     private static final String CHANNEL_ID = "proximidad_channel";
@@ -29,7 +25,6 @@ public class ProximidadReceiver extends BroadcastReceiver {
             return;
         }
 
-        // Si es el intent que enviamos por proximidad
         if (ACTION_PROXIMIDAD.equals(intent.getAction())) {
             String stopName = intent.getStringExtra("stopName");
             String busName = intent.getStringExtra("busName");
@@ -39,9 +34,6 @@ public class ProximidadReceiver extends BroadcastReceiver {
         }
     }
 
-    /**
-     * Muestra una notificación local cuando el bus se aproxima a una parada.
-     */
     private void mostrarNotificacion(Context context, String stopName, String busName, int distancia) {
         crearCanal(context);
 
@@ -71,9 +63,6 @@ public class ProximidadReceiver extends BroadcastReceiver {
         }
     }
 
-    /**
-     * Genera el mensaje de la notificación con los detalles de la proximidad.
-     */
     private String generarMensaje(String stopName, String busName, int distancia) {
         StringBuilder mensaje = new StringBuilder();
 
@@ -96,9 +85,6 @@ public class ProximidadReceiver extends BroadcastReceiver {
         return mensaje.toString();
     }
 
-    /**
-     * Crea el canal de notificación para Android 8+.
-     */
     private void crearCanal(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
@@ -115,10 +101,6 @@ public class ProximidadReceiver extends BroadcastReceiver {
         }
     }
 
-    /**
-     * Retorna el intent para activar el receiver de proximidad.
-     * Se usa desde el servicio de ubicación para alertar proximidad.
-     */
     public static Intent crearIntentProximidad(Context context, String stopName, String busName, int distancia) {
         Intent intent = new Intent(context, ProximidadReceiver.class);
         intent.setAction(ACTION_PROXIMIDAD);

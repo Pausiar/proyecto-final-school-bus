@@ -23,30 +23,24 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Views
         tvHello     = findViewById(R.id.tvHello);
         tvRole      = findViewById(R.id.tvRole);
         btnMap      = findViewById(R.id.btnMap);
         btnStudents = findViewById(R.id.btnStudents);
 
-        // Cargar datos del usuario desde SessionManager
         loadUserData();
 
-        // Botón Iniciar ruta → MapaConductorActivity
         btnMap.setOnClickListener(v ->
                 startActivity(new Intent(this, MapaConductorActivity.class))
         );
 
-        // Botón Ver estudiantes → StudentList
         btnStudents.setOnClickListener(v ->
                 startActivity(new Intent(this, StudentList.class))
         );
 
-        // Bottom Navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
         bottomNav.setSelectedItemId(R.id.nav_home);
         bottomNav.setOnItemSelectedListener(item -> {
@@ -74,7 +68,6 @@ public class DashboardActivity extends AppCompatActivity {
         tvHello.setText("Hola, " + (name.isEmpty() ? "Usuario" : name));
         tvRole.setText(role.isEmpty() ? "USUARIO" : role.toUpperCase());
 
-        // Solo el conductor ve estos botones
         boolean isDriver = "driver".equalsIgnoreCase(role);
         btnMap.setVisibility(isDriver ? View.VISIBLE : View.GONE);
         btnStudents.setVisibility(isDriver ? View.VISIBLE : View.GONE);

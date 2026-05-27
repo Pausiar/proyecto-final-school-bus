@@ -70,7 +70,6 @@ public class MapaConductorActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // Guard: si Firebase Auth aún no tiene sesión, cerrar con mensaje claro
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             Toast.makeText(this, "Sesión no iniciada. Vuelve a hacer login.", Toast.LENGTH_LONG).show();
@@ -87,7 +86,6 @@ public class MapaConductorActivity extends AppCompatActivity {
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(15.0);
 
-        // Pedir permisos o iniciar directamente
         if (PermisosUtils.tienePermisosUbicacion(this)) {
             iniciarFuncionalidad();
         } else {

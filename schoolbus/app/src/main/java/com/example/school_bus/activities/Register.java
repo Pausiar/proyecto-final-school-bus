@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.school_bus.R;
 import com.example.school_bus.firebase.FirebaseUserRepository;
 import com.example.school_bus.models.User;
+import com.example.school_bus.session.SessionManager;
 import com.example.school_bus.utils.NetworkUtils;
 import com.example.school_bus.utils.ValidationUtils;
 
@@ -56,7 +57,6 @@ public class Register extends AppCompatActivity {
         String email    = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
-        // Validación con mensajes en español (corregidos en ValidationUtils)
         String error = ValidationUtils.validateRegistration(name, surname, email, password);
         if (error != null) {
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
@@ -68,24 +68,16 @@ public class Register extends AppCompatActivity {
             return;
         }
 
-        // Obtener rol seleccionado — validación explícita si no hay ninguno marcado
         int selectedId = rgRol.getCheckedRadioButtonId();
-        if (selectedId == -1) {
-            Toast.makeText(this, "Selecciona tu rol", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         String role;
         if (selectedId == R.id.rbConductor) {
             role = "driver";
         } else if (selectedId == R.id.rbPadre) {
             role = "parent";
         } else {
-            // rbEstudiante (marcado por defecto en el XML)
             role = "student";
         }
 
-        // Mostrar carga y bloquear botón para evitar doble registro
         setLoading(true);
 
         userRepository.registerUser(name, surname, email, password, role,
@@ -93,9 +85,10 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onSuccess(User user) {
                         setLoading(false);
+                        SessionManager.saveUser(Register.this, user);
                         Toast.makeText(Register.this,
                                 "Cuenta creada correctamente", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Register.this, Login.class));
+                        startActivity(new Intent(Register.this, DashboardActivity.class));
                         finish();
                     }
 
@@ -107,7 +100,6 @@ public class Register extends AppCompatActivity {
                 });
     }
 
-    /** Activa o desactiva el estado de carga. */
     private void setLoading(boolean loading) {
         btnRegister.setEnabled(!loading);
         btnRegister.setText(loading ? "Registrando..." : "Registrarse");

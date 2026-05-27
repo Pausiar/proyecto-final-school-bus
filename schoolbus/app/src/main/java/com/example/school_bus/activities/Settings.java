@@ -26,7 +26,6 @@ public class Settings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        // Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -34,26 +33,22 @@ public class Settings extends AppCompatActivity {
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        // Views
         switchNotifications = findViewById(R.id.switchNotifications);
         seekInterval        = findViewById(R.id.seekInterval);
         seekRadius          = findViewById(R.id.seekRadius);
         tvIntervalValue     = findViewById(R.id.tvIntervalValue);
         tvRadiusValue       = findViewById(R.id.tvRadiusValue);
 
-        // Cargar preferencias guardadas
         loadPreferences();
 
-        // Switch notificaciones
         switchNotifications.setOnCheckedChangeListener((buttonView, isChecked) ->
                 saveBoolean(KEY_NOTIFICATIONS, isChecked)
         );
 
-        // SeekBar intervalo de ubicación
         seekInterval.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = Math.max(10, progress); // mínimo 10 segundos
+                int value = Math.max(10, progress);
                 tvIntervalValue.setText(value + " segundos");
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
@@ -63,11 +58,10 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        // SeekBar radio de notificación
         seekRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = Math.max(100, progress); // mínimo 100 metros
+                int value = Math.max(100, progress);
                 tvRadiusValue.setText(value + " metros");
             }
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}

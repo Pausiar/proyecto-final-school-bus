@@ -43,14 +43,12 @@ public class MapaEstudianteActivity extends AppCompatActivity {
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(15.0);
 
-        // Obtener el bus asignado del estudiante y escuchar su ubicación
         if (studentUid != null) {
             getAssignedBus();
         }
     }
 
     private void getAssignedBus() {
-        // Obtener el documento del estudiante para encontrar su bus asignado
         db.collection("students").document(studentUid)
                 .addSnapshotListener((snapshot, error) -> {
                     if (error != null || snapshot == null || !snapshot.exists()) return;
@@ -63,7 +61,6 @@ public class MapaEstudianteActivity extends AppCompatActivity {
     }
 
     private void listenBusLocation(String busUid) {
-        // Escucha cambios en tiempo real en la ubicación del bus
         locationListener = db.collection("buses").document(busUid)
                 .addSnapshotListener((snapshot, error) -> {
                     if (error != null || snapshot == null || !snapshot.exists()) return;
@@ -105,7 +102,6 @@ public class MapaEstudianteActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Dejar de escuchar Firestore al salir
         if (locationListener != null) {
             locationListener.remove();
         }

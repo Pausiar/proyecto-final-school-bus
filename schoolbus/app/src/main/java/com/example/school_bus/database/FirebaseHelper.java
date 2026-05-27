@@ -14,7 +14,6 @@ public class FirebaseHelper {
     private final FirebaseFirestore db;
     private final FirebaseAuth auth;
 
-    // Nombres de colecciones
     public static final String COL_USERS         = "users";
     public static final String COL_STUDENTS      = "students";
     public static final String COL_BUSES         = "buses";
@@ -26,9 +25,6 @@ public class FirebaseHelper {
         auth = FirebaseAuth.getInstance();
     }
 
-    // ================= USUARIOS ==========================
-
-    /** Registro con Firebase Auth + guardar datos en Firestore */
     public void insertUser(String name, String surname,
                            String email, String password,
                            String role, OnCompleteListener listener) {
@@ -41,7 +37,7 @@ public class FirebaseHelper {
                     user.put("email",   email);
                     user.put("role",    role);
 
-                    // Refrescar token antes de escribir en Firestore
+                    // refrescar token antes de escribir en firestore
                     result.getUser().getIdToken(true)
                             .addOnSuccessListener(tokenResult -> {
                                 db.collection(COL_USERS).document(uid)
@@ -54,14 +50,12 @@ public class FirebaseHelper {
                 .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
     }
 
-    /** Login con Firebase Auth */
     public void checkLogin(String email, String password, OnCompleteListener listener) {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnSuccessListener(r -> listener.onSuccess(r.getUser().getUid()))
                 .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
     }
 
-    /** Obtener datos del usuario actual */
     public void getUserByEmail(String email, OnDataListener listener) {
         String uid = auth.getCurrentUser() != null
                 ? auth.getCurrentUser().getUid() : null;
@@ -77,8 +71,6 @@ public class FirebaseHelper {
                 })
                 .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
     }
-
-    // ================= ESTUDIANTES =======================
 
     public void insertStudent(String name, String userId,
                               String busId, String stopId,
@@ -108,8 +100,6 @@ public class FirebaseHelper {
                 .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
     }
 
-    // ================= NOTIFICACIONES ====================
-
     public void insertNotification(String title, String message,
                                    String date, OnCompleteListener listener) {
         Map<String, Object> notif = new HashMap<>();
@@ -137,8 +127,6 @@ public class FirebaseHelper {
                 })
                 .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
     }
-
-    // ================= CALLBACKS =========================
 
     public interface OnCompleteListener {
         void onSuccess(String id);

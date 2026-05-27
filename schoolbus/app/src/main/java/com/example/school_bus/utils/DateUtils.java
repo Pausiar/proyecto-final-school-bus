@@ -12,31 +12,26 @@ public class DateUtils {
 
     private DateUtils() {}
 
-    /** Devuelve la fecha actual como String. */
     public static String getCurrentDate() {
         return new SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
                 .format(new Date());
     }
 
-    /** Devuelve la hora actual como String. */
     public static String getCurrentTime() {
         return new SimpleDateFormat(TIME_FORMAT, Locale.getDefault())
                 .format(new Date());
     }
 
-    /** Devuelve fecha y hora actual. */
     public static String getCurrentDateTime() {
         return new SimpleDateFormat(FULL_FORMAT, Locale.getDefault())
                 .format(new Date());
     }
 
-    /** Convierte un timestamp en milisegundos a fecha legible. */
     public static String timestampToDate(long millis) {
         return new SimpleDateFormat(FULL_FORMAT, Locale.getDefault())
                 .format(new Date(millis));
     }
 
-    /** Comprueba si una hora tiene formato válido. */
     public static boolean isValidTime(String time) {
         if (time == null || time.isEmpty()) return false;
         return time.matches("^([01]?[0-9]|2[0-3]):[0-5][0-9]$");

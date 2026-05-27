@@ -38,8 +38,6 @@ public class Stop implements Serializable {
         this.updatedAt = System.currentTimeMillis();
     }
 
-    // ===== GETTERS Y SETTERS =====
-
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -88,12 +86,6 @@ public class Stop implements Serializable {
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
 
-    // ===== MÉTODOS ÚTILES =====
-
-    /**
-     * Calcula la distancia en metros entre esta parada y las coordenadas dadas.
-     * Utiliza la fórmula de Haversine.
-     */
     public double getDistanceTo(double latitude, double longitude) {
         final int EARTH_RADIUS = 6371000;
         double dLat = Math.toRadians(latitude - this.latitude);
@@ -105,54 +97,33 @@ public class Stop implements Serializable {
         return EARTH_RADIUS * c;
     }
 
-    /**
-     * Verifica si la posición dada está dentro del radio de la parada.
-     */
     public boolean isWithinRadius(double latitude, double longitude) {
         return getDistanceTo(latitude, longitude) <= this.radius;
     }
 
-    /**
-     * Marca la parada como visitada.
-     */
     public void markAsVisited() {
         this.status = "visited";
         this.updatedAt = System.currentTimeMillis();
     }
 
-    /**
-     * Marca la parada como pendiente.
-     */
     public void markAsPending() {
         this.status = "pending";
         this.updatedAt = System.currentTimeMillis();
     }
 
-    /**
-     * Marca la parada como en progreso.
-     */
     public void markAsInProgress() {
         this.status = "in_progress";
         this.updatedAt = System.currentTimeMillis();
     }
 
-    /**
-     * Obtiene la descripción completa de la parada.
-     */
     public String getFullDescription() {
         return String.format("%s - %s (Orden: %d)", stopName, address, stopOrder);
     }
 
-    /**
-     * Obtiene las coordenadas en formato string.
-     */
     public String getCoordinatesString() {
         return String.format("%.6f, %.6f", latitude, longitude);
     }
 
-    /**
-     * Comprueba si la parada está activa.
-     */
     public boolean isStopActive() {
         return active && "pending".equals(status) || "in_progress".equals(status);
     }

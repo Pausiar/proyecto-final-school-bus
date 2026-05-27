@@ -62,7 +62,6 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
         holder.tvStops.setText(route.getStopCount() + " paradas");
         holder.tvTime.setText(route.getStartTime() + " - " + route.getEndTime());
 
-        // Badge de estado con esquinas redondeadas en lugar de fondo plano
         boolean active = route.isActive();
         holder.tvActive.setText(active ? "Activa" : "Inactiva");
         GradientDrawable badge = new GradientDrawable();

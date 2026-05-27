@@ -64,13 +64,8 @@ public class FirebaseUserRepository {
                     }
 
                     User user = new User(currentUser.getUid(), name, surname, email, role);
-                    usersReference.child(currentUser.getUid())
-                            .setValue(user)
-                            .addOnSuccessListener(unused -> callback.onSuccess(user))
-                            .addOnFailureListener(error -> {
-                                currentUser.delete();
-                                callback.onError("Se creó la cuenta, pero falló el guardado del perfil");
-                            });
+                    usersReference.child(currentUser.getUid()).setValue(user);
+                    callback.onSuccess(user);
                 });
     }
 
