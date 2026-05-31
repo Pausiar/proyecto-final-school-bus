@@ -1,27 +1,27 @@
 package com.example.school_bus.database;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FirebaseHelper {
+
+    public static final String COL_USERS = "users";
+    public static final String COL_STUDENTS = "students";
+    public static final String COL_BUSES = "buses";
+    public static final String COL_STOPS = "stops";
+    public static final String COL_NOTIFICATIONS = "notifications";
 
     private final FirebaseFirestore db;
     private final FirebaseAuth auth;
 
-    public static final String COL_USERS         = "users";
-    public static final String COL_STUDENTS      = "students";
-    public static final String COL_BUSES         = "buses";
-    public static final String COL_STOPS         = "stops";
-    public static final String COL_NOTIFICATIONS = "notifications";
-
     public FirebaseHelper() {
-        db   = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
     }
 
@@ -32,19 +32,16 @@ public class FirebaseHelper {
                 .addOnSuccessListener(result -> {
                     String uid = result.getUser().getUid();
                     Map<String, Object> user = new HashMap<>();
-                    user.put("name",    name);
+                    user.put("name", name);
                     user.put("surname", surname);
-                    user.put("email",   email);
-                    user.put("role",    role);
+                    user.put("email", email);
+                    user.put("role", role);
 
-                    // refrescar token antes de escribir en firestore
                     result.getUser().getIdToken(true)
-                            .addOnSuccessListener(tokenResult -> {
-                                db.collection(COL_USERS).document(uid)
-                                        .set(user)
-                                        .addOnSuccessListener(unused -> listener.onSuccess(uid))
-                                        .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
-                            })
+                            .addOnSuccessListener(tokenResult -> db.collection(COL_USERS).document(uid)
+                                    .set(user)
+                                    .addOnSuccessListener(unused -> listener.onSuccess(uid))
+                                    .addOnFailureListener(e -> listener.onFailure(e.getMessage())))
                             .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
                 })
                 .addOnFailureListener(e -> listener.onFailure(e.getMessage()));
@@ -57,8 +54,7 @@ public class FirebaseHelper {
     }
 
     public void getUserByEmail(String email, OnDataListener listener) {
-        String uid = auth.getCurrentUser() != null
-                ? auth.getCurrentUser().getUid() : null;
+        String uid = auth.getCurrentUser() != null ? auth.getCurrentUser().getUid() : null;
         if (uid == null) {
             listener.onFailure("No hay sesión activa");
             return;
@@ -76,9 +72,9 @@ public class FirebaseHelper {
                               String busId, String stopId,
                               OnCompleteListener listener) {
         Map<String, Object> student = new HashMap<>();
-        student.put("name",    name);
+        student.put("name", name);
         student.put("user_id", userId);
-        student.put("bus_id",  busId);
+        student.put("bus_id", busId);
         student.put("stop_id", stopId);
 
         db.collection(COL_STUDENTS).add(student)
@@ -103,9 +99,9 @@ public class FirebaseHelper {
     public void insertNotification(String title, String message,
                                    String date, OnCompleteListener listener) {
         Map<String, Object> notif = new HashMap<>();
-        notif.put("title",   title);
+        notif.put("title", title);
         notif.put("message", message);
-        notif.put("date",    date);
+        notif.put("date", date);
 
         db.collection(COL_NOTIFICATIONS).add(notif)
                 .addOnSuccessListener(ref -> listener.onSuccess(ref.getId()))

@@ -11,7 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Header naranja -->
         <LinearLayout
             android:orientation="vertical"
             android:gravity="center"
@@ -24,8 +23,9 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:contentDescription="@string/content_description_app_logo"
                 android:src="@mipmap/ic_launcher"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:text="School Bus"
@@ -33,7 +33,7 @@
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:text="Iniciar sesión"
@@ -41,17 +41,16 @@
                 android:textColor="#FFD9C0"
                 android:layout_marginTop="4dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
-        <!-- Card del formulario -->
         <androidx.cardview.widget.CardView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            xmlns:app="http://schemas.android.com/apk/res-auto">
+            app:cardElevation="4dp">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -59,7 +58,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <!-- Email -->
                 <TextView
                     android:text="Correo electrónico"
                     android:textSize="12sp"
@@ -67,19 +65,19 @@
                     android:textAllCaps="true"
                     android:layout_marginBottom="6dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <EditText
                     android:id="@+id/etEmail"
+                    android:autofillHints="emailAddress"
                     android:hint="correo@ejemplo.com"
                     android:inputType="textEmailAddress"
                     android:padding="14dp"
                     android:textSize="15sp"
                     android:layout_marginBottom="16dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
-                <!-- Password -->
                 <TextView
                     android:text="Contraseña"
                     android:textSize="12sp"
@@ -87,19 +85,19 @@
                     android:textAllCaps="true"
                     android:layout_marginBottom="6dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <EditText
                     android:id="@+id/etPassword"
+                    android:autofillHints="password"
                     android:hint="••••••••"
                     android:inputType="textPassword"
                     android:padding="14dp"
                     android:textSize="15sp"
                     android:layout_marginBottom="24dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
-                <!-- Spinner de carga (oculto por defecto) -->
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyle"
@@ -107,25 +105,23 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginBottom="12dp"
-                    android:visibility="gone"
-                    android:indeterminateTint="#E8721C"/>
+                    android:indeterminateTint="#E8721C"
+                    android:visibility="gone" />
 
-                <!-- Botón login -->
                 <Button
                     android:id="@+id/btnLogin"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:text="Iniciar sesión"
                     android:textColor="#FFFFFF"
                     android:backgroundTint="#E8721C"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    style="@style/Widget.MaterialComponents.Button"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Link a registro -->
         <LinearLayout
             android:orientation="horizontal"
             android:gravity="center"
@@ -137,7 +133,7 @@
                 android:textColor="#888888"
                 android:textSize="14sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tvGoRegister"
@@ -146,7 +142,7 @@
                 android:textStyle="bold"
                 android:textSize="14sp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </LinearLayout>

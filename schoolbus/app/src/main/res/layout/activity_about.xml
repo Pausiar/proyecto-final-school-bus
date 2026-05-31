@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#E8721C"
+        app:navigationIcon="?attr/homeAsUpIndicator"
         app:title="Acerca de"
-        app:titleTextColor="#FFFFFF"
-        android:layout_marginTop="?attr/actionBarSize"/>
+        app:titleTextColor="#FFFFFF" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!-- Card logo y versión -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,6 +43,7 @@
                     <ImageView
                         android:layout_width="80dp"
                         android:layout_height="80dp"
+                        android:contentDescription="@string/content_description_app_logo"
                         android:src="@mipmap/ic_launcher"
                         android:layout_marginBottom="16dp"/>
 
@@ -66,7 +66,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card descripción -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +101,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card equipo -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -20,6 +20,7 @@
             android:layout_height="40dp"
             android:src="@android:drawable/ic_dialog_info"
             android:background="#F5C8A8"
+            android:importantForAccessibility="no"
             android:padding="8dp"
             android:layout_marginEnd="14dp"/>
 

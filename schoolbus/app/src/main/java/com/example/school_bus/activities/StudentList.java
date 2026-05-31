@@ -1,7 +1,8 @@
 package com.example.school_bus.activities;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,9 +21,8 @@ import java.util.Map;
 
 public class StudentList extends AppCompatActivity {
 
-    private static final String TAG = "DEBUG_STUDENTS";
-
     RecyclerView recyclerView;
+    TextView tvEmptyStudents;
     StudentAdapter adapter;
     List<Student> students;
     FirebaseHelper firebaseHelper;
@@ -40,6 +40,7 @@ public class StudentList extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         recyclerView = findViewById(R.id.recyclerStudents);
+        tvEmptyStudents = findViewById(R.id.tvEmptyStudents);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         firebaseHelper = new FirebaseHelper();
@@ -52,14 +53,11 @@ public class StudentList extends AppCompatActivity {
     }
 
     private void loadStudents() {
-        Log.d(TAG, "Starting to load students...");
         firebaseHelper.getAllStudents(new FirebaseHelper.OnListListener() {
             @Override
             public void onSuccess(List<Map<String, Object>> list) {
-                Log.d(TAG, "Documents received: " + list.size());
-                students.clear();
+                List<Student> loadedStudents = new ArrayList<>();
                 for (Map<String, Object> data : list) {
-                    Log.d(TAG, "Student data: " + data.toString());
                     Student s = new Student(
                             (String) data.get("user_id"),
                             (String) data.get("name"),
@@ -69,22 +67,23 @@ public class StudentList extends AppCompatActivity {
                             null
                     );
                     s.setId((String) data.get("id"));
-                    students.add(s);
+                    loadedStudents.add(s);
                 }
-                adapter.notifyDataSetChanged();
+                adapter.replaceItems(loadedStudents);
 
-                if (students.isEmpty()) {
-                    Log.d(TAG, "List is empty after processing");
-                    Toast.makeText(StudentList.this, "No students registered",
-                            Toast.LENGTH_SHORT).show();
-                }
+                updateEmptyState();
             }
 
             @Override
             public void onFailure(String error) {
-                Log.e(TAG, "Error loading students: " + error);
-                Toast.makeText(StudentList.this, "Error: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StudentList.this, "Error al cargar estudiantes", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void updateEmptyState() {
+        boolean isEmpty = students.isEmpty();
+        tvEmptyStudents.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 }

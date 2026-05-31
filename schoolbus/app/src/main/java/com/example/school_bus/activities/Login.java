@@ -20,33 +20,30 @@ import com.example.school_bus.utils.ValidationUtils;
 
 public class Login extends AppCompatActivity {
 
-    EditText etEmail, etPassword;
-    Button btnLogin;
-    ProgressBar progressBar;
-    FirebaseUserRepository userRepository;
+    private EditText etEmail, etPassword;
+    private Button btnLogin;
+    private ProgressBar progressBar;
+    private FirebaseUserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etEmail     = findViewById(R.id.etEmail);
-        etPassword  = findViewById(R.id.etPassword);
-        btnLogin    = findViewById(R.id.btnLogin);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        btnLogin = findViewById(R.id.btnLogin);
         progressBar = findViewById(R.id.progressBar);
-
         userRepository = new FirebaseUserRepository(this);
 
         btnLogin.setOnClickListener(v -> login());
 
         TextView tvGoRegister = findViewById(R.id.tvGoRegister);
-        tvGoRegister.setOnClickListener(v ->
-                startActivity(new Intent(Login.this, Register.class))
-        );
+        tvGoRegister.setOnClickListener(v -> startActivity(new Intent(Login.this, Register.class)));
     }
 
     private void login() {
-        String email    = etEmail.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
         String error = ValidationUtils.validateLogin(email, password);
@@ -61,19 +58,17 @@ public class Login extends AppCompatActivity {
         }
 
         setLoading(true);
-
         userRepository.loginUser(email, password, new FirebaseUserRepository.UserCallback() {
             @Override
             public void onSuccess(User user) {
-                setLoading(false);
                 SessionManager.saveUser(Login.this, user);
                 goToDashboard();
             }
 
             @Override
-            public void onError(String message) {
+            public void onError(String error) {
                 setLoading(false);
-                Toast.makeText(Login.this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(Login.this, error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -87,7 +82,10 @@ public class Login extends AppCompatActivity {
     }
 
     private void goToDashboard() {
-        startActivity(new Intent(this, DashboardActivity.class));
+        Toast.makeText(this, "Login correcto", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, DashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         finish();
     }
 }

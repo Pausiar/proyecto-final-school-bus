@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!-- Toolbar naranja -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -15,18 +14,16 @@
         app:title="Mapa del Conductor"
         app:titleTextColor="#FFFFFF" />
 
-    <!-- Contenedor del mapa con la card flotando encima -->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-        <!-- Mapa ocupa todo el FrameLayout -->
         <org.osmdroid.views.MapView
             android:id="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <!-- Card de estado flotando sobre el mapa, arriba -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +60,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- FAB centrar en mi ubicación -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabLocation"
             android:layout_width="wrap_content"
@@ -76,7 +72,6 @@
             app:elevation="4dp"
             app:tint="#333333" />
 
-        <!-- FAB iniciar/parar ruta -->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabStartRoute"
             android:layout_width="wrap_content"

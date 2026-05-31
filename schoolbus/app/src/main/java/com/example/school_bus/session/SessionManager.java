@@ -16,6 +16,7 @@ public final class SessionManager {
     private static final String KEY_EMAIL = "email";
     private static final String KEY_ROLE = "role";
     private static final String KEY_PHONE = "phone";
+    private static final String KEY_LINKED_DRIVER_UID = "linked_driver_uid";
 
     private SessionManager() {
     }
@@ -29,29 +30,60 @@ public final class SessionManager {
                 .putString(KEY_EMAIL, safeValue(user.getEmail()))
                 .putString(KEY_ROLE, safeValue(user.getRole()))
                 .putString(KEY_PHONE, safeValue(user.getPhone()))
+                .putString(KEY_LINKED_DRIVER_UID, safeValue(user.getLinkedDriverUid()))
                 .apply();
+    }
+
+    public static String getUid(@NonNull Context context) {
+        return getPreferences(context).getString(KEY_UID, "");
     }
 
     public static String getEmail(@NonNull Context context) {
         return getPreferences(context).getString(KEY_EMAIL, "");
     }
 
-    public static String getRole(@NonNull Context context) {
-        return getPreferences(context).getString(KEY_ROLE, "");
-    }
-
-    public static String getDisplayName(@NonNull Context context) {
-        String name = getPreferences(context).getString(KEY_NAME, "");
-        String surname = getPreferences(context).getString(KEY_SURNAME, "");
-        return (name + " " + surname).trim();
+    public static String getName(@NonNull Context context) {
+        return getPreferences(context).getString(KEY_NAME, "");
     }
 
     public static String getSurname(@NonNull Context context) {
         return getPreferences(context).getString(KEY_SURNAME, "");
     }
 
+    public static String getRole(@NonNull Context context) {
+        return getPreferences(context).getString(KEY_ROLE, "");
+    }
+
     public static String getPhone(@NonNull Context context) {
         return getPreferences(context).getString(KEY_PHONE, "");
+    }
+
+    public static String getLinkedDriverUid(@NonNull Context context) {
+        return getPreferences(context).getString(KEY_LINKED_DRIVER_UID, "");
+    }
+
+    public static void saveLinkedDriverUid(@NonNull Context context, String driverUid) {
+        getPreferences(context)
+                .edit()
+                .putString(KEY_LINKED_DRIVER_UID, safeValue(driverUid))
+                .apply();
+    }
+
+    public static void saveProfileName(@NonNull Context context, String name, String surname) {
+        getPreferences(context)
+                .edit()
+                .putString(KEY_NAME, safeValue(name))
+                .putString(KEY_SURNAME, safeValue(surname))
+                .apply();
+    }
+
+    public static void saveProfile(@NonNull Context context, String name, String surname, String phone) {
+        getPreferences(context)
+                .edit()
+                .putString(KEY_NAME, safeValue(name))
+                .putString(KEY_SURNAME, safeValue(surname))
+                .putString(KEY_PHONE, safeValue(phone))
+                .apply();
     }
 
     public static void setDisplayName(@NonNull Context context, String name) {
@@ -64,6 +96,12 @@ public final class SessionManager {
 
     public static void setPhone(@NonNull Context context, String phone) {
         getPreferences(context).edit().putString(KEY_PHONE, safeValue(phone)).apply();
+    }
+
+    public static String getDisplayName(@NonNull Context context) {
+        String name = getPreferences(context).getString(KEY_NAME, "");
+        String surname = getPreferences(context).getString(KEY_SURNAME, "");
+        return (name + " " + surname).trim();
     }
 
     public static void clear(@NonNull Context context) {

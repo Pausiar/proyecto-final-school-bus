@@ -8,14 +8,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Logo / Icono -->
     <ImageView
         android:layout_width="96dp"
         android:layout_height="96dp"
+        android:contentDescription="@string/content_description_app_logo"
         android:src="@mipmap/ic_launcher"
         android:layout_marginBottom="16dp"/>
 
-    <!-- Título -->
     <TextView
         android:text="School Bus"
         android:textSize="32sp"
@@ -33,7 +32,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <!-- Botón Iniciar sesión -->
     <Button
         android:id="@+id/btnLogin"
         android:text="Iniciar sesión"
@@ -46,7 +44,6 @@
         android:textStyle="bold"
         style="@style/Widget.MaterialComponents.Button"/>
 
-    <!-- Botón Registrarse -->
     <Button
         android:id="@+id/btnRegister"
         android:text="Registrarse"

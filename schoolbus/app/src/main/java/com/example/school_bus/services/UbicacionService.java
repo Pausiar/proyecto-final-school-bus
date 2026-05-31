@@ -16,6 +16,11 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.example.school_bus.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UbicacionService extends Service {
 
@@ -23,9 +28,11 @@ public class UbicacionService extends Service {
     private static final int NOTIFICATION_ID = 1001;
 
     private LocationManager locationManager;
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
+            publicarUbicacion(location);
         }
 
         @Override
@@ -40,6 +47,24 @@ public class UbicacionService extends Service {
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
     };
+
+    private void publicarUbicacion(Location location) {
+        if (location == null) {
+            return;
+        }
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() == null) {
+            return;
+        }
+        String uid = auth.getCurrentUser().getUid();
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("lat", location.getLatitude());
+        data.put("lng", location.getLongitude());
+        data.put("actualizado", System.currentTimeMillis());
+
+        db.collection("buses").document(uid).set(data, com.google.firebase.firestore.SetOptions.merge());
+    }
 
     @Override
     public void onCreate() {
@@ -67,7 +92,8 @@ public class UbicacionService extends Service {
                         5f,
                         locationListener
                 );
-            } catch (SecurityException ignored) {
+            } catch (SecurityException e) {
+                android.util.Log.w("UbicacionService", "Permiso de ubicación no concedido", e);
                 stopSelf();
             }
         }

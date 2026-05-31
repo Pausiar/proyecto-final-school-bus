@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.school_bus.activities.DashboardActivity;
 import com.example.school_bus.activities.Login;
-import com.example.school_bus.activities.MapaConductorActivity;
 import com.example.school_bus.activities.Register;
 import com.example.school_bus.session.SessionManager;
 import com.example.school_bus.utils.PermisosUtils;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +46,11 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            SessionManager.clear(this);
+            return false;
+        }
+
         Intent intent = new Intent(this, resolveHomeClass(SessionManager.getRole(this)));
         intent.putExtra("email", email);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -55,14 +60,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Class<?> resolveHomeClass(String role) {
-        String safeRole = role == null ? "" : role.trim().toLowerCase();
-        switch (safeRole) {
-            case "driver":
-                return MapaConductorActivity.class;
-            case "student":
-            case "parent":
-            default:
-                return DashboardActivity.class;
-        }
+        return DashboardActivity.class;
     }
 }

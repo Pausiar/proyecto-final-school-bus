@@ -1,26 +1,23 @@
 package com.example.school_bus.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.school_bus.R;
 import com.example.school_bus.services.UbicacionService;
 import com.example.school_bus.session.SessionManager;
 import com.example.school_bus.utils.PermisosUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -28,159 +25,179 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class MapaConductorActivity extends AppCompatActivity {
 
     private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final String PREFS_ROUTE = "route";
+    private static final String KEY_ROUTE_ACTIVE = "active";
 
     private MapView mapView;
     private Marker busMarker;
-    private DatabaseReference busesRef;
-    private LocationManager locationManager;
-    private ValueEventListener busListener;
-    private String listeningUid;
+    private TextView tvServiceStatus;
+    private TextView tvRouteInfo;
+    private FloatingActionButton fabStartRoute;
+    private FirebaseFirestore db;
+    private ListenerRegistration locationListener;
     private String driverUid;
-    private String userRole;
-
-    private final LocationListener gpsListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            double lat = location.getLatitude();
-            double lng = location.getLongitude();
-            publicarUbicacion(lat, lng);
-            actualizarMarcador(lat, lng);
-        }
-        @Override public void onProviderEnabled(String provider) {}
-        @Override public void onProviderDisabled(String provider) {}
-        @Override public void onStatusChanged(String provider, int status, Bundle extras) {}
-    };
+    private boolean routeActive;
+    private boolean startRoutePending;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Configuration.getInstance().load(getApplicationContext(),
-                getSharedPreferences("osm", MODE_PRIVATE));
+        Configuration.getInstance().load(getApplicationContext(), getSharedPreferences("osm", MODE_PRIVATE));
         Configuration.getInstance().setUserAgentValue(getPackageName());
         setContentView(R.layout.activity_bus_map);
 
-        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbar);
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            toolbar.setNavigationOnClickListener(v -> finish());
-        }
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> finish());
 
-        busesRef = FirebaseDatabase.getInstance().getReference("buses");
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null) {
-            Toast.makeText(this, "Sesión no iniciada. Vuelve a hacer login.", Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
-        driverUid = currentUser.getUid();
-
-        userRole = SessionManager.getRole(this);
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        db = FirebaseFirestore.getInstance();
+        driverUid = resolveDriverUid();
 
         mapView = findViewById(R.id.map);
+        tvServiceStatus = findViewById(R.id.tvServiceStatus);
+        tvRouteInfo = findViewById(R.id.tvRouteInfo);
+        fabStartRoute = findViewById(R.id.fabStartRoute);
+        FloatingActionButton fabLocation = findViewById(R.id.fabLocation);
+
         mapView.setTileSource(TileSourceFactory.MAPNIK);
         mapView.setMultiTouchControls(true);
         mapView.getController().setZoom(15.0);
-        mapView.getController().setCenter(new GeoPoint(40.4168, -3.7038));
+        mapView.getController().setCenter(new GeoPoint(41.3851, 2.1734));
 
-        if (PermisosUtils.tienePermisosUbicacion(this)) {
-            iniciarFuncionalidad();
+        boolean isDriver = isDriver();
+        routeActive = getSharedPreferences(PREFS_ROUTE, MODE_PRIVATE).getBoolean(KEY_ROUTE_ACTIVE, false);
+        fabStartRoute.setVisibility(isDriver ? View.VISIBLE : View.GONE);
+        fabStartRoute.setOnClickListener(v -> toggleRoute());
+        fabLocation.setOnClickListener(v -> centerOnBus());
+        updateRouteUi();
+
+        if (driverUid != null) {
+            listenBusLocation(driverUid);
         } else {
+            tvRouteInfo.setText(R.string.bus_link_required);
+        }
+
+        if (isDriver && routeActive && PermisosUtils.tienePermisosUbicacion(this)) {
+            startLocationService();
+        }
+    }
+
+    private String resolveDriverUid() {
+        if (isDriver()) {
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                return FirebaseAuth.getInstance().getCurrentUser().getUid();
+            }
+            return emptyToNull(SessionManager.getUid(this));
+        }
+        return emptyToNull(SessionManager.getLinkedDriverUid(this));
+    }
+
+    private boolean isDriver() {
+        return "driver".equalsIgnoreCase(SessionManager.getRole(this));
+    }
+
+    private String emptyToNull(String value) {
+        return value == null || value.trim().isEmpty() ? null : value;
+    }
+
+    private void toggleRoute() {
+        if (routeActive) {
+            stopService(new Intent(this, UbicacionService.class));
+            setRouteActive(false);
+            return;
+        }
+
+        if (!PermisosUtils.tienePermisosUbicacion(this)) {
+            startRoutePending = true;
             PermisosUtils.solicitarPermisosUbicacion(this, PERMISSION_REQUEST_CODE);
+            return;
         }
+
+        startLocationService();
+        setRouteActive(true);
     }
 
-    private void iniciarFuncionalidad() {
-        if ("driver".equalsIgnoreCase(userRole)) {
-            startService(new Intent(this, UbicacionService.class));
-            activarGPS();
+    private void startLocationService() {
+        Intent intent = new Intent(this, UbicacionService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
         } else {
-            escucharUbicacion(driverUid);
+            startService(intent);
         }
     }
 
-    private void activarGPS() {
-        try {
-            Location last = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (last == null) {
-                last = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-            }
-            if (last != null) {
-                actualizarMarcador(last.getLatitude(), last.getLongitude());
-            }
-            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                locationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER, 5000, 5f, gpsListener);
-            }
-            if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                locationManager.requestLocationUpdates(
-                        LocationManager.NETWORK_PROVIDER, 5000, 5f, gpsListener);
-            }
-        } catch (SecurityException e) {
-            Toast.makeText(this, "Error al activar GPS", Toast.LENGTH_SHORT).show();
+    private void setRouteActive(boolean active) {
+        routeActive = active;
+        getSharedPreferences(PREFS_ROUTE, MODE_PRIVATE)
+                .edit()
+                .putBoolean(KEY_ROUTE_ACTIVE, active)
+                .apply();
+        updateRouteUi();
+    }
+
+    private void updateRouteUi() {
+        if (!isDriver()) {
+            tvServiceStatus.setText(R.string.bus_tracking_title);
+            tvRouteInfo.setText(R.string.bus_waiting_location);
+            return;
         }
-    }
-
-    private void publicarUbicacion(double lat, double lng) {
-        if (driverUid == null) return;
-        Map<String, Object> data = new HashMap<>();
-        data.put("lat", lat);
-        data.put("lng", lng);
-        data.put("timestamp", System.currentTimeMillis());
-        data.put("driverUid", driverUid);
-        busesRef.child(driverUid).setValue(data);
-    }
-
-    private void escucharUbicacion(String uid) {
-        listeningUid = uid;
-        busListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                if (!snapshot.exists()) return;
-                Double lat = snapshot.child("lat").getValue(Double.class);
-                Double lng = snapshot.child("lng").getValue(Double.class);
-                if (lat == null || lng == null) return;
-                actualizarMarcador(lat, lng);
-            }
-            @Override public void onCancelled(DatabaseError error) {}
-        };
-        busesRef.child(uid).addValueEventListener(busListener);
-    }
-
-    private void actualizarMarcador(double lat, double lng) {
-        GeoPoint punto = new GeoPoint(lat, lng);
-        if (busMarker == null) {
-            busMarker = new Marker(mapView);
-            busMarker.setTitle("Bus escolar");
-            mapView.getOverlays().add(busMarker);
-        }
-        busMarker.setPosition(punto);
-        mapView.getController().setCenter(punto);
-        mapView.invalidate();
+        tvServiceStatus.setText(routeActive ? R.string.bus_service_active : R.string.bus_service_inactive);
+        tvRouteInfo.setText(routeActive ? R.string.bus_route_tracking : R.string.bus_route_inactive);
+        fabStartRoute.setImageResource(routeActive ? android.R.drawable.ic_media_pause : android.R.drawable.ic_media_play);
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                iniciarFuncionalidad();
+            if (PermisosUtils.tienePermisosUbicacion(this)) {
+                if (startRoutePending) {
+                    startLocationService();
+                    setRouteActive(true);
+                }
             } else {
-                Toast.makeText(this,
-                        "Permiso de ubicación necesario", Toast.LENGTH_LONG).show();
-                finish();
+                Toast.makeText(this, "permiso de ubicación denegado", Toast.LENGTH_SHORT).show();
             }
+            startRoutePending = false;
         }
+    }
+
+    private void listenBusLocation(String uid) {
+        locationListener = db.collection("buses").document(uid)
+                .addSnapshotListener((snapshot, error) -> {
+                    if (error != null || snapshot == null || !snapshot.exists()) return;
+
+                    Double lat = snapshot.getDouble("lat");
+                    Double lng = snapshot.getDouble("lng");
+                    if (lat == null || lng == null) return;
+
+                    updateMapMarker(lat, lng);
+                });
+    }
+
+    private void updateMapMarker(double lat, double lng) {
+        GeoPoint point = new GeoPoint(lat, lng);
+
+        if (busMarker == null) {
+            busMarker = new Marker(mapView);
+            busMarker.setTitle(getString(R.string.bus_marker_title));
+            mapView.getOverlays().add(busMarker);
+        }
+
+        busMarker.setPosition(point);
+        mapView.getController().setCenter(point);
+        mapView.invalidate();
+    }
+
+    private void centerOnBus() {
+        if (busMarker == null) {
+            Toast.makeText(this, "ubicación del bus no disponible", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mapView.getController().animateTo(busMarker.getPosition());
     }
 
     @Override
@@ -193,14 +210,13 @@ public class MapaConductorActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         mapView.onPause();
-        if (locationManager != null) locationManager.removeUpdates(gpsListener);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (busListener != null && listeningUid != null) {
-            busesRef.child(listeningUid).removeEventListener(busListener);
+        if (locationListener != null) {
+            locationListener.remove();
         }
     }
 }

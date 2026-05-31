@@ -2,22 +2,22 @@ package com.example.school_bus.activities;
 
 import android.os.Bundle;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.school_bus.R;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 public class Settings extends AppCompatActivity {
 
-    private static final String PREFS_NAME       = "settings";
+    private static final String PREFS_NAME = "settings";
     private static final String KEY_NOTIFICATIONS = "notifications_enabled";
-    private static final String KEY_INTERVAL      = "location_interval";
-    private static final String KEY_RADIUS        = "notification_radius";
+    private static final String KEY_INTERVAL = "location_interval";
+    private static final String KEY_RADIUS = "notification_radius";
 
-    private Switch switchNotifications;
+    private MaterialSwitch switchNotifications;
     private SeekBar seekInterval, seekRadius;
     private TextView tvIntervalValue, tvRadiusValue;
 
@@ -34,10 +34,10 @@ public class Settings extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         switchNotifications = findViewById(R.id.switchNotifications);
-        seekInterval        = findViewById(R.id.seekInterval);
-        seekRadius          = findViewById(R.id.seekRadius);
-        tvIntervalValue     = findViewById(R.id.tvIntervalValue);
-        tvRadiusValue       = findViewById(R.id.tvRadiusValue);
+        seekInterval = findViewById(R.id.seekInterval);
+        seekRadius = findViewById(R.id.seekRadius);
+        tvIntervalValue = findViewById(R.id.tvIntervalValue);
+        tvRadiusValue = findViewById(R.id.tvRadiusValue);
 
         loadPreferences();
 
@@ -49,9 +49,11 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value = Math.max(10, progress);
-                tvIntervalValue.setText(value + " segundos");
+                tvIntervalValue.setText(getResources().getQuantityString(R.plurals.settings_seconds, value, value));
             }
+
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 saveInt(KEY_INTERVAL, seekBar.getProgress());
@@ -62,9 +64,11 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value = Math.max(100, progress);
-                tvRadiusValue.setText(value + " metros");
+                tvRadiusValue.setText(getResources().getQuantityString(R.plurals.settings_meters, value, value));
             }
+
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 saveInt(KEY_RADIUS, seekBar.getProgress());
@@ -74,16 +78,16 @@ public class Settings extends AppCompatActivity {
 
     private void loadPreferences() {
         boolean notifications = getPrefs().getBoolean(KEY_NOTIFICATIONS, true);
-        int interval          = getPrefs().getInt(KEY_INTERVAL, 40);
-        int radius            = getPrefs().getInt(KEY_RADIUS, 650);
+        int interval = getPrefs().getInt(KEY_INTERVAL, 40);
+        int radius = getPrefs().getInt(KEY_RADIUS, 650);
 
         switchNotifications.setChecked(notifications);
 
         seekInterval.setProgress(interval);
-        tvIntervalValue.setText(interval + " segundos");
+        tvIntervalValue.setText(getResources().getQuantityString(R.plurals.settings_seconds, interval, interval));
 
         seekRadius.setProgress(radius);
-        tvRadiusValue.setText(radius + " metros");
+        tvRadiusValue.setText(getResources().getQuantityString(R.plurals.settings_meters, radius, radius));
     }
 
     private void saveBoolean(String key, boolean value) {

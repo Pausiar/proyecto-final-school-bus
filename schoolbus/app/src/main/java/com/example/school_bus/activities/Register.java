@@ -21,25 +21,24 @@ import com.example.school_bus.utils.ValidationUtils;
 
 public class Register extends AppCompatActivity {
 
-    EditText etName, etSurname, etEmail, etPassword;
-    RadioGroup rgRol;
-    Button btnRegister;
-    ProgressBar progressBar;
-    FirebaseUserRepository userRepository;
+    private EditText etName, etSurname, etEmail, etPassword;
+    private RadioGroup rgRol;
+    private Button btnRegister;
+    private ProgressBar progressBar;
+    private FirebaseUserRepository userRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        etName      = findViewById(R.id.etName);
-        etSurname   = findViewById(R.id.etSurname);
-        etEmail     = findViewById(R.id.etEmail);
-        etPassword  = findViewById(R.id.etPassword);
-        rgRol       = findViewById(R.id.rgRol);
+        etName = findViewById(R.id.etName);
+        etSurname = findViewById(R.id.etSurname);
+        etEmail = findViewById(R.id.etEmail);
+        etPassword = findViewById(R.id.etPassword);
+        rgRol = findViewById(R.id.rgRol);
         btnRegister = findViewById(R.id.btnRegister);
         progressBar = findViewById(R.id.progressBar);
-
         userRepository = new FirebaseUserRepository(this);
 
         btnRegister.setOnClickListener(v -> registerUser());
@@ -52,9 +51,9 @@ public class Register extends AppCompatActivity {
     }
 
     private void registerUser() {
-        String name     = etName.getText().toString().trim();
-        String surname  = etSurname.getText().toString().trim();
-        String email    = etEmail.getText().toString().trim();
+        String name = etName.getText().toString().trim();
+        String surname = etSurname.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
         String error = ValidationUtils.validateRegistration(name, surname, email, password);
@@ -68,8 +67,8 @@ public class Register extends AppCompatActivity {
             return;
         }
 
-        int selectedId = rgRol.getCheckedRadioButtonId();
         String role;
+        int selectedId = rgRol.getCheckedRadioButtonId();
         if (selectedId == R.id.rbConductor) {
             role = "driver";
         } else if (selectedId == R.id.rbPadre) {
@@ -79,23 +78,22 @@ public class Register extends AppCompatActivity {
         }
 
         setLoading(true);
-
         userRepository.registerUser(name, surname, email, password, role,
                 new FirebaseUserRepository.UserCallback() {
                     @Override
                     public void onSuccess(User user) {
-                        setLoading(false);
                         SessionManager.saveUser(Register.this, user);
-                        Toast.makeText(Register.this,
-                                "Cuenta creada correctamente", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Register.this, DashboardActivity.class));
+                        Toast.makeText(Register.this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(Register.this, DashboardActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
                         finish();
                     }
 
                     @Override
-                    public void onError(String message) {
+                    public void onError(String error) {
                         setLoading(false);
-                        Toast.makeText(Register.this, message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(Register.this, error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }

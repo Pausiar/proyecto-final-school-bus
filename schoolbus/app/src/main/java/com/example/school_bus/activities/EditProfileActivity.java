@@ -12,13 +12,16 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.school_bus.R;
 import com.example.school_bus.firebase.FirebaseUserRepository;
+import com.example.school_bus.models.User;
 import com.example.school_bus.session.SessionManager;
 import com.example.school_bus.utils.ValidationUtils;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private EditText etEditName, etEditSurname, etEditPhone;
-    private Button btnSaveProfile;
+    private EditText etName;
+    private EditText etSurname;
+    private EditText etPhone;
+    private Button btnSave;
     private ProgressBar progressBar;
     private FirebaseUserRepository userRepository;
 
@@ -29,40 +32,26 @@ public class EditProfileActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        etEditName = findViewById(R.id.etEditName);
-        etEditSurname = findViewById(R.id.etEditSurname);
-        etEditPhone = findViewById(R.id.etEditPhone);
-        btnSaveProfile = findViewById(R.id.btnSaveProfile);
+        etName = findViewById(R.id.etProfileName);
+        etSurname = findViewById(R.id.etProfileSurname);
+        etPhone = findViewById(R.id.etProfilePhone);
+        btnSave = findViewById(R.id.btnSaveProfile);
         progressBar = findViewById(R.id.progressBar);
-
         userRepository = new FirebaseUserRepository(this);
 
-        loadCurrentProfileData();
+        etName.setText(SessionManager.getName(this));
+        etSurname.setText(SessionManager.getSurname(this));
+        etPhone.setText(SessionManager.getPhone(this));
 
-        btnSaveProfile.setOnClickListener(v -> saveProfileChanges());
+        btnSave.setOnClickListener(v -> saveProfile());
     }
 
-    private void loadCurrentProfileData() {
-        String name = SessionManager.getDisplayName(this);
-        String surname = SessionManager.getSurname(this);
-        String phone = SessionManager.getPhone(this);
-
-        etEditName.setText(name);
-        etEditSurname.setText(surname);
-        if (phone != null && !phone.isEmpty()) {
-            etEditPhone.setText(phone);
-        }
-    }
-
-    private void saveProfileChanges() {
-        String name = etEditName.getText().toString().trim();
-        String surname = etEditSurname.getText().toString().trim();
-        String phone = etEditPhone.getText().toString().trim();
+    private void saveProfile() {
+        String name = etName.getText().toString().trim();
+        String surname = etSurname.getText().toString().trim();
+        String phone = etPhone.getText().toString().trim();
 
         String error = ValidationUtils.validateProfile(name, surname, phone);
         if (error != null) {
@@ -71,31 +60,25 @@ public class EditProfileActivity extends AppCompatActivity {
         }
 
         setLoading(true);
+        userRepository.updateUserProfile(name, surname, phone, new FirebaseUserRepository.UserCallback() {
+            @Override
+            public void onSuccess(User user) {
+                SessionManager.saveProfile(EditProfileActivity.this, name, surname, phone);
+                Toast.makeText(EditProfileActivity.this, "perfil actualizado", Toast.LENGTH_SHORT).show();
+                finish();
+            }
 
-        userRepository.updateUserProfile(name, surname, phone,
-                new FirebaseUserRepository.UserCallback() {
-                    @Override
-                    public void onSuccess(com.example.school_bus.models.User user) {
-                        setLoading(false);
-                        SessionManager.setDisplayName(EditProfileActivity.this, name);
-                        SessionManager.setSurname(EditProfileActivity.this, surname);
-                        SessionManager.setPhone(EditProfileActivity.this, phone);
-                        Toast.makeText(EditProfileActivity.this,
-                                "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-
-                    @Override
-                    public void onError(String message) {
-                        setLoading(false);
-                        Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_LONG).show();
-                    }
-                });
+            @Override
+            public void onError(String message) {
+                setLoading(false);
+                Toast.makeText(EditProfileActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setLoading(boolean loading) {
-        btnSaveProfile.setEnabled(!loading);
-        btnSaveProfile.setText(loading ? "Guardando..." : "Guardar cambios");
+        btnSave.setEnabled(!loading);
+        btnSave.setText(loading ? "Guardando..." : "Guardar cambios");
         if (progressBar != null) {
             progressBar.setVisibility(loading ? View.VISIBLE : View.GONE);
         }

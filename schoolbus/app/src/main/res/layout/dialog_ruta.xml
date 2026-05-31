@@ -18,6 +18,8 @@
     <EditText
         android:id="@+id/etRouteName"
         android:hint="Ej: Ruta 1 - Centro"
+        android:importantForAutofill="no"
+        android:inputType="text"
         android:padding="14dp"
         android:textSize="15sp"
         android:layout_marginBottom="16dp"
@@ -36,6 +38,8 @@
     <EditText
         android:id="@+id/etRouteDescription"
         android:hint="Descripción breve de la ruta"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
         android:padding="14dp"
         android:textSize="15sp"
         android:layout_marginBottom="16dp"
@@ -54,6 +58,7 @@
     <EditText
         android:id="@+id/etRouteTimeStart"
         android:hint="07:30"
+        android:importantForAutofill="no"
         android:inputType="time"
         android:padding="14dp"
         android:textSize="15sp"
@@ -73,6 +78,7 @@
     <EditText
         android:id="@+id/etRouteTimeEnd"
         android:hint="08:30"
+        android:importantForAutofill="no"
         android:inputType="time"
         android:padding="14dp"
         android:textSize="15sp"
@@ -80,7 +86,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <!-- Botones -->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_marginTop="8dp"

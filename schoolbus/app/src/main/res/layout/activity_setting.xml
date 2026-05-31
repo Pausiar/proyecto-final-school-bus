@@ -6,7 +6,6 @@
     android:background="#F5F5F5"
     android:orientation="vertical">
 
-    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -26,7 +25,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Card Notificaciones -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,7 +63,7 @@
                             android:textColor="#333333"
                             android:textSize="16sp" />
 
-                        <Switch
+                        <com.google.android.material.materialswitch.MaterialSwitch
                             android:id="@+id/switchNotifications"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -77,7 +75,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card Ubicación -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,7 +163,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Card About -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,6 +181,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_marginBottom="8dp"
+                        android:contentDescription="@string/content_description_app_logo"
                         android:src="@mipmap/ic_launcher" />
 
                     <TextView

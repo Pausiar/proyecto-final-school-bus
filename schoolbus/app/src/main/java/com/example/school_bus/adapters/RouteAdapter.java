@@ -1,7 +1,5 @@
 package com.example.school_bus.adapters;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.school_bus.R;
 import com.example.school_bus.models.Route;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> {
 
     private List<Route> routes;
-    private final OnRouteListener listener;
+    private OnRouteListener listener;
 
     public interface OnRouteListener {
         void onEdit(Route route);
@@ -36,13 +35,13 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvName        = itemView.findViewById(R.id.tvRouteName);
+            tvName = itemView.findViewById(R.id.tvRouteName);
             tvDescription = itemView.findViewById(R.id.tvRouteDescription);
-            tvStops       = itemView.findViewById(R.id.tvRouteStops);
-            tvTime        = itemView.findViewById(R.id.tvRouteTime);
-            tvActive      = itemView.findViewById(R.id.tvRouteActive);
-            btnEdit       = itemView.findViewById(R.id.btnEditRoute);
-            btnDelete     = itemView.findViewById(R.id.btnDeleteRoute);
+            tvStops = itemView.findViewById(R.id.tvRouteStops);
+            tvTime = itemView.findViewById(R.id.tvRouteTime);
+            tvActive = itemView.findViewById(R.id.tvRouteActive);
+            btnEdit = itemView.findViewById(R.id.btnEditRoute);
+            btnDelete = itemView.findViewById(R.id.btnDeleteRoute);
         }
     }
 
@@ -59,18 +58,18 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
 
         holder.tvName.setText(route.getName());
         holder.tvDescription.setText(route.getDescription());
-        holder.tvStops.setText(route.getStopCount() + " paradas");
-        holder.tvTime.setText(route.getStartTime() + " - " + route.getEndTime());
-
-        boolean active = route.isActive();
-        holder.tvActive.setText(active ? "Activa" : "Inactiva");
-        GradientDrawable badge = new GradientDrawable();
-        badge.setShape(GradientDrawable.RECTANGLE);
-        badge.setCornerRadius(32f);
-        badge.setColor(active ? Color.parseColor("#4CAF50") : Color.parseColor("#AAAAAA"));
-        holder.tvActive.setBackground(badge);
-        holder.tvActive.setTextColor(Color.WHITE);
-        holder.tvActive.setPadding(24, 6, 24, 6);
+        holder.tvStops.setText(holder.itemView.getContext().getResources().getQuantityString(
+                R.plurals.route_stops_count,
+                route.getStopCount(),
+                route.getStopCount()
+        ));
+        holder.tvTime.setText(holder.itemView.getContext().getString(
+                R.string.route_time_range,
+                route.getStartTime(),
+                route.getEndTime()
+        ));
+        holder.tvActive.setText(route.isActive() ? R.string.route_status_active : R.string.route_status_inactive);
+        holder.tvActive.setBackgroundColor(route.isActive() ? 0xFF4CAF50 : 0xFFAAAAAA);
 
         holder.btnEdit.setOnClickListener(v -> listener.onEdit(route));
         holder.btnDelete.setOnClickListener(v -> listener.onDelete(route));
@@ -82,7 +81,13 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ViewHolder> 
     }
 
     public void updateList(List<Route> newRoutes) {
-        this.routes = newRoutes;
-        notifyDataSetChanged();
+        int oldSize = routes.size();
+        if (oldSize > 0) {
+            notifyItemRangeRemoved(0, oldSize);
+        }
+        this.routes = new ArrayList<>(newRoutes);
+        if (!routes.isEmpty()) {
+            notifyItemRangeInserted(0, routes.size());
+        }
     }
 }

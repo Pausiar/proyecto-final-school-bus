@@ -13,8 +13,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirebaseUserRepository {
 
@@ -23,8 +26,10 @@ public class FirebaseUserRepository {
         void onError(String message);
     }
 
+    private static final String COL_USERS = "users";
+
     private final FirebaseAuth auth;
-    private final DatabaseReference usersReference;
+    private final FirebaseFirestore db;
 
     public FirebaseUserRepository(@NonNull Context context) {
         Context applicationContext = context.getApplicationContext();
@@ -33,7 +38,7 @@ public class FirebaseUserRepository {
         }
 
         auth = FirebaseAuth.getInstance();
-        usersReference = FirebaseDatabase.getInstance().getReference("users");
+        db = FirebaseFirestore.getInstance();
     }
 
     public static boolean isAvailable(@NonNull Context context) {
@@ -63,9 +68,14 @@ public class FirebaseUserRepository {
                         return;
                     }
 
-                    User user = new User(currentUser.getUid(), name, surname, email, role);
-                    usersReference.child(currentUser.getUid()).setValue(user);
-                    callback.onSuccess(user);
+                    User user = buildUser(currentUser.getUid(), name, surname, email, role);
+                    db.collection(COL_USERS).document(currentUser.getUid())
+                            .set(user)
+                            .addOnSuccessListener(unused -> callback.onSuccess(user))
+                            .addOnFailureListener(error -> {
+                                currentUser.delete();
+                                callback.onError("Se creó la cuenta, pero falló el guardado del perfil");
+                            });
                 });
     }
 
@@ -88,15 +98,16 @@ public class FirebaseUserRepository {
             return;
         }
 
-        usersReference.child(currentUser.getUid())
+        db.collection(COL_USERS).document(currentUser.getUid())
                 .get()
                 .addOnSuccessListener(snapshot -> {
-                    User user = snapshot.getValue(User.class);
+                    User user = snapshot.toObject(User.class);
                     if (user == null) {
                         User fallbackUser = new User();
                         fallbackUser.setId(currentUser.getUid());
                         fallbackUser.setEmail(currentUser.getEmail());
                         fallbackUser.setRole("student");
+                        fallbackUser.setActive(true);
                         callback.onSuccess(fallbackUser);
                         return;
                     }
@@ -106,6 +117,9 @@ public class FirebaseUserRepository {
                     }
                     if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
                         user.setEmail(currentUser.getEmail());
+                    }
+                    if (user.getLinkedDriverUid() == null || user.getLinkedDriverUid().trim().isEmpty()) {
+                        user.setLinkedDriverUid(snapshot.getString("linked_driver_uid"));
                     }
                     callback.onSuccess(user);
                 })
@@ -119,22 +133,33 @@ public class FirebaseUserRepository {
             return;
         }
 
-        User updateUser = new User();
-        updateUser.setName(name);
-        updateUser.setSurname(surname);
-        updateUser.setPhone(phone);
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", name);
+        data.put("surname", surname);
+        data.put("phone", phone);
 
-        usersReference.child(currentUser.getUid())
-                .updateChildren(new java.util.HashMap<String, Object>() {{
-                    put("name", name);
-                    put("surname", surname);
-                    put("phone", phone);
-                }})
+        db.collection(COL_USERS).document(currentUser.getUid())
+                .set(data, SetOptions.merge())
                 .addOnSuccessListener(unused -> {
-                    updateUser.setId(currentUser.getUid());
-                    callback.onSuccess(updateUser);
+                    User updatedUser = new User();
+                    updatedUser.setId(currentUser.getUid());
+                    updatedUser.setName(name);
+                    updatedUser.setSurname(surname);
+                    updatedUser.setPhone(phone);
+                    callback.onSuccess(updatedUser);
                 })
                 .addOnFailureListener(error -> callback.onError("No se pudo actualizar el perfil"));
+    }
+
+    private User buildUser(String id, String name, String surname, String email, String role) {
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setSurname(surname);
+        user.setEmail(email);
+        user.setRole(role);
+        user.setActive(true);
+        return user;
     }
 
     private String mapAuthError(Exception exception) {

@@ -12,10 +12,13 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.school_bus.R;
 import com.example.school_bus.session.SessionManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Locale;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private TextView tvProfileName, tvProfileEmail, tvProfileRole;
+    TextView tvProfileName, tvProfileEmail, tvProfileRole;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,21 +32,17 @@ public class ProfileActivity extends AppCompatActivity {
         }
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        tvProfileName  = findViewById(R.id.tvProfileName);
+        tvProfileName = findViewById(R.id.tvProfileName);
         tvProfileEmail = findViewById(R.id.tvProfileEmail);
-        tvProfileRole  = findViewById(R.id.tvProfileRole);
+        tvProfileRole = findViewById(R.id.tvProfileRole);
 
         loadProfileData();
 
         LinearLayout rowEditProfile = findViewById(R.id.rowEditProfile);
-        rowEditProfile.setOnClickListener(v ->
-                startActivity(new Intent(this, EditProfileActivity.class))
-        );
+        rowEditProfile.setOnClickListener(v -> startActivity(new Intent(this, EditProfileActivity.class)));
 
         LinearLayout rowSettings = findViewById(R.id.rowSettings);
-        rowSettings.setOnClickListener(v ->
-                startActivity(new Intent(this, Settings.class))
-        );
+        rowSettings.setOnClickListener(v -> startActivity(new Intent(this, Settings.class)));
 
         LinearLayout rowLogout = findViewById(R.id.rowLogout);
         rowLogout.setOnClickListener(v -> confirmLogout());
@@ -52,51 +51,56 @@ public class ProfileActivity extends AppCompatActivity {
         bottomNav.setSelectedItemId(R.id.nav_profile);
         bottomNav.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_home) {
+            if (id == R.id.nav_profile) {
+                return true;
+            } else if (id == R.id.nav_home) {
                 startActivity(new Intent(this, DashboardActivity.class));
-                finish();
                 return true;
             } else if (id == R.id.nav_map) {
                 startActivity(new Intent(this, MapaConductorActivity.class));
-                finish();
                 return true;
             } else if (id == R.id.nav_routes) {
                 startActivity(new Intent(this, GestionRutasActivity.class));
-                finish();
-                return true;
-            } else if (id == R.id.nav_profile) {
                 return true;
             }
             return false;
         });
     }
 
-    private void loadProfileData() {
-        String name  = SessionManager.getDisplayName(this);
-        String email = SessionManager.getEmail(this);
-        String role  = SessionManager.getRole(this);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadProfileData();
+    }
 
-        tvProfileName.setText(name.isEmpty() ? "User" : name);
+    private void loadProfileData() {
+        String name = SessionManager.getDisplayName(this);
+        String email = SessionManager.getEmail(this);
+        String role = SessionManager.getRole(this);
+
+        tvProfileName.setText(name.isEmpty() ? "Usuario" : name);
         tvProfileEmail.setText(email.isEmpty() ? "—" : email);
         tvProfileRole.setText(role.isEmpty() ? "—" : capitalize(role));
     }
 
     private void confirmLogout() {
         new AlertDialog.Builder(this)
-                .setTitle("Log out")
-                .setMessage("Are you sure you want to log out?")
-                .setPositiveButton("Log out", (dialog, which) -> {
+                .setTitle("Cerrar sesión")
+                .setMessage("¿Seguro que quieres cerrar sesión?")
+                .setPositiveButton("Cerrar sesión", (dialog, which) -> {
+                    FirebaseAuth.getInstance().signOut();
                     SessionManager.clear(this);
                     Intent intent = new Intent(this, Login.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("Cancelar", null)
                 .show();
     }
 
     private String capitalize(String text) {
         if (text == null || text.isEmpty()) return text;
-        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
+        return text.substring(0, 1).toUpperCase(Locale.ROOT)
+                + text.substring(1).toLowerCase(Locale.ROOT);
     }
 }

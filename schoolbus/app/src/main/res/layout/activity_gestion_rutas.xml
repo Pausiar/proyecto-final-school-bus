@@ -6,24 +6,20 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <!-- Toolbar naranja — sin marginTop, ocupa su sitio natural -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="#E8721C"
         app:title="Rutas"
-        app:titleTextColor="#FFFFFF"
-        app:layout_scrollFlags="scroll|enterAlways"/>
+        app:titleTextColor="#FFFFFF" />
 
-    <!-- Contenido principal — marginTop solo para no quedar debajo del toolbar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical">
 
-        <!-- Título "Mis rutas" -->
         <TextView
             android:text="Mis rutas"
             android:textSize="22sp"
@@ -33,9 +29,8 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="12dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
-        <!-- Estado vacío (visible cuando no hay rutas) -->
         <LinearLayout
             android:id="@+id/layoutEmpty"
             android:orientation="vertical"
@@ -48,20 +43,20 @@
             <ImageView
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:importantForAccessibility="no"
                 android:src="@android:drawable/ic_menu_agenda"
                 android:alpha="0.3"
-                android:layout_marginBottom="12dp"/>
+                android:layout_marginBottom="12dp" />
 
             <TextView
                 android:text="No tienes rutas asignadas"
                 android:textSize="16sp"
                 android:textColor="#AAAAAA"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-        <!-- Lista de rutas -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerRoutes"
             android:layout_width="match_parent"
@@ -69,11 +64,10 @@
             android:layout_weight="1"
             android:paddingHorizontal="16dp"
             android:paddingBottom="80dp"
-            android:clipToPadding="false"/>
+            android:clipToPadding="false" />
 
     </LinearLayout>
 
-    <!-- FAB añadir ruta — gravity lo posiciona abajo a la derecha en CoordinatorLayout -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddRoute"
         android:layout_width="wrap_content"
@@ -84,6 +78,6 @@
         android:contentDescription="Añadir ruta"
         app:backgroundTint="#E8721C"
         app:tint="#FFFFFF"
-        app:fabSize="normal"/>
+        app:fabSize="normal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

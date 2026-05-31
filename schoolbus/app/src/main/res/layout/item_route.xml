@@ -14,7 +14,6 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Fila superior: nombre + estado -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +46,6 @@
 
             </LinearLayout>
 
-            <!-- Badge estado -->
             <TextView
                 android:id="@+id/tvRouteActive"
                 android:layout_width="wrap_content"
@@ -62,7 +60,6 @@
 
         </LinearLayout>
 
-        <!-- Fila info: paradas y horario -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,6 +71,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="4dp"
+                android:importantForAccessibility="no"
                 android:src="@android:drawable/ic_menu_mylocation" />
 
             <TextView
@@ -89,6 +87,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginEnd="4dp"
+                android:importantForAccessibility="no"
                 android:src="@android:drawable/ic_menu_recent_history" />
 
             <TextView
@@ -101,7 +100,6 @@
 
         </LinearLayout>
 
-        <!-- Fila botones editar/eliminar -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,6 +112,7 @@
                 android:layout_height="36dp"
                 android:layout_marginEnd="8dp"
                 android:background="#F5C842"
+                android:contentDescription="@string/content_description_edit_route"
                 android:padding="6dp"
                 android:src="@android:drawable/ic_menu_edit" />
 
@@ -122,6 +121,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:background="#FF6B6B"
+                android:contentDescription="@string/content_description_delete_route"
                 android:padding="6dp"
                 android:src="@android:drawable/ic_menu_delete" />
 

@@ -7,13 +7,13 @@ public class User {
     private String surname;
     private String email;
     private String phone;
-    private String role;                     // admin, driver, parent, student
+    private String role;
     private String registrationDate;
     private boolean active;
     private String profilePhoto;
+    private String linkedDriverUid;
 
     public User() {}
-
 
     public User(String id, String name, String surname, String email, String role) {
         this.id = id;
@@ -23,7 +23,6 @@ public class User {
         this.role = role;
         this.active = true;
     }
-
 
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
@@ -52,6 +51,9 @@ public class User {
     public String getProfilePhoto() { return profilePhoto; }
     public void setProfilePhoto(String profilePhoto) { this.profilePhoto = profilePhoto; }
 
+    public String getLinkedDriverUid() { return linkedDriverUid; }
+    public void setLinkedDriverUid(String linkedDriverUid) { this.linkedDriverUid = linkedDriverUid; }
+
     @Override
     public String toString() {
         return "User{" +
@@ -59,8 +61,8 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", role='" + role + '\'' +
                 ", phone='" + phone + '\'' +
+                ", role='" + role + '\'' +
                 ", active=" + active +
                 '}';
     }

@@ -8,11 +8,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.school_bus.R;
+import com.example.school_bus.session.SessionManager;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class GenerarCodigoActivity extends AppCompatActivity {
 
@@ -32,10 +35,22 @@ public class GenerarCodigoActivity extends AppCompatActivity {
     }
 
     private void generarCodigo() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "inicia sesión para generar códigos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!"driver".equalsIgnoreCase(SessionManager.getRole(this))) {
+            Toast.makeText(this, "solo el conductor puede generar códigos", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         String codigo = nuevoCodigo();
 
         Map<String, Object> data = new HashMap<>();
         data.put("codigo", codigo);
+        data.put("driverUid", user.getUid());
         data.put("usado", false);
         data.put("creado", System.currentTimeMillis());
 
@@ -51,7 +66,7 @@ public class GenerarCodigoActivity extends AppCompatActivity {
         // codigo alfanumerico de 6 caracteres
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         StringBuilder sb = new StringBuilder();
-        Random r = new Random();
+        SecureRandom r = new SecureRandom();
         for (int i = 0; i < 6; i++) {
             sb.append(chars.charAt(r.nextInt(chars.length())));
         }

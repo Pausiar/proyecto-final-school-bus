@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="codigo"
+        android:importantForAutofill="no"
         android:inputType="textCapCharacters"
         android:maxLength="6"
         android:layout_marginBottom="12dp" />
